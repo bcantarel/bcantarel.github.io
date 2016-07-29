@@ -1,0 +1,142 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Unix Review</title>
+  <meta name="description" content="Nano Courses"/>
+  <meta name="keywords" content=""/>
+  <meta name="robots" content=""/>
+  <link rel="canonical" href=""/>
+  
+  
+  <meta name="HandheldFriendly" content="True"/>
+  <meta name="MobileOptimized" content="320"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style media="screen" type="text/css">
+    li{
+    margin: 10px 0;
+    }
+  </style>
+
+   <body>
+     <h1> 2016 NGS Summer BootCamp: Unix Basics Review</h1>
+     <p>
+       <h3>Common Commands</h3>
+     <table border="1">
+       <tr><td>ls</td><td>list contents</td></tr>
+       <tr><td>cd</td><td>change directory</td></tr>
+       <tr><td>mkdir</td><td>make a directory</td></tr>
+       <tr><td>rm</td><td>use caution, it is easy to delete more that you would like</td></tr>
+       <tr><td>head</td><td>prints the top few lines to the terminal window</td></tr>
+       <tr><td>tail</td><td>prints the last few lines to the terminal window</td></tr>
+       <tr><td>sort</td><td>sorts the lines</td></tr>
+       <tr><td>uniq</td><td>prints the unique lines</td></tr>
+       <tr><td>grep</td><td>filnds the lines that contain a pattern</td></tr>
+       <tr><td>wc</td><td>counts the number of lines, characters and words</td></tr>
+       <tr><td>mv</td><td>move files</td></tr>
+       <tr><td>cp</td><td>copy files</td></tr>
+       <tr><td>date</td><td>returns the current date and time</td></tr>
+       <tr><td>pwd</td><td>return working directory name</td></tr>
+       <tr><td>ssh</td><td>remote login</td></tr>
+       <tr><td>scp</td><td>remote secure copy</td></tr>
+       <tr><td>~</td><td>represents your home directory</td></tr>
+       <tr><td>man [command]</td><td>manual page for the command</td></tr>
+     </table>
+     <p>
+       <h4>text editors</h4>
+       emacs
+       vi
+       vim
+       nedit
+       nano
+     <p>
+       <h3>Unix Problem Set</h3>
+       <ol style="margin-bottom: 20px;">
+	 <li>Log into your machine or account.</li>
+	 <ol>
+	   <li> Mac Users: Open the application: Terminal</li>
+	   <li>From Terminal: <code>ssh -Y  username@toxea.swmed.edu</code></li>
+	   <li>Windows users -- Please refer to the PuTTY instructions with your username and the server <code>toxea.swmed.edu</code></li>
+	 </ol>
+	 <li>Change your password to something you will remember using the command <code>passwd</code></li>
+	 <li>What is the full path to your home directory?</li>
+	 <li>Go up one directory?</li>
+	 <ol>
+           <li>How many files does it contain?</li>
+           <li>How many directories?</li>
+	 </ol>
+	 <li>Using a text editor create a fasta file and name it sequences.fasta. Make sure it ends up in the proper directory, locally or remotely.</li>
+	 <p>This is fasta file format:<br>
+	   <code>
+	     >seqName description<br>
+	     ATGGCGTCTTGGCCTTAAAAGCTC
+	   </code>
+	   <li>Without using a text editor examine the contents of the file sequences.fasta.</li>
+    <ol>
+      <li>How many lines does this file contain?   </li>
+      <li>How many characters?    (Hint: check out the options of wc)</li>
+      <li>What is the first line of this file?    (Hint: read the man page of head)</li>
+      <li>What are the last 3 lines?    (Hint: read the man page of tail)</li>
+      <li>How many sequences are in the file?    (Hint: use grep)</li>
+    </ol>
+      <li>Rename sequences.fasta to something more informative of the sequences the file contains. (Hint: read the man page for mv)</li>
+      <li>Create a directory called fasta.     (Hint: use mkdir)</li>
+    <li>Copy the fasta file that you renamed to the fasta directory. (Hint: use cp)</li>
+   <li>Verify that the file is within the fasta directory.    (Hint: use ls fasta/)</li>
+    <li>Delete the the original file that you used for copying.    (Hint: use rm, be careful)</li>
+    <li>Read the man page for rm and cp to find out how to remove and copy a directory.</li>
+    <li>Print out your history and redirect it to a file called unixBasics.history.txt</li>
+    <li>In /data/bootcamp/day3 there is a file called: /data/bootcamp/day1/edgeR.results.txt </li>
+    <ol>
+      <li>look at the first few lines of the file</li>
+      <li>sort the file by log fold change 'logFC', from highest to lowest, and save in a new file in your directory called sorted.out</li>
+      <li>sort the file (log fold change highest to lowest) then print out only the first 100 lines. Save in a file called top100.sorted.out</li>
+      <li>sort the file (log fold change highest to lowest) then print out only the first 100 lines, then print only the SYMBOL column. Save in a file called top.genes.txt</li>
+    </ol>
+</ol>
+
+
+
+<h3>Commands to try</h3>
+<code>
+  ls -l<br>
+  ls -lt<br>
+</code>
+<p>
+  you can string more than one command together with a pipe (|) , such that the output of the first command is received by the second command.
+<p>     
+  <code>
+    ls -lt | head
+  </code>
+<p>
+  you can string more than one command together with a semi-colon (;) , such that the commands run sequentially, but that output does not get passed into the next command.
+<p>
+  <code>
+    date; some program command ; date
+  </code>
+<p>
+  you can redirect the output of a command into a file
+<p>
+  <code>
+    grep PATTERN > PATTERN.txt
+  </code>
+<p>
+  you can append the output of a command to a file
+<p>
+  <code>   
+    grep PATTERN2 >> PATTERN.txt
+  </code>
+<p>
+  you can redirect stderr to a file
+<p>
+  <code>   
+    command 2> filename
+  </code>
+<p>
+  you can redirect the output (stdout) and stderr to a file
+<p>
+  <code>   
+    command &> filename
+  </code>
+<p>
+</html>
