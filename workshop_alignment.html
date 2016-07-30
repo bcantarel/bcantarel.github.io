@@ -1,0 +1,205 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NGS Summer Bootcamp at UT Southwestern Medical Center, Dallas, Texas</title>
+  <meta name="description" content="Nano Courses"/>
+  <meta name="keywords" content=""/>
+  <meta name="robots" content=""/>
+  <link rel="canonical" href=""/>
+  
+  
+  <meta name="HandheldFriendly" content="True"/>
+  <meta name="MobileOptimized" content="320"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+   <body>
+     <h1> 2016 NGS Summer BootCamp: Workshop Short Read Alignment</h1>
+     <p>
+
+Today we are going to:
+<ul>
+  <li>Run FastQC to determine sequence quality</li>
+  <li>Trim Sequences</li>
+  <li>Align Genomic Sequence to a reference genome</li>
+  <li>Align RNA Sequence to a reference genome</li>
+  <li>Examine Alignments in IGV</li>
+</ul>
+
+log into a compute node<br>
+<p>
+<code>
+qrsh<br>
+</code>
+<p>
+create a working directory and copy the fastq files in that directory to your working directory<br>
+<p>
+<code>
+mkdir day1<br>
+cd day1<br>
+cp /data/bootcamp/day1/NA12878_100ng.R*.1M.fq.gz .<br>
+ls<br>
+</code>
+<p>
+You should see two files named NA12878_100ng.R1.1M.fq.gz and NA12878_100ng.R2.1M.fq.gz<br>
+Now we are going to unzip this file and run fastqc<br>
+<p>
+<code>
+gunzip NA12878_100ng.R*.1M.fq.gz<br>
+#FastQC needs an updated version of java<br>
+export PATH=/data/bootcamp/seqprg/jre1.8.0_101/bin:$PATH<br>
+/data/bootcamp/seqprg/FastQC/fastqc NA12878_100ng.R1.1M.fq<br>
+/data/bootcamp/seqprg/FastQC/fastqc  NA12878_100ng.R2.1M.fq<br>
+</code>
+<p>
+Next we will trim the sequences and run fastqc again
+<p>
+<code>
+/data/bootcamp/seqprg/trim_galore_zip/trim_galore --paired -q 25 --illumina --length 35 --no_report_file --path_to_cutadapt  /data/bootcamp/seqprg/bin/cutadapt  NA12878_100ng.R1.1M.fq NA12878_100ng.R2.1M.fq<br>
+/data/bootcamp/seqprg/FastQC/fastqc NA12878_100ng.R1.1M_val_1.fq<br>
+/data/bootcamp/seqprg/FastQC/fastqc NA12878_100ng.R2.1M_val_2.fq<br>
+</code>
+<p>
+Now we are going to run our first alignment using only the sequences against chrX (for time sake) against GRCh37<br>
+*Note: The alignment step (bwa) might take a little while, so once the alignment is running we will skip to the next step, which will entail examining the sequence data<br>
+<p>
+<code>
+ln -s /data/bootcamp/day1/NA12878_100ng.R*.chrX.fastq.gz .<br>
+/data/bootcamp/seqprg/bwa-0.7.15/bwa mem -M -R '@RG\tLB:tx\tPL:illumina\tID:NA12878\tPU:barcode\tSM:NA12878' /data/bootcamp/refdb/genome.fa NA12878_100ng.R1.chrX.fastq.gz NA12878_100ng.R2.chrX.fastq.gz > NA12878.sam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools view -b -u -S -o NA12878.unsort.bam NA12878.sam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools sort -o NA12878.bam NA12878.unsort.bam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools index NA12878.bam<br>
+</code>
+<p>
+While the bwa is aligning the sequences, we will examine the sequence files
+<p>
+If you are using windows, use WINSCP or your favorite data transfer tool to download the fastqc output onto your computer.<br>
+If you are using a mac, open a new terminal window and follow these instruction<br>
+<p>
+<code>
+mkdir bootcamp_day1<br>
+cd bootcamp_day1<br>
+scp username@toxea.swmed.edu:~/day1/\*fastqc\* .<br>
+</code>
+<p>
+Open the html files in your favorite web browser (they should open on double click) and examine all of the quality metrics<br>
+<p>First and foremost, the FastQC "Summary" should generally be ignored. Its "grading scale" (green - good, yellow - warning, red - failed) incorporates assumptions for a particular kind of experiment, and is not applicable to most real-world data. Instead, look through the individual reports and evaluate them according to your experiment type.<br>
+<br>
+The FastQC reports I find most useful are:<br>
+<ul>
+<li>The Per base sequence quality report in the raw, which can help you decide if sequence trimming is needed before alignment.</li>
+<li>The Per base sequence quality report in the trimmed, which will show you the affect of trimming</li>
+<li>The Sequence Duplication Levels report, which helps you evaluate library enrichment / complexity.</li>
+<li>The Overrepresented Sequences report, which helps evaluate adapter contamination.</li>
+</ul>
+<p>
+You can have a look through the QC results to try to answer the following questions:<br>
+<ul>
+<li>Did any of the QC modules trigger a warning or alert condition?</li>
+<li>How do the base call qualities provided by the sequencer suggest the data is high quality, or might it benefit from being quality trimmed compare between the raw and trimmed sequence data?</li>
+<li>Are there any consistent sequence biases in the data?</li>
+<li> Is there any suggestion of the presence of adapter sequence which might need to be removed in the raw data?</li>
+<li> Does the duplication level of the data look reasonable? </li>
+</ul>
+
+<p>
+Once the bwa alignment is complete, we will now do a splice aware alignment, using hisat2 to GRCh38<br>
+There are 2 samples, run alignment in both samples: SRR1551068 and SRR1551069<br>
+During the alignment step, we will examine the DNA alignment<br>
+<p>
+<code>
+ln -s /data/bootcamp/day1/SRR155106*.fastq.gz .<br>
+/data/bootcamp/seqprg/hisat2-2.0.4/hisat2 -p 4 --no-unal --dta -x /data/bootcamp/refdb/genome -1 SRR1551068_1.fastq.gz -2 SRR1551068_2.fastq.gz -S SRR1551068.sam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools view -b -u -S -o SRR1551068.unsort.bam SRR1551068.sam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools sort -o SRR1551068.bam SRR1551068.unsort.bam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools index SRR1551068.bam<br>
+</code>
+<p>
+While the alignment is running, we will examine the DNA alignment<br>
+<p>
+If you are using windows, use WINSCP or your favorite data transfer tool to download the fastqc output onto your computer.<br>
+If you are using a mac, go to the terminal window where you previously downloaded files to your computer<br>
+<p>
+<code>
+scp username@toxea.swmed.edu:~/day1/NA12878.ba\* .<br>
+</code>
+<p>
+You can open the BAM file in IGV.  Open IGV -- Load the Genome using: Genomes->Load from Server->Select Human (b37)<br>
+Next upload the BAM files using File->Load From File<br>
+
+Try to answer the following questions:<br>
+<ol>
+<li>What is the range of coveage of the exons in CRLF2 *hint put your mouse on the histogram plot</li>
+<li>Look at the region: X:39,933,319-39,933,359</li>
+  <ol>
+    <li>Can you see an SNV?</li>
+    <li>At what position?</li>
+    <li>How many reads supporting the alt allele?</li>
+    <li>How many reads supporting the ref allele?</li>
+    <li>What is the gene</li>
+    <li>What is the amino acid change? *Hint use google</li>
+  </ol>
+<li>Look at the region: X:15,818,094-15,818,134</li>
+  <ol>
+    <li>Can you see an indel?</li>
+    <li>At what positions?</li>
+    <li>How many reads supporting the alt allele?</li>
+    <li>How many reads supporting the ref allele?</li>
+    <li>What is the gene?</li>
+    <li>What is the indel an insertion or deletion?</li>
+    <li>What is it in an exon or intron?</li>
+  </ol>
+<li>If you have time, examine these other positions:
+  <ol>
+    <li>X:15838366</li>
+    <li>X:41094888</li>
+    <li>X:41208310</li>
+    <li>X:70338399</li>
+    <li>X:70341169</li>
+    <li>X:70347330</li>
+    <li>X:70349947</li>
+    <li>X:100604757</li>
+    <li>X:123480147</li>
+    <li>X:129147079</li>
+    <li>X:129190217</li>
+    <li>X:152807923</li>
+    <li>X:152815089</li>
+    <li>X:152821717</li>
+    <li>X:152821887</li>
+    <li>X:152823728</li>
+    <li>X:152825414</li>
+    <li>X:152825433</li>
+    <li>X:152847291</li>
+    <li>X:152847301</li>
+    <li>X:152847488</li>
+    <li>X:152847553</li>
+    <li>X:152916023</li>
+    <li>X:152916236</li>
+    <li>X:153630255</li>
+    <li>X:153630293</li>
+    </ol>
+</ol>
+<p>
+<p>
+Now it's time to examine the RNA alignments<br>
+<p>
+If you are using windows, use WINSCP or your favorite data transfer tool to download the fastqc output onto your computer.<br>
+If you are using a mac, go to the terminal window where you previously downloaded files to your computer<br>
+<p>
+<code>
+scp username@toxea.swmed.edu:~/day1/SRR\*.ba\* .<br>
+</code>
+<p>
+You can open the BAM file in IGV.  Open IGV -- Load the Genome using: Genomes->Load from Server->Select Human (b37)<br>
+Next upload the BAM files using File->Load From File<br>
+
+Please examine the following genes and type to answer these questions:<br>
+ALPL,CCNJL,KAZN,OLFM4,FCGR3B,PRSS21,PRMT6,SPOCK1,NEXN,ME1<br>
+<p>
+<ol>
+<li>Do the reads cover all of the exons in the gene?</li>
+<li>Which sample has higher abundance?</li>
+<li>Are the exons covered equally?</li>
+<li>Are there differences in splice junctions *Hint Try Sashimi Plots:<br>
+https://www.broadinstitute.org/igv/Sashimi</li>
+</ol>
+</html>
