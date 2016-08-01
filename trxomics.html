@@ -1,0 +1,50 @@
+<h2>2016 NGS Summer BootCamp: From Alignment to differential expression analysis</h2>
+
+<h4>Today we are going to do:</h4>
+
+<ul>
+<li>Run featureCounts to get gene counts</li>
+<li>Use DESeq2 to normalize data and visualization</li>
+<li>Use DESeq2 to do differential expressed genes</li>
+<li>Differential expressed genes filtering and draw heatmap</li>
+<li>Run stringTie to get transcript-level abundance</li>
+<li>Use Ballgown to visualize the transcripts and do differential analysis </li>
+</ul>
+
+<p>First, we will log into the log into a compute node,install a necessary package and then log into a compute node</p>
+
+<p>Log into your machine or account.</p>
+
+<p>Mac Users: Open the application: Terminal
+From Terminal: ssh -Y username@toxea.swmed.edu
+Windows users -- Please refer to the PuTTY instructions with your username and the server toxea.swmed.edu</p>
+
+<h4>Run featureCounts</h4>
+
+<p>First: copy all the data files we will need today to your home directory
+<code>bash
+mkdir day3
+cp /data/bootcamp/day3/* day3/
+cd day3
+ls
+</code>
+And you should see:
+```</p>
+
+<p>design.pe.txt         SRR1551047.dedup.bam  SRR1551055.dedup.bam
+SRR1550986.bam        SRR1551048.bam        SRR1551068.bam
+SRR1550986.cts        SRR1551048.cts        SRR1551068.cts
+SRR1550986.dedup.bam  SRR1551048.dedup.bam  SRR1551068.dedup.bam
+SRR1550987.bam        SRR1551054.bam        SRR1551069.bam
+SRR1550987.cts        SRR1551054.cts        SRR1551069.cts
+SRR1550987.dedup.bam  SRR1551054.dedup.bam  SRR1551069.dedup.bam
+SRR1551047.bam        SRR1551055.bam
+SRR1551047.cts        SRR1551055.cts</p>
+
+<p>```</p>
+
+<p>Then: remove the PCR duplicates in your samples (We will only try one sample)
+<code>sh
+/data/bootcamp/seqprg/samtools-1.3.1/samtools rmdup day3/SRR1551047.bam  test.bam
+</code></p>
+
