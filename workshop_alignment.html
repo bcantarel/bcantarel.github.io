@@ -123,6 +123,11 @@ ln -s /data/bootcamp/day1/SRR155106*.fastq.gz .<br>
 /data/bootcamp/seqprg/samtools-1.3.1/samtools view -b -u -S -o SRR1551068.unsort.bam SRR1551068.sam<br>
 /data/bootcamp/seqprg/samtools-1.3.1/samtools sort -o SRR1551068.bam SRR1551068.unsort.bam<br>
 /data/bootcamp/seqprg/samtools-1.3.1/samtools index SRR1551068.bam<br>
+<br>
+/data/bootcamp/seqprg/hisat2-2.0.4/hisat2 -p 4 --no-unal --dta -x /data/bootcamp/refdb/genome -1 SRR1551069_1.fastq.gz -2 SRR1551069_2.fastq.gz -S SRR1551069.sam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools view -b -u -S -o SRR1551069.unsort.bam SRR1551069.sam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools sort -o SRR1551069.bam SRR1551069.unsort.bam<br>
+/data/bootcamp/seqprg/samtools-1.3.1/samtools index SRR1551069.bam<br>
 </code>
 <p>
 While the alignment is running, we will examine the DNA alignment<br>
