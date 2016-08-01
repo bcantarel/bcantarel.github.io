@@ -25,10 +25,21 @@ Today we are going to:
   <li>Examine Alignments in IGV</li>
 </ul>
 
-log into a compute node<br>
+First, we will log into the log into a compute node,install a necessary package and then log into a compute node<br>
 <p>
+  <li>Log into your machine or account.</li>
+  <ol>
+    <li> Mac Users: Open the application: Terminal</li>
+    <li>From Terminal: <code>ssh -Y  username@toxea.swmed.edu</code></li>
+    <li>Windows users -- Please refer to the PuTTY instructions with your username and the server <code>toxea.swmed.edu</code></li>
+  </ol>
 <code>
+cd /data/bootcamp/seqprg/cutadapt-1.10
+python setup.py install --user
+cd
+hostname<br>
 qrsh<br>
+hostname<br>
 </code>
 <p>
 create a working directory and copy the fastq files in that directory to your working directory<br>
@@ -189,7 +200,7 @@ If you are using a mac, go to the terminal window where you previously downloade
 scp username@toxea.swmed.edu:~/day1/SRR\*.ba\* .<br>
 </code>
 <p>
-You can open the BAM file in IGV.  Open IGV -- Load the Genome using: Genomes->Load from Server->Select Human (b37)<br>
+You can open the BAM file in IGV.  Open IGV -- Load the Genome using: Genomes->Load from Server->Select Human (hg38)<br>
 Next upload the BAM files using File->Load From File<br>
 
 Please examine the following genes and type to answer these questions:<br>
