@@ -55,5 +55,22 @@ head test.cts.summary
 head test.cts
 ```
 
+Then we need to combine all the counts into a matrix.
+We will be using an in-house Python script "combineFeatureCounts.py" to do this.
+There are three parameter you need to provide:
+1. Input file names. A list contain all the names of the count files;
+2. The names of all genes. Here we are going to use one count file to provide this;
+3. The name of the output file, which is your count matrix.
+
+```python
+ls *.cts > files
+python combineFeatureCounts.py files SRR1551047.cts count.table
+head count.table
+```
+
+Before we start to do the differential expression analysis, please creat a folder "DE_test" on your Desktop or any place you like and use FTP tool to drag "count.table" and "design.txt" into this folder.
+
+
+###Run DESeq2 for gene differential expression analysis
 
 
