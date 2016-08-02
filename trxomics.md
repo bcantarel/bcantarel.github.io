@@ -159,24 +159,18 @@ outdf<-cbind(gene_name = rownames(res), data.frame(res))
 write.table(outdf,"deseq2.res.xls",quote=F,sep="\t",row.names=F)
 head(outdf)
 
-deG <- outdf[(outdf$log2FoldChange>=1 & outdf$padj<=0.01),]
+deG <- outdf[(abs(outdf$log2FoldChange)>=1 & outdf$padj<=0.01),]
+write.table(deG,"deseq2.deG.xls",quote=F,sep="\t",row.names=F)
 dim(deG)
 
-```
-Draw MA-plot
-```R
 ```
 
 Draw heatmap
 ```R
+rld_df <-data.frame(assay(rld))
+deG_rld <-rld_df[rownames(rld_df %in% deG$gene_name，]
+pheatmap(deG_rld,scale="row",show_rownames = F)
 ```
-
-
-For me, I usually save the whole table and do filtering afterwards. 
-```R
-
-```
-
 
 
 
