@@ -175,7 +175,44 @@ pheatmap(deG_rld,scale="row",show_rownames = F)
 
 
 ###Run StringTie
-We will only try 
+We will only try to do the transcripts quantification.
+
+In order to use Ballgown program afterwards, "-B" should be used so stringTie will generate Ballgown readable results.
+
+```shell
+mkdir SRR1551047
+-bash-4.1$ /data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 day3/SRR1551047.dedup.bam -o SRR1551047/
+
+```
+Files output in Ballgown readable format are:
+
+
+
++ e_data.ctab: exon-level expression measurements. One row per exon. Columns are e_id (numeric exon id), chr, strand, start, end (genomic location of the exon), and the following expression measurements for each sample:
+  + rcount: reads overlapping the exon
+  + ucount: uniquely mapped reads overlapping the exon
+  + mrcount: multi-map-corrected number of reads overlapping the exon
+  + cov average per-base read coverage
+  + cov_sd: standard deviation of per-base read coverage
+  + mcov: multi-map-corrected average per-base read coverage
+  + mcov_sd: standard deviation of multi-map-corrected per-base coverage
++ i_data.ctab: intron- (i.e., junction-) level expression measurements. One row per intron. Columns are i_id (numeric intron id), chr, strand, start, end (genomic location of the intron), and the following expression measurements for each sample:
+  + rcount: number of reads supporting the intron
+  + ucount: number of uniquely mapped reads supporting the intron
+  + mrcount: multi-map-corrected number of reads supporting the intron
++ t_data.ctab: transcript-level expression measurements. One row per transcript. Columns are:
+  + t_id: numeric transcript id
+  + chr, strand, start, end: genomic location of the transcript
+  + t_name: Cufflinks-generated transcript id
+  + num_exons: number of exons comprising the transcript
+  + length: transcript length, including both exons and introns
+  + gene_id: gene the transcript belongs to
+  + gene_name: HUGO gene name for the transcript, if known
+  + cov: per-base coverage for the transcript (available for each sample)
+  + FPKM: Cufflinks-estimated FPKM for the transcript (available for each sample)
++ e2t.ctab: table with two columns, e_id and t_id, denoting which exons belong to which transcripts. These ids match the ids in the e_data and t_data tables.
++ i2t.ctab: table with two columns, i_id and t_id, denoting which introns belong to which transcripts. These ids match the ids in the i_data and t_data tables.
+
 
 
 
