@@ -72,5 +72,23 @@ Before we start to do the differential expression analysis, please creat a folde
 
 
 ###Run DESeq2 for gene differential expression analysis
+Open your Rstudio and install DESeq2
+```R
+source("https://bioconductor.org/biocLite.R")
+biocLite("DESeq2")
+```
+Type 'a' if program asks you if you want to update packages.
+Click "Yes" if prompt window asks you if you want to use a personal library.
 
+After everything finished, load the library using
+```R
+library("DESeq2")
+```
+
+
+Install ballgown:
+```R
+source("http://bioconductor.org/biocLite.R")
+biocLite("ballgown")
+```
 
