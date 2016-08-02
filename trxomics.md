@@ -233,7 +233,8 @@ Files output in Ballgown readable format are:
 + i2t.ctab: table with two columns, i_id and t_id, denoting which introns belong to which transcripts. These ids match the ids in the i_data and t_data tables.
 
 
-While the program is running, please download the results to your local computer. And take a look at the folder structures.
+While the program is running, make a folder called isoform, and download the stringtie_out in day3 and "design.pe.txt" to that folder. 
+Now let's take a look at the folder structures.
 For Ballgown to read the folder, it has to be all the ctab of each sample in an individual sample folder, and all sample folder have similar naming scheme, in our case "SRR155", for Ballgown to identify all the samples.
 
 
@@ -243,5 +244,39 @@ Install ballgown:
 ```R
 source("http://bioconductor.org/biocLite.R")
 biocLite("ballgown")
+library("ballgown")
 ```
 
+Now use the session buttion to change the working directory to "isoform".
+```R
+stdir <- 'stringtie_out'
+design <- "design.pe.txt"
+
+samtbl <- read.table(file=design,header=TRUE,sep='\t')
+bg <- ballgown(dataDir=stdir, samplePattern='SRR155', meas='all')
+exon_transcript_table = indexes(bg)$e2t
+transcript_gene_table = indexes(bg)$t2g
+transcript_name <- transcriptNames(bg)
+rownames(transcript_gene_table) <- transcript_name
+genes <- unique(cbind(geneNames(bg),geneIDs(bg)))
+colnames(genes) <- c('SYMBOL','ENSEMBL')
+
+samples <- sampleNames(bg)
+mergetbl <- merge(as.data.frame(samples),samtbl,by.x="samples",by.y="File",all.x=TRUE,sort=FALSE)
+pData(bg) = data.frame(id=sampleNames(bg), group=as.character(mergetbl$Group),subj=as.character(mergetbl$SubjID))
+phenotype_table = pData(bg)
+                                        
+stat_results = stattest(bg, feature='transcript', meas='cov', covariate='group',adjustvars='subj',getFC=TRUE)
+
+r1 <- merge(transcript_gene_table,na.omit(stat_results),by.y='id',by.x='t_id',all.y=TRUE,all.x=FALSE)
+r2 <- merge(genes,r1,by.y='g_id',by.x='ENSEMBL',all.y=TRUE,all.x=FALSE)
+write.table(r2,file='de_altsplice.bg.txt',quote=FALSE,sep='\t',row.names=FALSE)
+
+
+plotMeans('ENSG00000101307.12', bg, groupvar='group', meas='cov', colorby='transcript')
+
+
+
+plotLatentTranscripts(gene='ENSG00000101307.12', gown=bg, k=2, method='kmeans', returncluster=FALSE)
+
+```
