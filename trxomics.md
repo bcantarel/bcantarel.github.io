@@ -145,7 +145,7 @@ plotPCA(rld, intgroup = c("Tissue"))
 ```
 
 ####Find differential expressed genes
-You can use a single function to do this. This function will print out a message for the various steps it performs.
+DESeq2 enables us to use a single function to do this. This function will print out a message for the various steps it performs.
 ```R
 dds <- DESeq(dds)
 res <- results(dds)
