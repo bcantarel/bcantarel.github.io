@@ -90,36 +90,84 @@ After everything finished, load the libraries using
 ```R
 library("DESeq2")
 library("pheatmap")
+```
 
+####Load Data
+```R
 #Read data matrix and sample file
-counts<-read.table("counts.table",header=T,row.names=1)
+cfile<-read.table("counts.table",header=T,row.names=1)
 coldata<-read.table("design.pe.txt",header=T)
 head(counts)
 head(coldata)
 
 #Reorder the counts columns to match the order of sample file
-counts <- counts[rownames(coldata)]
-dds<-DESeqDataSetFromMatrix(countData=counts,colData=coldata, design=~Tissue)
+cfile <- cfile[rownames(coldata)]
+dds<-DESeqDataSetFromMatrix(countData=cfile,colData=coldata, design=~Tissue)
 ```
 There are some other things we need to do before the differential analysis.
 1. Always check the levels to make sure the control is the first level
-```
+```R
 dds$Tissue
 ```
 You should see:
 "Levels: monocytes neutrophils"
 To be safe, it is always good to re-level the factor level:
-```
+```R
 dds$Tissue <- relevel(dds$Tissue, ref="monocytes")
 ```
 
-2. Pre-filtering the low-expressed genes. This step is optional but by removing the low expressed genes, the speed of analysis will go up. Here we could remove the genes only have 0 or 1 reads across all samples
+2. Pre-filtering the low-expressed genes. The code below means keep a gene if its counts exceed 10 in at least 4 samples
+
+```R
+nrow(dds)
+dds <- dds[ rowSums(counts(dds)>=10) >= 4, ]
+nrow(dds)
+```
+
+####Explortory analysis and some visulization
+Use rlog() function to get log2 transformed normalized counts
+```R
+rld <- rlog(dds, blind=FALSE)
+plot(assay(rld)[,1:2],pch=16, cex=0.3)
+```
+
+**Calculate the distance between sample pairs and do hierarchical clustering**
+```R
+sampleDists <- dist( t( assay(rld) ) )
+sampleDists
+plot(hclust(sampleDists))
 
 ```
-dds <- dds[ rowSums(counts(dds)) > 1, ]
+
+**PCA plot**
+```R
+plotPCA(rld, intgroup = c("Tissue"))
 ```
 
-Now it is time for normalization
+####Find differential expressed genes
+You can use a single function to do this. This function will print out a message for the various steps it performs.
+```R
+dds <- DESeq(dds)
+res <- results(dds)
+res
+mcols(res, use.names=TRUE)
+summary(res)
+```
+You can also apply some other threshold (smaller p value or bigger logFoldChange value to filter the resutls)
+```R
+res.05 <- results(dds, alpha=.05)
+table(res.05$padj < .05)
+
+resLFC1 <- results(dds, lfcThreshold=1)
+```
+
+For me, I usually save the whole table and do filtering afterwards. 
+```R
+outdf<-cbind(gene_name = rownames(res), data.frame(res))
+write.table(outdf,"deseq2.res.xls",quote=F,sep="\t",row.names=F)
+```
+
+###Run StringTie
 
 Install ballgown:
 ```R
