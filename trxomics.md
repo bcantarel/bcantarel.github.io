@@ -77,12 +77,19 @@ Open your Rstudio and install DESeq2
 source("https://bioconductor.org/biocLite.R")
 biocLite("DESeq2")
 ```
+For pheatmap package, click "package"->"install"
 Type 'a' if program asks you if you want to update packages.
+Install from:CRAN
+Packages: pheatmap
+Check "Install dependencies"
+Click "Install"
+
 Click "Yes" if prompt window asks you if you want to use a personal library.
 
-After everything finished, load the library using
+After everything finished, load the libraries using
 ```R
 library("DESeq2")
+library("pheatmap")
 ```
 
 
