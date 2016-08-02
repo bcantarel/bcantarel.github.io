@@ -155,17 +155,30 @@ summary(res)
 ```
 You can also apply some other threshold (smaller p value or bigger logFoldChange value to filter the resutls)
 ```R
-res.05 <- results(dds, alpha=.05)
-table(res.05$padj < .05)
+outdf<-cbind(gene_name = rownames(res), data.frame(res))
+write.table(outdf,"deseq2.res.xls",quote=F,sep="\t",row.names=F)
+head(outdf)
 
-resLFC1 <- results(dds, lfcThreshold=1)
+deG <- outdf[(outdf$log2FoldChange>=1 & outdf$padj<=0.01),]
+dim(deG)
+
 ```
+Draw MA-plot
+```R
+```
+
+Draw heatmap
+```R
+```
+
 
 For me, I usually save the whole table and do filtering afterwards. 
 ```R
-outdf<-cbind(gene_name = rownames(res), data.frame(res))
-write.table(outdf,"deseq2.res.xls",quote=F,sep="\t",row.names=F)
+
 ```
+
+
+
 
 ###Run StringTie
 We will only try 
