@@ -168,6 +168,11 @@ write.table(outdf,"deseq2.res.xls",quote=F,sep="\t",row.names=F)
 ```
 
 ###Run StringTie
+We will only try 
+
+
+
+
 
 Install ballgown:
 ```R
