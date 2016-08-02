@@ -180,13 +180,32 @@ We will only try to do the transcripts quantification.
 In order to use Ballgown program afterwards, "-B" should be used so stringTie will generate Ballgown readable results.
 
 ```shell
+mkdir stringtie_out
+cd stringtie_out
+mkdir SRR1551069
+mkdir SRR1551068
+mkdir SRR1551055
+mkdir SRR1551054
+mkdir SRR1551048
 mkdir SRR1551047
--bash-4.1$ /data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 day3/SRR1551047.dedup.bam -o SRR1551047/
+mkdir SRR1550987
+mkdir SRR1550986
+cd ../
+pwd
+#You should at your home directory
+
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551069.dedup.bam -o stringtie/SRR1551069/SRR1551069.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551068.dedup.bam -o stringtie/SRR1551068/SRR1551068.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551055.dedup.bam -o stringtie/SRR1551055/SRR1551055.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551054.dedup.bam -o stringtie/SRR1551054/SRR1551054.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551048.dedup.bam -o stringtie/SRR1551048/SRR1551048.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551047.dedup.bam -o stringtie/SRR1551047/SRR1551047.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1550987.dedup.bam -o stringtie/SRR1550987/SRR1550987.gtf
+/data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1550986.dedup.bam -o stringtie/SRR1550986/SRR1550986.gtf
+
 
 ```
 Files output in Ballgown readable format are:
-
-
 
 + e_data.ctab: exon-level expression measurements. One row per exon. Columns are e_id (numeric exon id), chr, strand, start, end (genomic location of the exon), and the following expression measurements for each sample:
   + rcount: reads overlapping the exon
@@ -214,9 +233,11 @@ Files output in Ballgown readable format are:
 + i2t.ctab: table with two columns, i_id and t_id, denoting which introns belong to which transcripts. These ids match the ids in the i_data and t_data tables.
 
 
+While the program is running, please download the results to your local computer. And take a look at the folder structures.
+For Ballgown to read the folder, it has to be all the ctab of each sample in an individual sample folder, and all sample folder have similar naming scheme, in our case "SRR155", for Ballgown to identify all the samples.
 
 
-
+####Run Ballgown
 
 Install ballgown:
 ```R
