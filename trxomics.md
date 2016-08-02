@@ -90,8 +90,36 @@ After everything finished, load the libraries using
 ```R
 library("DESeq2")
 library("pheatmap")
+
+#Read data matrix and sample file
+counts<-read.table("counts.table",header=T,row.names=1)
+coldata<-read.table("design.pe.txt",header=T)
+head(counts)
+head(coldata)
+
+#Reorder the counts columns to match the order of sample file
+counts <- counts[rownames(coldata)]
+dds<-DESeqDataSetFromMatrix(countData=counts,colData=coldata, design=~Tissue)
+```
+There are some other things we need to do before the differential analysis.
+1. Always check the levels to make sure the control is the first level
+```
+dds$Tissue
+```
+You should see:
+"Levels: monocytes neutrophils"
+To be safe, it is always good to re-level the factor level:
+```
+dds$Tissue <- relevel(dds$Tissue, ref="monocytes")
 ```
 
+2. Pre-filtering the low-expressed genes. This step is optional but by removing the low expressed genes, the speed of analysis will go up. Here we could remove the genes only have 0 or 1 reads across all samples
+
+```
+dds <- dds[ rowSums(counts(dds)) > 1, ]
+```
+
+Now it is time for normalization
 
 Install ballgown:
 ```R
