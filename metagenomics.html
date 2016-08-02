@@ -29,6 +29,8 @@
 <h3>Start Mothur</h3>
 First let’s set up your environment:<br>
 <code>
+mkdir day2
+cd day2
 ln -s /data/bootcamp/day2/* .<br>
 qrsh<br>
 cd day2<br>
@@ -103,7 +105,8 @@ pre.cluster(fasta=swine_gut.trim.unique.good.filter.unique.fasta,count=swine_gut
 We want to identify and remove chimera sequences.  This step is really slow, we have already identified these sequences.  So skip this step and remove the chimeras.
 <p>
 <code>
-#chimera.uchime(fasta=swine_gut.trim.unique.good.filter.unique.precluster.fasta, reference=silva.gold.align,processors=3) remove.seqs(accnos=swine_gut.trim.unique.good.filter.unique.precluster.ref.uchime.accnos, fasta=swine_gut.trim.unique.good.filter.unique.precluster.fasta,count=swine_gut.trim.unique.good.filter.unique.precluster.count_table)<br>
+#chimera.uchime(fasta=swine_gut.trim.unique.good.filter.unique.precluster.fasta, reference=silva.gold.align,processors=3)<br>
+remove.seqs(accnos=swine_gut.trim.unique.good.filter.unique.precluster.ref.uchime.accnos, fasta=swine_gut.trim.unique.good.filter.unique.precluster.fasta,count=swine_gut.trim.unique.good.filter.unique.precluster.count_table)<br>
 </code>
 <p>
 <h4>Taxonomic Classification</h4>
