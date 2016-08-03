@@ -96,24 +96,24 @@ library("pheatmap")
 ```R
 #Read data matrix and sample file
 cfile<-read.table("counts.table",header=T,row.names=1)
-coldata<-read.table("design.pe.txt",header=T)
+coldata<-read.table("design.pe.txt",header=T,sep="\t")
 head(counts)
 head(coldata)
 
 #Reorder the counts columns to match the order of sample file
-cfile <- cfile[rownames(coldata)]
-dds<-DESeqDataSetFromMatrix(countData=cfile,colData=coldata, design=~Tissue)
+cfile <- cfile[coldata$SampleID]
+dds<-DESeqDataSetFromMatrix(countData=cfile,colData=coldata, design=~SampleGroup)
 ```
 There are some other things we need to do before the differential analysis.
 1. Always check the levels to make sure the control is the first level
 ```R
-dds$Tissue
+dds$SampleGroup
 ```
 You should see:
 "Levels: monocytes neutrophils"
 To be safe, it is always good to re-level the factor level:
 ```R
-dds$Tissue <- relevel(dds$Tissue, ref="monocytes")
+dds$SampleGroup <- relevel(dds$SampleGroup, ref="monocytes")
 ```
 
 2. Pre-filtering the low-expressed genes. The code below means keep a gene if its counts exceed 10 in at least 4 samples
@@ -180,18 +180,7 @@ We will only try to do the transcripts quantification.
 In order to use Ballgown program afterwards, "-B" should be used so stringTie will generate Ballgown readable results.
 
 ```shell
-mkdir stringtie_out
-cd stringtie_out
-mkdir SRR1551069
-mkdir SRR1551068
-mkdir SRR1551055
-mkdir SRR1551054
-mkdir SRR1551048
-mkdir SRR1551047
-mkdir SRR1550987
-mkdir SRR1550986
-cd ../
-pwd
+
 #You should at your home directory
 
 /data/bootcamp/software/stringtie-1.2.4.Linux_x86_64/stringtie -B -G /data/bootcamp/refdb/gencode.gtf -p 6 /data/bootcamp/day3/SRR1551069.dedup.bam -o stringtie/SRR1551069/SRR1551069.gtf
@@ -233,7 +222,7 @@ Files output in Ballgown readable format are:
 + i2t.ctab: table with two columns, i_id and t_id, denoting which introns belong to which transcripts. These ids match the ids in the i_data and t_data tables.
 
 
-While the program is running, make a folder called isoform, and download the stringtie_out in day3 and "design.pe.txt" to that folder. 
+While the program is running, please download the stringtie folder with pre-runned results in day3 and "design.pe.txt" to a folder. 
 Now let's take a look at the folder structures.
 For Ballgown to read the folder, it has to be all the ctab of each sample in an individual sample folder, and all sample folder have similar naming scheme, in our case "SRR155", for Ballgown to identify all the samples.
 
@@ -249,11 +238,13 @@ library("ballgown")
 
 Now use the session buttion to change the working directory to "isoform".
 ```R
-stdir <- 'stringtie_out'
+stdir <- 'stringtie'
 design <- "design.pe.txt"
-
 samtbl <- read.table(file=design,header=TRUE,sep='\t')
+#make bg object
 bg <- ballgown(dataDir=stdir, samplePattern='SRR155', meas='all')
+
+
 exon_transcript_table = indexes(bg)$e2t
 transcript_gene_table = indexes(bg)$t2g
 transcript_name <- transcriptNames(bg)
