@@ -243,8 +243,13 @@ design <- "design.pe.txt"
 samtbl <- read.table(file=design,header=TRUE,sep='\t')
 #make bg object
 bg <- ballgown(dataDir=stdir, samplePattern='SRR155', meas='all')
+```
 
+Then we are going to make a gene name table for the output file.
 
+The indexes slot of a ballgown object connects the pieces of the assembly and provides other experimental information. indexes(bg) is a list with several components that can be extracted with the $ operator.
+
+```
 exon_transcript_table = indexes(bg)$e2t
 transcript_gene_table = indexes(bg)$t2g
 transcript_name <- transcriptNames(bg)
@@ -254,9 +259,12 @@ colnames(genes) <- c('SYMBOL','ENSEMBL')
 
 samples <- sampleNames(bg)
 mergetbl <- merge(as.data.frame(samples),samtbl,by.x="samples",by.y="File",all.x=TRUE,sort=FALSE)
-pData(bg) = data.frame(id=sampleNames(bg), group=as.character(mergetbl$Group),subj=as.character(mergetbl$SubjID))
+pData(bg) = data.frame(id=sampleNames(bg), group=as.character(mergetbl$SampleGroup),subj=as.character(mergetbl$SubjectID))
 phenotype_table = pData(bg)
-                                        
+
+ 
+stat_results = stattest(bg, feature='transcript', meas='cov', covariate='group',getFC=TRUE)
+#If you want to adjust for individual
 stat_results = stattest(bg, feature='transcript', meas='cov', covariate='group',adjustvars='subj',getFC=TRUE)
 
 r1 <- merge(transcript_gene_table,na.omit(stat_results),by.y='id',by.x='t_id',all.y=TRUE,all.x=FALSE)
@@ -264,10 +272,7 @@ r2 <- merge(genes,r1,by.y='g_id',by.x='ENSEMBL',all.y=TRUE,all.x=FALSE)
 write.table(r2,file='de_altsplice.bg.txt',quote=FALSE,sep='\t',row.names=FALSE)
 
 
-plotMeans('ENSG00000101307.12', bg, groupvar='group', meas='cov', colorby='transcript')
-
-
-
-plotLatentTranscripts(gene='ENSG00000101307.12', gown=bg, k=2, method='kmeans', returncluster=FALSE)
+plotMeans('ENSG00000024048.10', bg, groupvar='group', meas='cov', colorby='transcript')
+plotTranscripts(gene="ENSG00000024048.10",gown=bg,samples=samples,meas='FPKM', colorby='transcript')
 
 ```
