@@ -1,0 +1,214 @@
+<html>
+<h2>R Nanocourse - Introduction to R for Beginners</h2>
+
+<h4>Introduction to R Workshop</h4>
+
+<h5>First we will need to set up your working directory</h5>
+
+<ol>
+	<li>Method 1
+	<ol>
+		<li>Setup a new folder and name it &quot;RNanoCourse&quot; on your desktop.</li>
+		<li>Download &quot;Statistical Test Dataset&quot;, in your download directory, you will see dig_csv.zip, unzip it and copy DIG_csv folder into &quot;RNanoCourse&quot;</li>
+		<li>Start R studio, click File-New File-R Script and save the new R Script to the directory Desktop-RNanoCourse-DIG_csv.</li>
+		<li>Click Session-Set Working Directory-To Source File Location</li>
+	</ol>
+	</li>
+	<li>Method 2, you can save your R script anywhere you like
+	<ol>
+		<li>Setup a new folder and name it &quot;RNanoCourse&quot; on your desktop.</li>
+		<li>Download &quot;Statistical Test Dataset&quot;, in your download directory, you will see dig_csv.zip, unzip it and copy DIG_csv folder into &quot;RNanoCourse&quot;</li>
+		<li>Click Session- Choose Directory - Desktop-RNanoCourse-DIG_csv</li>
+	</ol>
+	</li>
+	<li>Method 3 in R Studio
+	<ul>
+		<li>setwd(&quot;~/Desktop/RNanoCourse/DIG_csv&quot;) #on&nbsp;Mac</li>
+		<li>setwd(&quot;C:/Users/username/Desktop/RNanoCourse/DIG_csv&quot;) #on PC</li>
+	</ul>
+	</li>
+</ol>
+
+<h5>Examples of functions that do not need any arguments</h5>
+
+<p><code>ls()<br />
+library()<br />
+getwd()<br />
+colors()</code></p>
+
+<h5>Let&#39;s use R as a calculator</h5>
+
+<p><code>a&lt;-2<br />
+a<br />
+b&lt;-3<br />
+a+b<br />
+a^b<br />
+a.vec&lt;-c(2,4,6)<br />
+a.vec<br />
+length(a.vec)<br />
+a.vec[1:2]</code></p>
+
+<h5>Creating a vector</h5>
+
+<p><code>b.vec&lt;-c(3,5,7)<br />
+a.vec+b.vec<br />
+a.vec*b.vec<br />
+A.vec </code></p>
+
+<p>You will see an error as R is case sensitive</p>
+
+<h5>Creating a matrix</h5>
+
+<p><code>a.mat&lt;-matrix(data=c(1,2,3,4,5,6),nrow=3,ncol=2)<br />
+a.mat<br />
+a.mat^2<br />
+log2(a.mat)<br />
+a.mat[1:2,1:2]<br />
+a.mat[1:2,1]<br />
+a.mat[1:2,]</code></p>
+
+<h5>Variables can contain strings</h5>
+
+<p><code>message&lt;-&quot;Hello world&quot;<br />
+message<br />
+c.vec&lt;-c(&#39;Hello&#39;,&#39;Goodbye&#39;)<br />
+c.vec</code></p>
+
+<h5>The help function is useful to learn how to use other functions</h5>
+
+<p>To get to a function&#39;s help file, use ?function_name</p>
+
+<p><code>?t.test<br />
+?mean</code></p>
+
+<p>Press q to return</p>
+
+<h5>Mathematical functions</h5>
+
+<p><code>x&lt;-2.1<br />
+exp(x)<br />
+log(x,base=exp(1))<br />
+log2(x)<br />
+log10(x)<br />
+sqrt(x)<br />
+abs(x)<br />
+round(x)<br />
+factorial(x)<br />
+choose(5,3)</code></p>
+
+<p><code># n choose k</code></p>
+
+<p><code>cos(x)<br />
+sin(x)<br />
+tan(x)</code></p>
+
+<h5>Object types</h5>
+
+<p><code>&lt;x&lt;-c(0,1,0,1)&lt;br&gt; logical(length=3)<br />
+is.logical(x)<br />
+as.logical(x)<br />
+is.character(x)<br />
+as.character(x)<br />
+is.numeric(x)<br />
+as.numeric(x)<br />
+is.integer(x)<br />
+as.integer(x)</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Working with vectors</h5>
+
+<h5>&nbsp;</h5>
+
+<p><code>my.vec&lt;- c(&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;)<br />
+my.vec<br />
+<br />
+my.vec1&lt;-seq(from=1,to=10,by=2)<br />
+# from 1 to 10 in steps of 2<br />
+my.vec1<br />
+<br />
+my.vec2&lt;-1:4<br />
+my.vec2<br />
+my.vec2 &lt;- c(my.vec2, NA)<br />
+my.vec2<br />
+<br />
+my.vec1[my.vec1&lt;6]<br />
+subset(my.vec1,my.vec1&lt;6)<br />
+plot(my.vec2,my.vec1)</code><br />
+&nbsp;</p>
+
+<h5>Functions to learn about an object</h5>
+
+<p><code>length(my.vec)<br />
+nchar(&#39;abcdefg&#39;)<br />
+dim(a.mat)<br />
+mode(my.vec)<br />
+typeof(my.vec)<br />
+attributes(my.vec)<br />
+Res&lt;-t.test(rnorm(20,1),rnorm(20,2))<br />
+Res<br />
+attributes(Res)<br />
+Res$p.value<br />
+length(my.vec)</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Working with matrices</h5>
+
+<p><code>my.mat1&lt;-matrix(1:20,nrow=5,ncol=4)<br />
+my.mat1[!is.na(my.vec2),]<br />
+<br />
+my.mat2&lt;- cbind(1:5,seq(1,10,2))<br />
+my.mat2<br />
+my.mat2&lt;- cbind(a=1:5,b=seq(1,10,2))<br />
+my.mat2 # check the difference in output</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Working with lists</h5>
+
+<p><code>my.list &lt;- list(fruits=c(&#39;apple&#39;,&#39;grape&#39;,&#39;banana&#39;), num=3,colors=c(&#39;red&#39;,&#39;green&#39;,&#39;yellow&#39;))<br />
+my.list$fruits<br />
+my.list[[1]]<br />
+my.list[[1]][2]<br />
+names(my.list)<br />
+unlist(my.list)<br />
+length(my.list)<br />
+attributes(my.list)</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Working with data frames</h5>
+
+<p><code>numbers &lt;- 1:4<br />
+letters&lt;-c(&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;)<br />
+grp&lt;- as.factor(c(1,0,0,1))<br />
+mydata &lt;- data.frame(cbind(numbers, letters, grp))<br />
+mydata # View the data frame<br />
+mydata[1:2,]<br />
+mode(mydata)<br />
+attributes(mydata)<br />
+colnames(mydata) # Get the column headers of the data frame<br />
+rownames(mydata)</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Reading in a file</h5>
+
+<p><code>x&lt;-read.table(file=&quot;dig.csv&quot;, sep=&quot;\t&quot;, header=T) # File to be used by Rong in the next session<br />
+head(x)</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Installing a package</h5>
+
+<p><code>source(&quot;http://bioconductor.org/biocLite.R&quot;)<br />
+biocLite(&quot;DESeq2&quot;) # Package to be used by Beibei in the RNA-Seq workshop<br />
+install.packages(&quot;ggplot2&quot;) # Used to create plots in R</code></p>
+
+<p>&nbsp;</p>
+
+<h5>Exiting R</h5>
+
+<p><code>q() # save workspace? (y/n)</code></p>
+</html>
