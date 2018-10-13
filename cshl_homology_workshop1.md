@@ -4,6 +4,7 @@
  
 - Go to http://www.bioinformatics.nl/tools/pam.html
 - Compare PAM matrices 10,100 and 250
+
 ---
 Questions:
 
@@ -19,6 +20,7 @@ Questions:
 - Search the protein sequence Drosophila glutathione transferase (P20432) against the PIR1 Annotated protein sequence database.  
 - Type the accession in the search box and choose accession on the drop drown for “Query Sequence”
 - Take a look at the output. 
+
 --- 
 
 ### Questions
@@ -37,12 +39,14 @@ Questions:
 12. What happens to the E()-value for distant homologs, like GSTA1_RAT with the different matrices and different gap penalties? 
 13. What happens to the E()-value for the highest scoring unrelated sequence with the different matrices? 
 14. Try the search ssearch (Smith-Waterman). Again, look at the E()-values for distant homologs and the highest scoring unrelated sequence. 
+
 --- 
 
 ### Try Sequence Similarity Searching with BLAST
 - Go to the [BLAST Server](http://blast.ncbi.nlm.nih.gov)
 - Search the protein sequence Drosophila glutathione transferase (P20432) against the SwissProt protein sequence database.
 - Take a look at the output (there is a link to other reports: Search Summary for some questions). 
+
 --- 
 
 ### Questions
@@ -65,6 +69,7 @@ Questions:
   - DNA:DNA (BLASTN) searches. 
 
 *Hint exclude taxa by Arabidopisis*
+
 --- 
 
 ### Questions
@@ -76,3 +81,13 @@ Questions:
 4. DNA:DNA BLASTN using (gi 8033) to the Reference mRNA sequences (refseq_rna)
 - Are there detectable Arabidopsis homologues? 
 1.	What are the BLAST DNA match/mismatch penalties used for the BLASTN search? 
+
+## Write a simple global nucleotide alignment program of your own for sequences of similar size (think amplicon sequences) using Python
+
+The input for your program should be the scores for match and mismatches and 2 sequences and allow for an option to calculate the scores for each combination of sequences and their reverse complements ie sequence 1 vs sequence 2, reverse complement sequence 1 vs sequence 2, sequence 1 vs reverse complement of sequence 2 and reverse complement of both sequence 1 and 2.
+
+1. What is the score of the alignment using the scores 1,-1 and the sequences:
+- sequence1 = "agtctgtca"
+- sequence1 = "gatctctgc"
+
+2. What are the scores of each combinations of reverse complements using the score 2/-2.
