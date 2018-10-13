@@ -2,7 +2,7 @@
  
 ## Understanding Scoring Matrices
  
-- Go to http://www.bioinformatics.nl/tools/pam.html
+- Examine the PAM matrices at different levels [here](http://www.bioinformatics.nl/tools/pam.html)
 - Compare PAM matrices 10,100 and 250
 
 ---
