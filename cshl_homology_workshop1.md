@@ -1,4 +1,4 @@
-# WORKSHOP 1
+# CSHL Sequence Homology and Alignment Workshop
  
 ## Understanding Scoring Matrices
  
