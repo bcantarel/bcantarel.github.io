@@ -60,7 +60,7 @@ Questions:
   - protein:DNA (TBLASTN)
   - DNA:DNA (BLASTN) searches. 
 
-** Hint exclude taxa by Arabidopisis **
+*Hint exclude taxa by Arabidopisis*
 --- 
 ### Questions
 
