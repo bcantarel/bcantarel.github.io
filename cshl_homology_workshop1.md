@@ -12,13 +12,15 @@ Questions:
 3.	What is the score for a W-G mismatch?
 
 ## Identifying homologs and non-homologs; effects of scoring matrices and algorithms 
----
+
 ### Try Sequence Similarity Searching with FASTA 
+
 - Go to the [FASTA SERVER](fasta.bioch.virginia.edu)
 - Search the protein sequence Drosophila glutathione transferase (P20432) against the PIR1 Annotated protein sequence database.  
 - Type the accession in the search box and choose accession on the drop drown for “Query Sequence”
 - Take a look at the output. 
 --- 
+
 ### Questions
 
 1. How long is the query sequence? 
@@ -36,11 +38,13 @@ Questions:
 13. What happens to the E()-value for the highest scoring unrelated sequence with the different matrices? 
 14. Try the search ssearch (Smith-Waterman). Again, look at the E()-values for distant homologs and the highest scoring unrelated sequence. 
 --- 
+
 ### Try Sequence Similarity Searching with BLAST
 - Go to the [BLAST Server](http://blast.ncbi.nlm.nih.gov)
 - Search the protein sequence Drosophila glutathione transferase (P20432) against the SwissProt protein sequence database.
 - Take a look at the output (there is a link to other reports: Search Summary for some questions). 
 --- 
+
 ### Questions
 
 1.	How long is the query sequence? 
@@ -62,6 +66,7 @@ Questions:
 
 *Hint exclude taxa by Arabidopisis*
 --- 
+
 ### Questions
 
 - What are the E()-values for Arabidopsis THETA1, phi 12, zeta- class 1 and lambda 1 for:
