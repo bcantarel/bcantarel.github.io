@@ -1,0 +1,177 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NGS Nanocourse at UT Southwestern Medical Center, Dallas, Texas</title>
+  <meta name="description" content="Nano Courses"/>
+  <meta name="keywords" content=""/>
+  <meta name="robots" content=""/>
+  <link rel="canonical" href=""/>
+  
+  
+  <meta name="HandheldFriendly" content="True"/>
+  <meta name="MobileOptimized" content="320"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+   <body>
+     <h1>BICF Nanocourse: Gene Expression and Regulation (06/08/2018)</h1>
+     <p>
+
+Today we are going to:
+<ul>
+  <li>Align genomic sequences to a reference genome</li> <br>
+  <li>Examine alignments using samtools</li> <br>
+  <li>Examine alignments in IGV</li> <br>
+</ul>
+
+First, we will log into a compute node: <br>
+<p>
+  <ol>
+    <li>Open <a href="https://portal.biohpc.swmed.edu/accounts/login/?next=terminal/webgui/">https://portal.biohpc.swmed.edu/accounts/login/?next=terminal/webgui/</a> using a web browser</li> <br>
+    <li>Input your training ID (TRAINID) and password (PASSWORD)</li> <br>
+    <li>Go to Cloud Services, then Web Visualization</li> <br>
+    <li>Click the <b>Connect via web</b> link to launch your web visualization GUI</li> <br>
+  </ol>
+<p>
+
+Note: The Linux commands shown in <font color="red">red</font> need to be executed correctly in your home directory, while the other commands shown in black are optional for practice. <p>
+
+List of Linux commands<br>
+<p>
+  <ol>
+    <li>
+      Shows the current working directory <br>
+      <code> pwd </code>
+    </li> <br>
+    <li>
+      Change directory to /usr <br>
+      <code> cd /usr </code>
+    </li> <br>
+    <li>
+      Change directory to /archive/nanocourse/June2018/TRAINID<br>
+      <code> cd /archive/nanocourse/June2018/TRAINID </code>
+    </li> <br>
+    <li>
+      Change directory to your home directory <br>
+      <code> cd ~ </code>
+    </li> <br>
+    <li>
+      Show files under the current directory <br>
+      <code> ls -l </code>
+    </li> <br>
+    <li>
+      Show the files used in the morning session <br>
+      <code> ls -l /archive/nanocourse/June2018/shared/session1 </code>
+    </li> <br>
+    <li>
+      Make a shortcut to the course files <br>
+      <font color="red">
+	<code> ln -s /archive/nanocourse/June2018/shared/session1 session1 </code>
+      </font>
+    </li> <br>
+  </ol>
+<p>
+
+  
+The file name and path to the real single-end sequencing reads for this workshop is: <br>
+&emsp;session1/reads/RNA.heart.e11.rep1.fastq.gz <br>
+To examine the file, you can optionally perform the following commands: <br>
+<p>
+  <ol>
+    <li>
+      Extract a compressed read file and redirect to a text file <br>
+      <code> gzip -cd session1/reads/RNA.heart.e11.rep1.fastq.gz > RNA.heart.e11.rep1.fastq </code>
+    </li> <br>
+    <li>
+      Show the text file; to stop the command, type <i>ctrl+c</i><br>
+      <code> cat RNA.heart.e11.rep1.fastq </code>
+    </li> <br>
+    <li>
+      Shows the first 10 lines of the read file <br>
+      <code> head RNA.heart.e11.rep1.fastq </code>
+    </li> <br>
+    <li>
+      Shows the first page of the read file; type <i>space</i> to go to the next page, and type <i>q</i> to quit <br>
+      <code> less RNA.heart.e11.rep1.fastq </code>
+    </li> <br>
+    <li>
+      Shows the first page of the read file directly on the compressed file using pipe | <br>
+      <code> gzip -cd session1/reads/RNA.heart.e11.rep1.fastq.gz | less </code>
+    </li> <br>
+    <li>
+      Count the number of lines of a read file <br>
+      <code> wc -l RNA.heart.e11.rep1.fastq </code>
+    </li> <br>
+    <li>
+      Divide the number of lines we calculated above by 4 to get the number of reads <br>
+      <code> expr 113425724 / 4 </code>
+    </li> <br>
+  </ol>
+<p>  
+
+Now we are going to run our alignment using the single-end reads against the mouse genome, mm10 (the alignment step using HISAT2 might take 15 to 20 minutes) <br>
+<p>
+  <ol>
+    <li>
+      We will use HISAT2 with a graph index to align reads as follows: <br>
+      <font color="red">
+	<code> session1/programs/hisat2 -p 8 -x session1/indexes/genome_snp_tran -U session1/reads/RNA.heart.e11.rep1.fastq.gz > heart.e11.sam </code> <br> 
+      </font>
+    </li> <br>
+  </ol>
+<p>
+
+Next we will view the results of the alignment using samtools in two different formats - SAM (Sequence Alignment & Mapping) and BAM (Binary version of SAM):
+<p>
+  <ol>
+    <li>
+      Look at the SAM file (use <i> space </i> to go to the next page and <i> q </i> to quit) <br>
+      <code> less e11.rep1.sam </code>
+    </li> <br>
+    <li>
+      Convert the SAM file into a BAM file <br>
+      <font color="red">
+	<code> session1/programs/samtools view -@ 8 -bS heart.e11.sam > heart.e11.unsorted.bam </code> <br>
+      </font>
+    </li> <br>
+    <li>
+      Create a sorted BAM file <br>
+      <font color="red">
+	<code> session1/programs/samtools sort -@ 8 heart.e11.unsorted.bam -o heart.e11.sorted.bam </code> <br>
+      </font>
+    </li> <br>
+    <li>
+      Make an index for the sorted BAM file <br>
+      <font color="red">
+	<code> session1/programs/samtools index heart.e11.sorted.bam </code> <br>
+      </font>
+    </li> <br>
+    <li>
+      Look at the sorted alignments <br>
+      <code> session1/programs/samtools view heart.e11.sorted.bam | less </code>
+    </li> <br>
+    <li>
+      Look at alignments between 61,989,341 and 61,990,361 on Chromosome 15 <br>
+      <code> session1/programs/samtools view heart.e11.sorted.bam 15:61,989,341-61,990,361 </code>
+    </li> <br>
+  </ol>
+<p>    
+
+Now we will look at the alignment using IGV (Integrative Genomics Viewer): <p>
+<ol>       
+  <li>
+    Run IGV <br>
+    <font color="red">
+      <code> module add IGV/2.3.90 </code> <br>
+      <code> igv.sh </code> <br>
+    </font>
+  </li><br>
+  <li>
+    Load the genome using: Genomes -> Load from Server -> Select Mouse mm10<br>
+  </li> <br>
+  <li>
+    Open the BAM file using File -> Load From File in IGV and choose heart.e11.sorted.bam <br>
+  </li> <br>
+</ol>
+
+</html>
+

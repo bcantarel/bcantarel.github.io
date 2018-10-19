@@ -1,0 +1,38 @@
+site_name: BICF Nanocourses
+site_url: https://git.biohpc.swmed.edu/BICF/bicf_nanocourses
+
+pages:
+- Home: 'index.md'
+- About: 'aboutnanocourses.md'
+- Programming and Scripting:
+    - 'Python': 'python_1/index.md'
+    - 'R I': 'r_beginner_1/index.md'
+    - 'R I: Data Structure Workshop': 'r_beginner_1/rdatastructures.md'
+    - 'R I: Student Project Ideas': 'r_beginner_1/student_project_ideas.md'
+    - 'R II': 'r_beginner_2/index.md'
+    - 'R II: Data Manipulation Workshop': 'r_beginner_2/r_datamanipulation.md'
+    - 'R II: Data Manipulation Workshop Answers': 'r_beginner_2/r_datamanipulation_answers.md'
+    - 'R II: Bioconductor Workshop: RNASeq and ChipSeq': 'r_beginner_2/r_bioconductor.md'
+    - 'R II: Bioconductor Workshop: RNASeq and ChipSeq Answers': 'r_beginner_2/r_bioconductor_answers.md'
+- NCBI Workshop:
+    - 'Course Description': 'ncbi_nanocourse/index.md'
+    - 'Install CGWin': 'ncbi_nanocourse/cgwin.md'
+- Image Analysis:
+    - 'Machine Learning': 'ML_1/index.md'
+    - 'Computational Image Analysis': 'image_analysis/index.md'
+- Genomics:
+    - 'Variant Detection': 'genomics_genetic_variation/index.md'
+    - 'Unix Workshop': 'genomics_genetic_variation/unix_workshop.md'
+    - 'Variant Calling Workshop': 'genomics_genetic_variation/workshop_vc.md'
+    - 'Variant Prioritization Workshop': 'genomics_genetic_variation/Variant_Prioritization_workshop.md'
+    - 'Immune Receptor Profiling': 'genomics_genetic_variation/immune_receptor_profiling.md'
+    - 'Population Genetics Workshop': 'genomics_genetic_variation/PopulationGenetics.md'
+- Gene Expression and Regulation:
+    - 'Gene Expression and Regulation': 'gene_expression_regulation/index.md'
+    - 'Unix Workshop': 'gene_expression_regulation/unix_workshop.md'
+    - 'Gene Expression Workshop': 'gene_expression_regulation/gene_expression.md'
+    - 'Gene Expression Workshop Answers': 'gene_expression_regulation/gene_expression_answers.md'
+ 
+
+docs_dir: courses
+theme: simplex

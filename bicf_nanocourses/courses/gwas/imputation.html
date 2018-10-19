@@ -1,0 +1,1041 @@
+<h1 id="Lab:-Imputation">Lab: Imputation</h1>
+
+<p>Xiaowei Zhan</p>
+
+<p>April 28, 2017</p>
+
+<p>Instructor:&nbsp;<a href="mailto:Xiaowei.Zhan@UTSouthwestern.edu">Xiaowei Zhan</a></p>
+
+<p>TA:&nbsp;<a href="mailto:Rong.Lu@UTSouthwestern.edu">Rong Lu</a></p>
+
+<h2 id="Introduction">Introduction</h2>
+
+<p>Imputation is a useful statistical method in GWAS analysis. It can infer (&quot;impute&quot;) the untyped genotypes of a sample. For example, if sample A is genotyped using a 500k SNP chip, we can obtain at most 500K SNPs from genotyping array. Then we can combine these data with a reference panel of denser SNPs (e.g. 1.5M) and estimate more genotypes (e.g. total 1.5M) genotypes of the same sample. After imputation, we obtain more genotypes data with high confidence. This so called silico genotyping can boost the power of GWAS studies.</p>
+
+<p>The software used in this lab is&nbsp;<a href="http://genome.sph.umich.edu/wiki/Minimac3">Minimac3</a>. It is named after the original imputation software&nbsp;<a href="http://csg.sph.umich.edu//abecasis/MACH/index.html">MaCH</a>. Minimac requires two sets of input files for imputation: (1) a phased GWAS data with fewer genotypes; (2) a reference panel (a collection of densed genotyped haplotypes).</p>
+
+<p>We will manually create these files using the HapMap3 data set. HapMap3 provides dense genotypes of 1011 samples. It is a good resource for GWAS analysis (e.g. ancestral inference, phasing and imputation). Although nowadays, there are larger reference panel (e.g. the 1000 Genome Project), we will use HapMap as it has the right file size for our workshop.</p>
+
+<p>Briefly speaking, we select one sample (NA12891) and randomly masked 10% or 20% of its genotypes. Then the rest 1010 samples will be used as a reference panel. After that, Minimac3 use the reference panel and unmasked genotypes to impute the masked genotypes. Finally, we measure the imputation accracy by comparing the imputed genotypes and true genotypes.</p>
+
+<p>We split this lab into three parts:</p>
+
+<ol>
+	<li>
+	<p>Data preparation</p>
+
+	<p>We will first convert HapMap3 dataset from ShapeIT format to VCF file (a standard file format for representing genotype data, described&nbsp;<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40">here</a>). We use a popular tool,&nbsp;<code>vcftools</code>, to create two VCF files: one is the VCF file of NA12891; and the other is the reference panel (1010 samples). The first file will be our gold standard. We masked 10% (or 20%) genotypes and let Minimac3 guess what genotypes are masked. In order to efficiently let Minimac3 impute these masked genotypes, we will create a pre-processed the reference panel.</p>
+	</li>
+	<li>
+	<p>Imputation</p>
+
+	<p>We now have pre-processed reference panel and 80% (or 90%) genotypes of NA12891. We run Minimac3 to impute those masked genotypes.</p>
+	</li>
+	<li>
+	<p>Evaluate phasing results</p>
+
+	<p>After imputation, Minimac3 will guess the genotypes at masked locations. We will compare them to the gold standard.</p>
+	</li>
+</ol>
+
+<p>At the end of the lab, we will suggest you try imputation in different settings. What if 30%, 50% or 80% genotypes are removed? Will imputation infer you accurate genotypes? Feel free to play around if you have time and interests.</p>
+
+<p>If you stuck on certain steps, do not worry. You can seek helps around (instructor, TA or other students). You can also refer to this website which includes all result files of this lab&nbsp;<a href="http://bunny.swmed.edu/~zhanxw/gwas.workshop.16/phase/">link</a>.</p>
+
+<p>If you have comments or suggestions, feel free to shoot me an&nbsp;<a href="mailto:Xiaowei.Zhan@UTSouthwestern.edu">email</a>.</p>
+
+<p><strong>Reference</strong></p>
+
+<ul>
+	<li>Fuchsberger C, Abecasis GR, Hinds DA. minimac2: faster genotype imputation. Bioinformatics 2014&nbsp;<a href="http://bioinformatics.oxfordjournals.org/content/early/2014/10/22/bioinformatics.btu704.short">1</a></li>
+	<li>Howie B, Fuchsberger C, Stephens M, Marchini J, and Abecasis GR. Fast and accurate genotype imputation in genome-wide association studies through pre-phasing. Nature Genetics 2012&nbsp;<a href="http://www.nature.com/ng/journal/vaop/ncurrent/full/ng.2354.html">2</a></li>
+</ul>
+
+<p>In&nbsp;[1]:</p>
+
+<pre>
+# Make sure you are in the correct folder (under &quot;course_files&quot;)
+cd $HOME
+pwd
+</pre>
+
+<pre>
+/home/zhanxw
+</pre>
+
+<p>In&nbsp;[2]:</p>
+
+<pre>
+# Create a folder called &quot;imputation&quot;, 
+# All our command line will be executed in this folder,
+# and you will find all results here as well.
+[ -d imputation ] || mkdir imputation
+cd imputation
+pwd
+</pre>
+
+<pre>
+/home/zhanxw/imputation
+</pre>
+
+<p>In&nbsp;[3]:</p>
+
+<pre>
+# This command will set the PATH variable. 
+# It enables us to execute programs (e.g. PLINK, MiniMac) without specifying their full paths.
+export PATH=$HOME/course_files/seqprg/bin:$PATH
+</pre>
+
+<h2 id="1.-Prepare-input-data">1. Prepare input data</h2>
+
+<p>Convert HapMap3 dataset to Variant Call Format (VCF) format using ShapeIT.</p>
+
+<p>The original file format is described&nbsp;<a href="http://www.shapeit.fr/pages/m02_formats/hapssample.html">here</a>.</p>
+
+<p>The VCF format is described&nbsp;<a href="http://www.1000genomes.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40">here</a>.</p>
+
+<p>NOTE: VCF format is the de-facto standard. It requires reference allele (REF column) match a reference genome. However, for simplicity, the conversion step is omitted here. For more information, please refer to&nbsp;<a href="https://imputationserver.sph.umich.edu/start.html#!">this</a>&nbsp;and&nbsp;<a href="https://github.com/zhanxw/checkVCF">this</a>.</p>
+
+<p>In&nbsp;[4]:</p>
+
+<pre>
+# Create .sample file
+# `echo` these requires header lines to `al.sample` file
+echo &quot;ID_1 ID_2 missing father mother sex plink_pheno&quot; &gt; all.sample
+echo &quot;0 0 0 D D D B&quot; &gt;&gt; all.sample
+tail -n +2 ~/course_files/data/hapmap3_r2_b36/hapmap3_r2_b36_all.sample |\
+  awk &#39;{print $1, $1, &quot;0&quot;, &quot;0&quot;,&quot;0&quot;,&quot;0&quot;,&quot;-9&quot;;}&#39; &gt;&gt; all.sample
+
+# Create .haps file
+# `$0` in awk represents the whole line. The awk script bascially prepend &quot;20&quot; in the front of every line
+# The `sed` command will replace TAB characters to white-space characters
+paste &lt;(tail -n +2 ~/course_files/data/hapmap3_r2_b36_chr20.legend|awk &#39;{print &quot;20&quot;, $0;}&#39;) \
+  ~/course_files/data/hapmap3_r2_b36_chr20.haps |sed &#39;s:\t: :&#39; &gt; all.haps
+
+# Create VCF file
+# `--input-haps all` will use `all.haps` and `all.sample`
+shapeit -convert --input-haps all --output-vcf all.vcf
+</pre>
+
+<pre>
+Segmented HAPlotype Estimation &amp; Imputation Tool
+  * Authors : Olivier Delaneau, Jared O&#39;Connell, Jean-Fran&ccedil;ois Zagury, Jonathan Marchini
+  * Contact : send an email to the OXSTATGEN mail list https://www.jiscmail.ac.uk/cgi-bin/webadmin?A0=OXSTATGEN
+  * Webpage : https://mathgen.stats.ox.ac.uk/shapeit
+  * Version : v2.r837
+  * Date    : 28/04/2017 02:45:42
+  * LOGfile : [shapeit_28042017_02h45m42s_3b690ebf-a45d-440f-b1fe-0f4be679a4a0.log]
+
+MODE -convert : CONVERTING/SUBSETTING SHAPEIT HAPLOTYPES
+
+Parameters :
+  * Seed : 1493365542
+  * Parallelisation: 1 threads
+  * Ref allele is NOT aligned on the reference genome
+
+Reading sample list in [all.sample]
+  * 1011 individuals included
+
+Reading site list and haplotypes in [all.haps]
+  * 36256 sites included
+
+Mapping sites and samples of the haplotype set
+  * 36256 sites found
+  * 0 sites not found
+  * 2022 founder haplotypes
+
+Writing haplotypes in [all.vcf] in VCF format
+
+Running time: 15 seconds
+</pre>
+
+<p>We will print out the content of VCF file.</p>
+
+<p>Note: the&nbsp;<em>0|1</em>,&nbsp;<em>1|1</em>, et al represents phased genotypes.</p>
+
+<p>For example, for the first variant, 0 represents G, and 1 represents T.</p>
+
+<p>In&nbsp;[5]:</p>
+
+<pre>
+# Peek this output file (only displaying up to 80 columns)
+head all.vcf | cut -c 1-80
+</pre>
+
+<pre>
+##fileformat=VCFv4.1
+##fileDate=28042017_02h45m42s
+##source=SHAPEIT2.v837
+##log_file=shapeit_28042017_02h45m42s_3b690ebf-a45d-440f-b1fe-0f4be679a4a0.log
+##FORMAT=&lt;ID=GT,Number=1,Type=String,Description=&quot;Phased Genotype&quot;&gt;
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NA19904	NA20340	NA20297	NA20281	NA
+20	9795	rs4814683	G	T	.	PASS	.	GT	0|1	0|1	1|1	0|1	0|1	0|1	0|1	0|0	0|1	0|1	0|1	1|
+20	11244	rs6139074	A	C	.	PASS	.	GT	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0
+20	11799	rs1418258	C	T	.	PASS	.	GT	0|1	0|1	1|1	0|1	0|1	0|1	0|1	0|0	0|1	0|1	0|1	1
+20	16749	rs6086616	C	T	.	PASS	.	GT	0|0	1|1	0|0	0|1	1|0	0|0	0|0	1|1	0|1	0|0	1|0	0
+</pre>
+
+<p>Now create input files for imputation:</p>
+
+<ol>
+	<li>
+	<p>Create VCF file for NA12891</p>
+	</li>
+	<li>
+	<p>Imputation reference file in VCF format</p>
+	</li>
+	<li>
+	<p>Mask some genotypes of NA12891 as missing (missing rate = 10% or 20%)</p>
+	</li>
+</ol>
+
+<p>In&nbsp;[6]:</p>
+
+<pre>
+# (1) Create a VCF file for NA12891
+# Use the `--keep NA12891.id` option of `vcftools` can extract data of NA12891
+echo &quot;NA12891&quot; &gt; NA12891.id
+vcftools --vcf all.vcf --out NA12891 --keep NA12891.id  --recode
+</pre>
+
+<pre>
+VCFtools - v0.1.11
+(C) Adam Auton 2009
+
+Parameters as interpreted:
+	--vcf all.vcf
+	--keep NA12891.id
+	--out NA12891
+	--recode
+
+Index file is older than variant file. Will regenerate.
+Building new index file.
+	Scanning Chromosome: 20
+Writing Index file.
+File contains 36256 entries and 1011 individuals.
+Applying Required Filters.
+Keeping individuals in &#39;keep&#39; list
+After filtering, kept 1 out of 1011 Individuals
+After filtering, kept 36256 out of a possible 36256 Sites
+Outputting VCF file... Done
+Run Time = 6.00 seconds
+</pre>
+
+<p>In&nbsp;[7]:</p>
+
+<pre>
+# (2) Create the reference file
+# Use the `--remove NA12891.id` option of `vcftools` can remove data of NA12891.
+# The result VCF file will contain genotypes of all samples except NA12891
+vcftools --vcf all.vcf --out no.NA12891 --remove NA12891.id  --recode
+</pre>
+
+<pre>
+VCFtools - v0.1.11
+(C) Adam Auton 2009
+
+Parameters as interpreted:
+	--vcf all.vcf
+	--exclude NA12891.id
+	--out no.NA12891
+	--recode
+
+Reading Index file.
+File contains 36256 entries and 1011 individuals.
+Applying Required Filters.
+Excluding individuals in &#39;exclude&#39; list
+After filtering, kept 1010 out of 1011 Individuals
+After filtering, kept 36256 out of a possible 36256 Sites
+Outputting VCF file... Done
+Run Time = 18.00 seconds
+</pre>
+
+<p>In&nbsp;[8]:</p>
+
+<pre>
+# (3) mask 10% and 20% variants for NA12891 files
+# `grep &#39;^#&#39;` will extract the header part of the VCF file
+# `grep -v &#39;^#&#39;` will extract the body part of the VCF
+# If `awk` script, use `rand()` to generate a random number between 0 and 1
+# The awk script will remove 10% or 20% genotypes
+
+# Remove 10% genotypes
+grep &#39;^#&#39; NA12891.recode.vcf &gt; NA12891.miss10.vcf
+grep -v &#39;^#&#39; NA12891.recode.vcf | \
+  awk &#39;BEGIN{OFS=&quot;\t&quot;;}{ if (rand() &gt; 0.1) {print $0;}}&#39;  &gt;&gt; NA12891.miss10.vcf
+
+# Remove 20% genotypes
+grep &#39;^#&#39; NA12891.recode.vcf &gt; NA12891.miss20.vcf
+grep -v &#39;^#&#39; NA12891.recode.vcf | \
+  awk &#39;BEGIN{OFS=&quot;\t&quot;;}{ if (rand() &gt; 0.2) {print $0;}}&#39;  &gt;&gt; NA12891.miss20.vcf
+</pre>
+
+<h2 id="2.-Imputation">2. Imputation</h2>
+
+<p>Minimac3 is the imputation software. It requires a reference panel, an input VCF file and a output prefix string. The most straightforward way to perform imputation would be:</p>
+
+<pre>
+<code># imputation (remove 10% markers)
+../seqprg/bin/Minimac3 --refHaps no.NA12891.recode.vcf  --haps NA12891.miss10.vcf --prefix out.miss10
+
+# imputation (remove 20% markers)
+../seqprg/bin/Minimac3 --refHaps no.NA12891.recode.vcf  --haps NA12891.miss20.vcf --prefix out.miss20</code></pre>
+
+<p>Although the above two commands can work, each command will take more than 20 minutes. That&#39;s because most of the computation time is for preprocessing (&quot;prepare&quot;) the reference panel.</p>
+
+<p><em>Quiz:</em>&nbsp;why does this step take a lot of time?</p>
+
+<p>Since the reference panel is usually fixed in practice, we revise the above workflow:</p>
+
+<p>step 1, preprocess the reference panel (this step is only performed only once);</p>
+
+<p>step 2, perform actual imputation for each input VCF file</p>
+
+<p>In&nbsp;[9]:</p>
+
+<pre>
+# Create a reference panel
+# NOTE: the following command will take 20 minutes, we skip it during the workshop. 
+# If you want to replicate the reulst file here (preprocess the reference panel), use:
+#
+#   ../seqprg/bin/Minimac3 --refHaps no.NA12891.recode.vcf --processReference --prefix reference
+
+# Download the pre-processed reference panel
+wget http://bunny.swmed.edu/~zhanxw/gwas.workshop.16/reference.tar.gz
+tar zvxf reference.tar.gz
+</pre>
+
+<pre>
+--2017-04-28 02:46:23--  http://bunny.swmed.edu/~zhanxw/gwas.workshop.16/reference.tar.gz
+Resolving proxy.swmed.edu (proxy.swmed.edu)... 129.112.115.41, 129.112.115.42, 129.112.115.43, ...
+Connecting to proxy.swmed.edu (proxy.swmed.edu)|129.112.115.41|:3128... connected.
+Proxy request sent, awaiting response... 200 OK
+Length: 4607517 (4.4M) [application/x-gzip]
+Saving to: &lsquo;reference.tar.gz.1&rsquo;
+
+100%[======================================&gt;] 4,607,517   --.-K/s   in 0.05s   
+
+2017-04-28 02:46:23 (93.7 MB/s) - &lsquo;reference.tar.gz.1&rsquo; saved [4607517/4607517]
+
+reference.erate
+reference.m3vcf.gz
+reference.rec
+</pre>
+
+<p>In&nbsp;[16]:</p>
+
+<pre>
+# Now let&rsquo;s impute the missing genotypes
+
+# Impute the first file (with 10% missing genotypes)
+Minimac3 --refHaps reference.m3vcf.gz  --haps NA12891.miss10.vcf --prefix out.miss10
+</pre>
+
+<pre>
+ -------------------------------------------------------------------------------- 
+          Minimac3 - Fast Imputation Based on State Space Reduction HMM
+ --------------------------------------------------------------------------------
+           (c) 2014 - Sayantan Das, Christian Fuchsberger, David Hinds
+                             Mary Kate Wing, Goncalo Abecasis 
+
+ Version: 2.0.1;
+ Built: Tue Jun  7 19:11:01 EDT 2016 by sayantan
+
+ URL = http://genome.sph.umich.edu/wiki/Minimac3
+
+ Command Line Options: 
+    Reference Haplotypes : --refHaps [reference.m3vcf.gz], --passOnly, --rsid
+       Target Haplotypes : --haps [NA12891.miss10.vcf]
+       Output Parameters : --prefix [out.miss10], --processReference,
+                           --updateModel, --nobgzip, --vcfOutput [ON],
+                           --doseOutput, --hapOutput, --format [GT,DS],
+                           --allTypedSites
+       Subset Parameters : --chr [], --start, --end, --window
+     Starting Parameters : --rec [], --err []
+   Estimation Parameters : --rounds [5], --states [200]
+        Other Parameters : --log, --lowMemory, --help, --cpus [1], --params
+               PhoneHome : --noPhoneHome, --phoneHomeThinning [50]
+
+
+
+ ------------------------------------------------------------------------------
+                       PRELIMINARY GWAS/TARGET FILE CHECK                      
+ ------------------------------------------------------------------------------
+
+ Performing basic file check on target/GWAS haplotype file : NA12891.miss10.vcf
+
+ Checking File ...
+ File Exists ...
+
+ Checking File Type ...
+ VCF File Type Detected ...
+
+ NOTE: Samples will be assumed to be phased irrespective 
+       of GT delimiter (| or /) in VCF file !!! 
+
+ Checking variant information ...
+ 32624 variants in file with 32624 variants passing filters ...
+
+ Checking sample information ...
+ 1 samples found in file ...
+
+ Initial basic file check on target/GWAS haplotype file successful !!!
+
+ ------------------------------------------------------------------------------
+                       PRELIMINARY REFERENCE FILE CHECK                        
+ ------------------------------------------------------------------------------
+
+ Performing basic file check on Reference haplotype file ...
+
+ Checking File ...
+ File Exists ...
+
+ Checking File Format ...
+
+ Reference File Format = M3VCF (Minimac3 VCF File) 
+
+ NOTE: For M3VCF files, if parameter estimates are available in the file, 
+       they will be used by default (RECOMMENDED !). If the user has reasons
+       to believe that updating the parameters would increase accuracy, they
+       should use handle &quot;--updateModel&quot; (not required in typical GWAS studies).
+       If estimates are NOT available in file, it will estimate by default.
+
+ NOTE: For M3VCF files, if estimates are available in file 
+       value of &quot;--rounds&quot; will be ignored unless user has
+       &quot;--updateModel&quot; ON (since, otherwise estimates are
+       not going to be updated and value of &quot;--rounds&quot; would
+       not make sense) !!!
+
+ ------------------------------------------------------------------------------
+                           REFERENCE HAPLOTYPE PANEL                           
+ ------------------------------------------------------------------------------
+
+ Format = M3VCF (Minimac3 VCF File) 
+
+ Reading Reference Haplotype information from M3VCF files : reference.m3vcf.gz
+
+ Reading  2020 haplotypes from data ...
+
+  Loading Block 1 out of 1836 blocks to be loaded... [0.1%] 
+  Loading Block 1001 out of 1836 blocks to be loaded... [54.5%] 
+
+ Reference Haplotype information succesfully recorded. 
+
+ Number of Markers in File                           : 36256
+
+ Number of Markers Recorded                          : 36256
+ Number of Haplotypes Recorded                       : 2020
+
+ Haplotype Set successfully loaded from M3VCF File     : reference.m3vcf.gz
+
+
+ Time taken to load reference haplotype set = 0 seconds.
+
+ ------------------------------------------------------------------------------
+                          TARGET/GWAS HAPLOTYPE PANEL                         
+ ------------------------------------------------------------------------------
+
+ Format = VCF (Variant Call Format) 
+
+ Loading Target Haplotype SNP List from VCF File     : NA12891.miss10.vcf
+
+
+ Number of Markers read from VCF File                : 32624
+ Number of Markers with more than One Allele         : 0
+ Number of Markers failing FILTER = PASS             : 0
+ Number of Markers with inconsistent Ref/Alt Allele  : 0
+ Number of Markers on other chromosomes (Non-Ref)    : 0
+
+ Number of Markers overlapping with Reference List   : 32624
+ Number of Markers Only in Target Panel              : 0
+ Number of Markers to be Recorded                    : 32624
+
+ Loading Target Haplotype Set from VCF File          : NA12891.miss10.vcf
+
+  Loading markers 1 out of 32624 markers to be loaded... [0.0%] 
+  Loading markers 10001 out of 32624 markers to be loaded... [30.7%] 
+  Loading markers 20001 out of 32624 markers to be loaded... [61.3%] 
+  Loading markers 30001 out of 32624 markers to be loaded... [92.0%] 
+
+
+ Number of Haplotypes Recorded                       : 2
+ Number of Markers Recorded for Imputation           : 32624
+
+ Haplotype Set successfully loaded from VCF File     : NA12891.miss10.vcf
+
+ Time taken to load target haplotype set = 0 seconds. 
+
+ ------------------------------------------------------------------------------
+                             PARAMETER ESTIMATION                              
+ ------------------------------------------------------------------------------
+
+ Reading pre-calculated estimates located in M3VCF file ...
+
+ Using pre-calculated estimates in Markov Model ...
+
+
+ Saving estimated parameters for future use/reference to ...
+
+ Recombination Rates : out.miss10.rec
+ Error Rates         : out.miss10.erate
+
+ Time taken for parameter estimation = 0 seconds. 
+ ------------------------------------------------------------------------------
+                              MAIN IMPUTATION                                  
+ ------------------------------------------------------------------------------
+
+ Starting Imputation ...
+
+ Setting up Markov Model for Imputation ...
+
+  Processing Haplotype 1 of 2 ...
+  Processing Haplotype 2 of 2 ...
+    Saving Individual NA12891 for VCF File...
+
+    ---&gt;&gt;&gt; Saving samples 1-1 in VCF file : out.miss10.dose.vcf.part.1.gz ...
+
+
+ Imputation Finished ... 
+
+ Writing summary (.info) files ... 
+
+ Summary information written to          : out.miss10.info
+
+ Time taken for imputation = 1 seconds.
+
+ ------------------------------------------------------------------------------
+                                FINAL VCF MERGE                                
+ ------------------------------------------------------------------------------
+
+ Merging partial VCF files to final output VCF File :  out.miss10.dose.vcf.gz 
+
+    Merging marker 1 of 36256 [0.0%] to VCF File ...
+    Merging marker 10001 of 36256 [27.6%] to VCF File ...
+    Merging marker 20001 of 36256 [55.2%] to VCF File ...
+    Merging marker 30001 of 36256 [82.7%] to VCF File ...
+
+ Merging Finished ...
+
+ ------------------------------------------------------------------------------
+                                END OF PROGRAM                                 
+ ------------------------------------------------------------------------------
+
+ Program Successfully Implemented... 
+ 
+ Total Run completed in 0 hours, 0 mins, 1 seconds.
+
+ Thank You for using Minimac3 !!! 
+
+</pre>
+
+<p>In&nbsp;[17]:</p>
+
+<pre>
+# Impute the second file (with 20% missing genotypes)
+Minimac3 --refHaps reference.m3vcf.gz  --haps NA12891.miss20.vcf --prefix out.miss20
+</pre>
+
+<pre>
+ -------------------------------------------------------------------------------- 
+          Minimac3 - Fast Imputation Based on State Space Reduction HMM
+ --------------------------------------------------------------------------------
+           (c) 2014 - Sayantan Das, Christian Fuchsberger, David Hinds
+                             Mary Kate Wing, Goncalo Abecasis 
+
+ Version: 2.0.1;
+ Built: Tue Jun  7 19:11:01 EDT 2016 by sayantan
+
+ URL = http://genome.sph.umich.edu/wiki/Minimac3
+
+ Command Line Options: 
+    Reference Haplotypes : --refHaps [reference.m3vcf.gz], --passOnly, --rsid
+       Target Haplotypes : --haps [NA12891.miss20.vcf]
+       Output Parameters : --prefix [out.miss20], --processReference,
+                           --updateModel, --nobgzip, --vcfOutput [ON],
+                           --doseOutput, --hapOutput, --format [GT,DS],
+                           --allTypedSites
+       Subset Parameters : --chr [], --start, --end, --window
+     Starting Parameters : --rec [], --err []
+   Estimation Parameters : --rounds [5], --states [200]
+        Other Parameters : --log, --lowMemory, --help, --cpus [1], --params
+               PhoneHome : --noPhoneHome, --phoneHomeThinning [50]
+
+
+
+ ------------------------------------------------------------------------------
+                       PRELIMINARY GWAS/TARGET FILE CHECK                      
+ ------------------------------------------------------------------------------
+
+ Performing basic file check on target/GWAS haplotype file : NA12891.miss20.vcf
+
+ Checking File ...
+ File Exists ...
+
+ Checking File Type ...
+ VCF File Type Detected ...
+
+ NOTE: Samples will be assumed to be phased irrespective 
+       of GT delimiter (| or /) in VCF file !!! 
+
+ Checking variant information ...
+ 28949 variants in file with 28949 variants passing filters ...
+
+ Checking sample information ...
+ 1 samples found in file ...
+
+ Initial basic file check on target/GWAS haplotype file successful !!!
+
+ ------------------------------------------------------------------------------
+                       PRELIMINARY REFERENCE FILE CHECK                        
+ ------------------------------------------------------------------------------
+
+ Performing basic file check on Reference haplotype file ...
+
+ Checking File ...
+ File Exists ...
+
+ Checking File Format ...
+
+ Reference File Format = M3VCF (Minimac3 VCF File) 
+
+ NOTE: For M3VCF files, if parameter estimates are available in the file, 
+       they will be used by default (RECOMMENDED !). If the user has reasons
+       to believe that updating the parameters would increase accuracy, they
+       should use handle &quot;--updateModel&quot; (not required in typical GWAS studies).
+       If estimates are NOT available in file, it will estimate by default.
+
+ NOTE: For M3VCF files, if estimates are available in file 
+       value of &quot;--rounds&quot; will be ignored unless user has
+       &quot;--updateModel&quot; ON (since, otherwise estimates are
+       not going to be updated and value of &quot;--rounds&quot; would
+       not make sense) !!!
+
+ ------------------------------------------------------------------------------
+                           REFERENCE HAPLOTYPE PANEL                           
+ ------------------------------------------------------------------------------
+
+ Format = M3VCF (Minimac3 VCF File) 
+
+ Reading Reference Haplotype information from M3VCF files : reference.m3vcf.gz
+
+ Reading  2020 haplotypes from data ...
+
+  Loading Block 1 out of 1836 blocks to be loaded... [0.1%] 
+  Loading Block 1001 out of 1836 blocks to be loaded... [54.5%] 
+
+ Reference Haplotype information succesfully recorded. 
+
+ Number of Markers in File                           : 36256
+
+ Number of Markers Recorded                          : 36256
+ Number of Haplotypes Recorded                       : 2020
+
+ Haplotype Set successfully loaded from M3VCF File     : reference.m3vcf.gz
+
+
+ Time taken to load reference haplotype set = 0 seconds.
+
+ ------------------------------------------------------------------------------
+                          TARGET/GWAS HAPLOTYPE PANEL                         
+ ------------------------------------------------------------------------------
+
+ Format = VCF (Variant Call Format) 
+
+ Loading Target Haplotype SNP List from VCF File     : NA12891.miss20.vcf
+
+
+ Number of Markers read from VCF File                : 28949
+ Number of Markers with more than One Allele         : 0
+ Number of Markers failing FILTER = PASS             : 0
+ Number of Markers with inconsistent Ref/Alt Allele  : 0
+ Number of Markers on other chromosomes (Non-Ref)    : 0
+
+ Number of Markers overlapping with Reference List   : 28949
+ Number of Markers Only in Target Panel              : 0
+ Number of Markers to be Recorded                    : 28949
+
+ Loading Target Haplotype Set from VCF File          : NA12891.miss20.vcf
+
+  Loading markers 1 out of 28949 markers to be loaded... [0.0%] 
+  Loading markers 10001 out of 28949 markers to be loaded... [34.5%] 
+  Loading markers 20001 out of 28949 markers to be loaded... [69.1%] 
+
+
+ Number of Haplotypes Recorded                       : 2
+ Number of Markers Recorded for Imputation           : 28949
+
+ Haplotype Set successfully loaded from VCF File     : NA12891.miss20.vcf
+
+ Time taken to load target haplotype set = 0 seconds. 
+
+ ------------------------------------------------------------------------------
+                             PARAMETER ESTIMATION                              
+ ------------------------------------------------------------------------------
+
+ Reading pre-calculated estimates located in M3VCF file ...
+
+ Using pre-calculated estimates in Markov Model ...
+
+
+ Saving estimated parameters for future use/reference to ...
+
+ Recombination Rates : out.miss20.rec
+ Error Rates         : out.miss20.erate
+
+ Time taken for parameter estimation = 0 seconds. 
+ ------------------------------------------------------------------------------
+                              MAIN IMPUTATION                                  
+ ------------------------------------------------------------------------------
+
+ Starting Imputation ...
+
+ Setting up Markov Model for Imputation ...
+
+  Processing Haplotype 1 of 2 ...
+  Processing Haplotype 2 of 2 ...
+    Saving Individual NA12891 for VCF File...
+
+    ---&gt;&gt;&gt; Saving samples 1-1 in VCF file : out.miss20.dose.vcf.part.1.gz ...
+
+
+ Imputation Finished ... 
+
+ Writing summary (.info) files ... 
+
+ Summary information written to          : out.miss20.info
+
+ Time taken for imputation = 1 seconds.
+
+ ------------------------------------------------------------------------------
+                                FINAL VCF MERGE                                
+ ------------------------------------------------------------------------------
+
+ Merging partial VCF files to final output VCF File :  out.miss20.dose.vcf.gz 
+
+    Merging marker 1 of 36256 [0.0%] to VCF File ...
+    Merging marker 10001 of 36256 [27.6%] to VCF File ...
+    Merging marker 20001 of 36256 [55.2%] to VCF File ...
+    Merging marker 30001 of 36256 [82.7%] to VCF File ...
+
+ Merging Finished ...
+
+ ------------------------------------------------------------------------------
+                                END OF PROGRAM                                 
+ ------------------------------------------------------------------------------
+
+ Program Successfully Implemented... 
+ 
+ Total Run completed in 0 hours, 0 mins, 1 seconds.
+
+ Thank You for using Minimac3 !!! 
+
+</pre>
+
+<p><em>Quiz:</em>&nbsp;How much time does it take now? It should be much smaller than 20 minutes!</p>
+
+<p>After imputation, the imputed genotypes as well as previously known genotypes are stored in&nbsp;<em>prefix</em>.dose.vcf.gz. There is three extra output files:</p>
+
+<ul>
+	<li><em>prefix</em>.rec Record estimated recombination rate</li>
+	<li><em>prefix</em>.erate Record error rate (emission probability)</li>
+	<li><em>prefix</em>.info Record statistics about imputation (e.g. imputation quality, r2)</li>
+</ul>
+
+<h2 id="3.-Evaluation">3. Evaluation</h2>
+
+<p>In&nbsp;[18]:</p>
+
+<pre>
+# Let&#39;s first see the performance of 10% missing genotypes
+
+# Find which sites are missing
+# These variant sites were imputed by Minimac3
+awk &#39;$8 == &quot;Imputed&quot;&#39; out.miss10.info |cut -f1 |cut -f 2 -d &#39;:&#39;&gt; miss10.sites
+
+# Extract correct genotypes, imputed genotypes and imputed dosages
+cat NA12891.recode.vcf |fgrep -w -f miss10.sites |awk &#39;{print $NF;}&#39; &gt; miss10.correct
+zcat out.miss10.dose.vcf.gz |fgrep -w -f miss10.sites |awk &#39;{print $NF;}&#39; |cut -f1 -d&#39;:&#39; &gt; miss10.imputed.gt
+zcat out.miss10.dose.vcf.gz |fgrep -w -f miss10.sites |awk &#39;{print $NF;}&#39; |cut -f2 -d&#39;:&#39; &gt; miss10.imputed.ds
+</pre>
+
+<p>In&nbsp;[19]:</p>
+
+<pre>
+# Perform statistical analysis
+# We use `miss10.correct` as the gold standard.
+# 
+# We tabularize the imputed genotype (`miss10.impute.gt`) with true genotypes. 
+# The fraction of diagnal elements measures imputation quality
+#
+# We also draw a boxplot for dosages in different true genotype groups
+# In the ideal case, we expect to see the dosages are concentrated within each group
+echo &#39;
+d.c &lt;- read.table(&quot;miss10.correct&quot;, header = F)[,1]
+d.gt &lt;- read.table(&quot;miss10.imputed.gt&quot;, header = F)[,1]
+d.ds &lt;- read.table(&quot;miss10.imputed.ds&quot;, header = F)[,1]
+table(d.c, d.gt)
+sum(diag(table(d.c, d.gt))) / sum(table(d.c, d.gt)) # accuracy
+png(file = &quot;miss10.ds.png&quot;, width = 800, height = 800)
+boxplot(d.ds ~ d.c, main = &quot;Dosage per reference genotype&quot;)
+dev.off()&#39; |R --vanilla 
+display &lt; miss10.ds.png
+</pre>
+
+<pre>
+R version 3.4.0 (2017-04-21) -- &quot;You Stupid Darkness&quot;
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type &#39;license()&#39; or &#39;licence()&#39; for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type &#39;contributors()&#39; for more information and
+&#39;citation()&#39; on how to cite R or R packages in publications.
+
+Type &#39;demo()&#39; for some demos, &#39;help()&#39; for on-line help, or
+&#39;help.start()&#39; for an HTML browser interface to help.
+Type &#39;q()&#39; to quit R.
+
+&gt; 
+&gt; d.c &lt;- read.table(&quot;miss10.correct&quot;, header = F)[,1]
+&gt; d.gt &lt;- read.table(&quot;miss10.imputed.gt&quot;, header = F)[,1]
+&gt; d.ds &lt;- read.table(&quot;miss10.imputed.ds&quot;, header = F)[,1]
+&gt; table(d.c, d.gt)
+     d.gt
+d.c    0|0  0|1  1|0  1|1
+  0|0 1326    4    2    0
+  0|1    8  473    0    6
+  1|0    9    0  525    7
+  1|1    2    4    4 1262
+&gt; sum(diag(table(d.c, d.gt))) / sum(table(d.c, d.gt)) # accuracy
+[1] 0.9873348
+&gt; png(file = &quot;miss10.ds.png&quot;, width = 800, height = 800)
+&gt; boxplot(d.ds ~ d.c, main = &quot;Dosage per reference genotype&quot;)
+&gt; dev.off()
+null device 
+          1 
+&gt; 
+</pre>
+
+<p><cms-plugin alt="Image - unnamed file " id="11852" render-plugin="true" title="Image - unnamed file"><img alt="unnamed file" class="filer_image " src="/media/filer_public_thumbnails/filer_public/d2/3f/d23f6cb0-6b60-4026-866d-a68085d36e4c/f881b820-b45e-4858-a796-d0aac282ddd9.png__800x800_q85_crop_subsampling-2_upscale.jpg" /> </cms-plugin></p>
+
+<p>In&nbsp;[20]:</p>
+
+<pre>
+# Similar to the above steps, we repeat the analysis for 20% missing genotypes 
+
+# Find which sites are missing
+awk &#39;$8 == &quot;Imputed&quot;&#39; out.miss20.info |cut -f1 |cut -f 2 -d &#39;:&#39;&gt; miss20.sites
+
+# Extract correct genotype, imputed genotype and imputed dosage
+cat NA12891.recode.vcf |fgrep -w -f miss20.sites |awk &#39;{print $NF;}&#39; &gt; miss20.correct
+zcat out.miss20.dose.vcf.gz |fgrep -w -f miss20.sites |awk &#39;{print $NF;}&#39; |cut -f1 -d&#39;:&#39; &gt; miss20.imputed.gt
+zcat out.miss20.dose.vcf.gz |fgrep -w -f miss20.sites |awk &#39;{print $NF;}&#39; |cut -f2 -d&#39;:&#39; &gt; miss20.imputed.ds
+</pre>
+
+<p>In&nbsp;[21]:</p>
+
+<pre>
+# Perform statistical analysis
+echo &#39;
+d.c &lt;- read.table(&quot;miss20.correct&quot;, header = F)[,1]
+d.gt &lt;- read.table(&quot;miss20.imputed.gt&quot;, header = F)[,1]
+d.ds &lt;- read.table(&quot;miss20.imputed.ds&quot;, header = F)[,1]
+table(d.c, d.gt)
+sum(diag(table(d.c, d.gt))) / sum(table(d.c, d.gt)) # accuracy
+png(file = &quot;miss20.ds.png&quot;, width = 800, height = 800)
+boxplot(d.ds ~ d.c, main = &quot;Dosage per reference genotype&quot;)
+dev.off()&#39; |R --vanilla 
+display &lt; miss20.ds.png
+</pre>
+
+<pre>
+R version 3.4.0 (2017-04-21) -- &quot;You Stupid Darkness&quot;
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type &#39;license()&#39; or &#39;licence()&#39; for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type &#39;contributors()&#39; for more information and
+&#39;citation()&#39; on how to cite R or R packages in publications.
+
+Type &#39;demo()&#39; for some demos, &#39;help()&#39; for on-line help, or
+&#39;help.start()&#39; for an HTML browser interface to help.
+Type &#39;q()&#39; to quit R.
+
+&gt; 
+&gt; d.c &lt;- read.table(&quot;miss20.correct&quot;, header = F)[,1]
+&gt; d.gt &lt;- read.table(&quot;miss20.imputed.gt&quot;, header = F)[,1]
+&gt; d.ds &lt;- read.table(&quot;miss20.imputed.ds&quot;, header = F)[,1]
+&gt; table(d.c, d.gt)
+     d.gt
+d.c    0|0  0|1  1|0  1|1
+  0|0 2726    7    7    1
+  0|1   15  934    0   17
+  1|0   14    1 1016   15
+  1|1    3    7   10 2534
+&gt; sum(diag(table(d.c, d.gt))) / sum(table(d.c, d.gt)) # accuracy
+[1] 0.9867251
+&gt; png(file = &quot;miss20.ds.png&quot;, width = 800, height = 800)
+&gt; boxplot(d.ds ~ d.c, main = &quot;Dosage per reference genotype&quot;)
+&gt; dev.off()
+null device 
+          1 
+&gt; 
+</pre>
+
+<p><cms-plugin alt="Image - unnamed file " id="11853" render-plugin="true" title="Image - unnamed file"><img alt="unnamed file" class="filer_image " src="/media/filer_public_thumbnails/filer_public/b5/49/b549a2b8-d62e-40a6-9f75-dad07f91a640/74a80546-0adf-4a71-9ef4-0b2cab74bffc.png__800x800_q85_crop_subsampling-2_upscale.jpg" /> </cms-plugin></p>
+
+<p>Now you can see the accuracy is 98.73% (10% missing) and 98.67% (20% missing). These results are based on my computer, and the exact numbers you get are probably slightly different. But the message is clear:</p>
+
+<ul>
+	<li>The imputation seems to work well (imputation accuracy &gt;98%)</li>
+	<li>The 10% missing is slightly better than 20% missing</li>
+</ul>
+
+<p><em>Quiz:</em>&nbsp;can we stretch the above experiment further? What is imputation accuracy like when 30%, 40%, 50%, ..., 90% genotypes are missing? You can try to fill in the table below:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Percentage Missing</th>
+			<th>Imputation Accuracy (%)</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>10</td>
+			<td>98.73</td>
+		</tr>
+		<tr>
+			<td>20</td>
+			<td>98.67</td>
+		</tr>
+		<tr>
+			<td>30</td>
+			<td>??.??</td>
+		</tr>
+		<tr>
+			<td>40</td>
+			<td>??.??</td>
+		</tr>
+		<tr>
+			<td>50</td>
+			<td>??.??</td>
+		</tr>
+		<tr>
+			<td>...</td>
+			<td>...</td>
+		</tr>
+		<tr>
+			<td>90</td>
+			<td>??.??</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>My answer is:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Percentage Missing</th>
+			<th>Imputation Accuracy (%)</th>
+			<th>Imputed Variants (N)</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>10</td>
+			<td>98.73</td>
+			<td>3632</td>
+		</tr>
+		<tr>
+			<td>20</td>
+			<td>98.67</td>
+			<td>7307</td>
+		</tr>
+		<tr>
+			<td>30</td>
+			<td>98.56</td>
+			<td>10813</td>
+		</tr>
+		<tr>
+			<td>40</td>
+			<td>98.56</td>
+			<td>14406</td>
+		</tr>
+		<tr>
+			<td>50</td>
+			<td>98.21</td>
+			<td>18086</td>
+		</tr>
+		<tr>
+			<td>60</td>
+			<td>97.81</td>
+			<td>21811</td>
+		</tr>
+		<tr>
+			<td>70</td>
+			<td>96.85</td>
+			<td>25366</td>
+		</tr>
+		<tr>
+			<td>80</td>
+			<td>94.57</td>
+			<td>28948</td>
+		</tr>
+		<tr>
+			<td>90</td>
+			<td>89.65</td>
+			<td>32594</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="output_wrapper">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="output_wrapper">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">&nbsp;</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

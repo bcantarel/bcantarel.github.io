@@ -1,0 +1,902 @@
+<h1 id="Lab:-Phasing">Lab: Phasing</h1>
+
+<p>Xiaowei Zhan</p>
+
+<p>April 28, 2017</p>
+
+<p>Instructor:&nbsp;<a href="mailto:Xiaowei.Zhan@UTSouthwestern.edu">Xiaowei Zhan</a>&nbsp;TA:&nbsp;<a href="mailto:Rong.Lu@UTSouthwestern.edu">Rong Lu</a></p>
+
+<h2 id="Introduction">Introduction</h2>
+
+<p>The HapMap project release 3 includes 1011 samples and their haplotypes of autosomes. In this lab, you will learn how to infer haplotypes of one HapMap sample (NA12891). The true haplotypes of NA12891 are set as a gold standard. You will find out how good the inferred haplotypes are close to the true results.</p>
+
+<p>The software tool used here is&nbsp;<a href="http://www.shapeit.fr/">ShapeIT</a>. It is popular and efficient in inferring haplotypes. However, it is not trivial to use, as it requires many input files in specific file formats. You will notice that a large proportion of the example codes is related to convert data formats. From our point of view, in your real practice, the task of data munging cannot be bypassed. We tried best to provide all working exemplar codes. You should be able to revise them easily to fit your particular needs.</p>
+
+<p>The lab has these parts:</p>
+
+<ol>
+	<li>
+	<p>Data preparation</p>
+
+	<p>We will split this dataset to two parts. One is the unphased genotype of NA12891, the other is the haplotypes (phased) of the rest 1010 samples. We will use the 1010 samples as a reference panel. The information from the reference panel will be helpful in phasing NA12891.</p>
+
+	<p>This step involves quite many steps of conversion between file formats. You don&#39;t need to understand every command line. It&#39;s not a bad idea to just copy-and-paste commands and read the command line outputs.</p>
+	</li>
+	<li>
+	<p>Infer haplotypes</p>
+
+	<p>We will use the 1010 phased samples as a reference panel, and infer the haplotypes of NA12891. ShapeIT will read in the reference panel, the unphased genotypes and perform computations. I suggest you understand how to pass these file parameters to ShapeIT, and understand the content of input and output files.</p>
+	</li>
+	<li>
+	<p>Evaluate phasing results</p>
+
+	<p>To evaluate the phasing results, we will measure switch points. That is the places where the inferred haplotypes do not match the true haplotypes. A good phasing method has fewer switch points. The result will be visualized in R.</p>
+	</li>
+</ol>
+
+<p>At the end of the lab, we will give some additional tasks. Feel free to finish them if you have time and interests.</p>
+
+<p>If you stuck on certain steps, do not worry. You can seek helps around (instructor, TA or other students). You can also refer to this website which includes all result files of this lab&nbsp;<a href="http://bunny.swmed.edu/~zhanxw/gwas.workshop.16/phase/">link</a>.</p>
+
+<p>If you have comments or suggestions, feel free to shoot me an&nbsp;<a href="mailto:Xiaowei.Zhan@UTSouthwestern.edu">email</a>.</p>
+
+<p><strong>Reference</strong></p>
+
+<ul>
+	<li>O. Delaneau, J. Marchini, JF. Zagury (2012) A linear complexity phasing method for thousands of genomes. Nat Methods. 9(2):179-81. doi: 10.1038/nmeth.1785&nbsp;<a href="http://www.nature.com/nmeth/journal/v9/n2/full/nmeth.1785.html/">link</a></li>
+</ul>
+
+<h2 id="0.-Set-up-command-line-environments">0. Set up command line environments</h2>
+
+<p>In&nbsp;[1]:</p>
+
+<pre>
+# Make sure you are in the correct folder (under &quot;course_files&quot;)
+cd $HOME
+pwd
+</pre>
+
+<pre>
+/home/zhanxw
+</pre>
+
+<p>In&nbsp;[2]:</p>
+
+<pre>
+# Create a folder called &quot;phase&quot;, 
+# All our command line will be executed in this folder,
+# and you will find all results here as well.
+[ -d phase ] || mkdir phase
+cd phase
+pwd
+</pre>
+
+<pre>
+/home/zhanxw/phase
+</pre>
+
+<p>In&nbsp;[3]:</p>
+
+<pre>
+# This command will set the PATH variable. 
+# It enables us to execute programs (e.g. PLINK, ShapeIT) without specifying their full paths.
+export PATH=$HOME/course_files/seqprg/bin:$PATH
+</pre>
+
+<h2 id="1.-Prepare-input-data">1. Prepare input data</h2>
+
+<p>Copy relevant files to our current directory.&nbsp;<code>cp -s</code>&nbsp;means copy as a sybomlic link. The four files copied are input files for this lab.</p>
+
+<p>HAPS/SAMPLE/LEGEND file These three files stores haplotypes, sample information and variant information. Refer to ShapeIT documentation for&nbsp;<a href="http://www.shapeit.fr/pages/m02_formats/haplegsample.html">details</a></p>
+
+<ul>
+	<li>hapmap3_r2_b36_chr20.haps (HAPS file)</li>
+	<li>all.sample (SAMPLE file)</li>
+	<li>hapmap3_r2_b36_chr20.legend (LEGEND file)</li>
+</ul>
+
+<p>Genetic map file This file stores the recombination frequencies along chromosome 20.</p>
+
+<ul>
+	<li>genetic_map_chr20_combined_b36.txt (Genetic map file)</li>
+</ul>
+
+<p>In&nbsp;[4]:</p>
+
+<pre>
+cp -s $HOME/course_files/data/hapmap3_r2_b36_chr20.haps .
+cp -s $HOME/course_files/data/hapmap3_r2_b36_chr20.legend .
+cp -s $HOME/course_files/data/genetic_map_chr20_combined_b36.txt .
+cp -s  $HOME/course_files/data/hapmap3_r2_b36/hapmap3_r2_b36_all.sample all.sample
+</pre>
+
+<p>Take a look at these files</p>
+
+<p>In&nbsp;[5]:</p>
+
+<pre>
+# View haplotypes &ndash; each column is a haplotype
+# head command will print the firt 10 lines.
+# (This file is wide, so we show the first 50 columns, `cut -c 1-50`)
+head hapmap3_r2_b36_chr20.haps | cut -c 1-50
+</pre>
+
+<pre>
+0 1 0 1 1 1 0 1 0 1 0 1 0 1 0 0 0 1 0 1 0 1 1 1 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 
+0 1 0 1 1 1 0 1 0 1 0 1 0 1 0 0 0 1 0 1 0 1 1 1 0 
+0 0 1 1 0 0 0 1 1 0 0 0 0 0 1 1 0 1 0 0 1 0 0 0 1 
+1 0 1 0 0 0 0 0 1 0 0 0 0 0 1 1 1 1 0 0 1 0 1 0 1 
+1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 0 1 1 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+</pre>
+
+<p>In&nbsp;[6]:</p>
+
+<pre>
+# check how many columns are there? =&gt; 2022
+# how many samples in the haps file? =? 2022/2 = 1011
+# `awk` is a useful program, so we use it a lot in this lab
+# we will explain each command.
+# `head -n` will print the first line to the screen
+# `|` is a pipe symbol, which means the output of the previous command will be 
+#     treated as the input for the next command
+# awk script `print NF` will print Number(N) of Fields (F), in other words, it outputs number of columns
+head -n1 hapmap3_r2_b36_chr20.haps |awk &#39;{print NF;}&#39;
+</pre>
+
+<pre>
+2022
+</pre>
+
+<p>In&nbsp;[7]:</p>
+
+<pre>
+# peek what variants are in this reference panel
+head hapmap3_r2_b36_chr20.legend
+</pre>
+
+<pre>
+rsID position a0 a1
+rs4814683 9795 G T
+rs6139074 11244 A C
+rs1418258 11799 C T
+rs6086616 16749 C T
+rs6039403 17094 A G
+rs6135141 22347 A G
+rs892665 23254 A C
+rs6111385 24962 C T
+rs2196239 28655 A G
+</pre>
+
+<p>In&nbsp;[8]:</p>
+
+<pre>
+# how many variants are in this reference panel =&gt; 36256
+# `wc -l` will count number of lines of a file
+wc -l hapmap3_r2_b36_chr20.legend
+</pre>
+
+<pre>
+36257 hapmap3_r2_b36_chr20.legend
+</pre>
+
+<p>In&nbsp;[9]:</p>
+
+<pre>
+# what are the samples included in the reference panel
+head all.sample
+</pre>
+
+<pre>
+sample population pedigree
+NA19904 ASW founder
+NA20340 ASW founder
+NA20297 ASW founder
+NA20281 ASW founder
+NA20348 ASW founder
+NA20300 ASW founder
+NA19625 ASW founder
+NA20279 ASW founder
+NA19712 ASW founder
+</pre>
+
+<p>In&nbsp;[10]:</p>
+
+<pre>
+# how many samples? =&gt; 1011
+wc -l all.sample
+</pre>
+
+<pre>
+1012 all.sample
+</pre>
+
+<p>The genetic map file record recombination rate across the whole chromosome</p>
+
+<ul>
+	<li>position: the coordinates of variants</li>
+	<li>COMBINED_rate(cM/Mb): the recombination rate in centi-Morgan per Mega base pairs</li>
+	<li>Genetic_Map (cM): cumulative recombination rate</li>
+</ul>
+
+<p>For extra details, refer to&nbsp;<a href="http://www.griv.org/shapeit/pages/geneticmap.html">this</a>.</p>
+
+<p>In&nbsp;[11]:</p>
+
+<pre>
+# what does genetic map look like?
+head genetic_map_chr20_combined_b36.txt
+</pre>
+
+<pre>
+position COMBINED_rate(cM/Mb) Genetic_Map(cM)
+9795 0.3516610754 0
+11231 0.3500036909 0.0005049853
+11244 0.3494018702 0.0005095354
+11799 0.3501262382 0.0007034534
+12150 0.3558643956 0.0008263477
+12934 0.3567249058 0.0011053454
+13288 0.3633379498 0.0012316260
+14370 10.0482361599 0.0016247577
+16749 10.0517109160 0.0255295115
+</pre>
+
+<p>In&nbsp;[12]:</p>
+
+<pre>
+# how many lines are in the genetic map file?  =&gt; 79923 
+wc -l genetic_map_chr20_combined_b36.txt
+</pre>
+
+<pre>
+79923 genetic_map_chr20_combined_b36.txt
+</pre>
+
+<p><strong>We want to create three sets of files</strong></p>
+
+<p>(1) Extract data of NA12891 into ShapeIT format</p>
+
+<p>(2) Create a ShapeIT reference panel without NA12891</p>
+
+<p>(3) Convert NA12891 from ShapeIT format to PLINK format</p>
+
+<p>ShapeIT take PLINK format as the input file. In this step, we intentionally &quot;lose&quot; the phasing information of NA12891. This phase information will later be inferred by ShapeIT.</p>
+
+<p>(4) Identify monomorphic sites</p>
+
+<p>Monomorphic sites are not helpful in inferring haplotypes. Remove them from calculations.</p>
+
+<p>In&nbsp;[13]:</p>
+
+<pre>
+# (1) Extract data of NA12891 into ShapeIT format
+# find the index for sample NA12891
+# `grep` will search the string `NA12891` within the input file
+# the `-n` option will print line number if any matches are found
+grep -n &#39;NA12891&#39; all.sample # NA12891 is in line 145, so it&rsquo;s the 144th samples
+</pre>
+
+<pre>
+145:NA12891 CEU trio_parent
+</pre>
+
+<p>In&nbsp;[14]:</p>
+
+<pre>
+# extract hap file for NA12891
+# In HAPs file, every individual takes two columns
+# The 144th samples uses column 287 and 288 (144*2)
+# `cut` command will extrat columns
+# `-f287-288`: extract column 287 and 288 (inclusvie at both boundaries)
+# `-d&#39; &#39;`: indicates columns are separated by a white-space character
+# &#39;&gt;&#39;: redirect the output to a file
+# This command will extract column 287 and 288 to `NA12891.haps`
+cut -f287-288 -d&#39; &#39; hapmap3_r2_b36_chr20.haps &gt; NA12891.haps
+</pre>
+
+<p>In&nbsp;[15]:</p>
+
+<pre>
+# (2) Create a ShapeIT reference panel without NA12891
+# create a .haps file without NA12891
+# 
+# remember that `cut` will extract columns
+# `-f1-286,289-`: will extract column 1 through 286 (inclusive at the boundaries) and column 289, 290, ...
+# Here we just want to skipcolumn 287 and 288.
+cut -f1-286,289- -d&#39; &#39; hapmap3_r2_b36_chr20.haps &gt; no.NA12891.haps
+</pre>
+
+<p><em>Quiz</em>: how many columns are in the file no.NA12891.haps?</p>
+
+<p>In&nbsp;[16]:</p>
+
+<pre>
+# create a .sample file without NA12891
+# in awk script, `$1` menas the first column
+# this script means, when the first column is not &quot;NA12891&quot;, print it out
+# in other words, filter out the lines whose first column is &quot;NA12891&quot;
+cat all.sample |awk &#39;$1 != &quot;NA12891&quot;&#39; &gt; no.NA12891.samples
+</pre>
+
+<p><em>Quiz</em>: how many lines are in the file no.NA12891.samples?</p>
+
+<p>The next step involves details of PLINK formats</p>
+
+<p>If you want to understand PLINK formats, please see below:</p>
+
+<ul>
+	<li>MAP file:&nbsp;<a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#map">link</a></li>
+	<li>PED file:&nbsp;<a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#ped">link</a></li>
+	<li>TPED/TFAM file:&nbsp;<a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#tr">link</a></li>
+	<li>Binary PLINK file (BED, BIM, FAM files):&nbsp;<a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#bed">link</a></li>
+</ul>
+
+<p>In&nbsp;[17]:</p>
+
+<pre>
+# (3) Convert NA12891 data to PLINK format 
+# This step is quite some work. I will try explain here.
+# PLINK format includes a MAP file
+# `tail -n +2` command will print the second line, third line and et al.
+# This command is to skip the first line (the header line)
+# awk script here will output first columns:
+#  first column: always &quot;20&quot; , that&#39;s the chromosome number
+#  second column: the first column in file hapmap3_r2_b36_chr20.legend. That&#39;s the rs number.
+#  third column: always &quot;0&quot;
+#  fourth column: the second column in file hapmap3_r2_b36_chr20.legend. That&#39;s the coordinates
+cat hapmap3_r2_b36_chr20.legend |tail -n +2 |awk &#39;{print &quot;20&quot;, $1,&quot;0&quot;, $2;}&#39; &gt; NA12891.map
+
+# PLINK PED file store all genotypes of one sample per line, 
+# but that does not look similar to our HAP files.
+# We will have to first use TFAM/TPED format, and then convert it to FAM/PED format.
+# FYI: here the prefix &ldquo;T&rdquo; stands for transpose.
+#
+# `echo` will print its paramter
+echo &quot;NA12891 NA12891 0 0 0 0&quot; &gt; NA12891.tfam
+# `paste` will Write  lines  consisting of the sequentially 
+# corresponding lines from each FILE, separated by TABs, to standard output.
+# `&lt;(tail -n +2 hapmap3_r2_b36_chr20.legend)`: the content of hapmap3_r2_b36_chr20.legend without 
+#   the header line will be treated as an input file
+# When `paste` LEGEND file and HAPS file, we need to remove the header line of LEGEND file
+# you can check the output by running this command:
+#    paste &lt;(tail -n +2 hapmap3_r2_b36_chr20.legend) NA12891.haps | head
+# The next awk command is quite advanced.
+# The goal of this command is to translate 0/1 to the actual nucleotide
+# In `awk`, `d[]` is a dictionary data structure. 
+# `d[&quot;0&quot;]=$3; d[&quot;1&quot;]=$4` will store the relationship &quot;0&quot; mapped to the third column; &quot;1&quot; mapped to the fourth column
+# `d[$5], d[$6]` will translate the the fifth column and the sixth colun.
+# for example, the `paste` command will output:
+#   rs4814683 9795 G T      1 0
+#   ...
+# after `awk &#39;{d[&quot;0&quot;]=$3; d[&quot;1&quot;]=$4; print &quot;20&quot;, $1, &quot;0&quot;, $2, d[$5], d[$6];}&#39;`, the output will be:
+#   20 rs4814683 0 9795 T G
+#   ...
+# note that, 1 and 0 are translated to T and G
+paste &lt;(tail -n +2 hapmap3_r2_b36_chr20.legend) NA12891.haps | \
+  awk &#39;{d[&quot;0&quot;]=$3; d[&quot;1&quot;]=$4; print &quot;20&quot;, $1, &quot;0&quot;, $2, d[$5], d[$6];}&#39; &gt; NA12891.tped
+  
+# convert TFAM/TPED to FAM/PED
+# `--tram`, `--tped` options are to specify TFAM/TPED input files
+# `--make-bed` will create binary plink format
+# `--out` will specify a prefix for all output files
+plink --tfam NA12891.tfam --tped NA12891.tped --make-bed --out NA12891
+</pre>
+
+<pre>
+PLINK v1.90b3.36 64-bit (31 Mar 2016)      https://www.cog-genomics.org/plink2
+(C) 2005-2016 Shaun Purcell, Christopher Chang   GNU General Public License v3
+Logging to NA12891.log.
+Options in effect:
+  --make-bed
+  --out NA12891
+  --tfam NA12891.tfam
+  --tped NA12891.tped
+
+128833 MB RAM detected; reserving 64416 MB for main workspace.
+Processing .tped file... done.2131415161718192021222324252627282930313233343536373839404142434445464748484950515253545556575859606162636465666768686970717273747576777879808182838485868788899091929394959697989899100%
+NA12891-temporary.bed + NA12891-temporary.bim + NA12891-temporary.fam written.
+step 1
+step 2
+step 3
+36256 variants loaded from .bim file.
+1 person (0 males, 0 females, 1 ambiguous) loaded from .fam.
+Ambiguous sex ID written to NA12891.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 1 founder and 0 nonfounders present.
+Calculating allele frequencies... 10111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989 done.
+36256 variants and 1 person pass filters and QC.
+Note: No phenotypes present.
+--make-bed to NA12891.bed + NA12891.bim + NA12891.fam ... 101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899done.
+</pre>
+
+<p>In&nbsp;[18]:</p>
+
+<pre>
+# (4) Identify monomorphic sites
+cat NA12891.tped  |awk &#39;{ if($5==$6){print $4;}}&#39;  &gt; exclude.site
+</pre>
+
+<h1 id="2.-Phasing-using-a-reference-panel">2. Phasing using a reference panel</h1>
+
+<p>After step 1, we are ready to peform phasing.</p>
+
+<p>Let&#39;s examine what input files are available:</p>
+
+<ul>
+	<li>Unphased genotype data of NA12891, in binary PLINK format: NA12891.bed NA12891.bim NA12891.fam</li>
+	<li>Phase reference panel of 1010 samples without NA12891, in HAP/LEGEND/SAMPLE format: no.NA12891.haps hapmap3_r2_b36_chr20.legend no.NA12891.samples</li>
+	<li>Genetic map file: genetic_map_chr20_combined_b36.txt</li>
+	<li>A list of monomorphic marker: exclude.site</li>
+</ul>
+
+<p>Now we are ready to go!</p>
+
+<p>Refer to&nbsp;<a href="https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#gettingstarted">ShapeIT documentation</a>. We provide all above files are inputs, and use option&nbsp;<em>--output-max</em>&nbsp;to specify output file names, *--output-log&quot; to specify output log file.</p>
+
+<p>In&nbsp;[19]:</p>
+
+<pre>
+shapeit --input-bed NA12891.bed NA12891.bim NA12891.fam -M genetic_map_chr20_combined_b36.txt \
+  --input-ref no.NA12891.haps hapmap3_r2_b36_chr20.legend no.NA12891.samples \
+  --output-max out.NA12891.haps out.NA12891.sample --exclude-snp exclude.site --output-log out
+</pre>
+
+<pre>
+Segmented HAPlotype Estimation &amp; Imputation Tool
+  * Authors : Olivier Delaneau, Jared O&#39;Connell, Jean-Fran&ccedil;ois Zagury, Jonathan Marchini
+  * Contact : send an email to the OXSTATGEN mail list https://www.jiscmail.ac.uk/cgi-bin/webadmin?A0=OXSTATGEN
+  * Webpage : https://mathgen.stats.ox.ac.uk/shapeit
+  * Version : v2.r837
+  * Date    : 28/04/2017 02:52:03
+  * LOGfile : [out.log]
+
+MODE -phase : PHASING GENOTYPE DATA
+  * Autosome (chr1 ... chr22)
+  * Window-based model (SHAPEIT v2)
+  * Reference panel of haplotypes used
+  * MCMC iteration
+
+Parameters :
+  * Seed : 1493365923
+  * Parallelisation: 1 threads
+  * Ref allele is NOT aligned on the reference genome
+  * MCMC: 35 iterations [7 B + 1 runs of 8 P + 20 M]
+  * Model: 100 states per window [100 H + 0 PM + 0 R + 0 COV ] / Windows of ~2.0 Mb / Ne = 15000
+
+Reading SNPs to exclude from input file in [exclude.site]
+  * 26590 snps found in the exclude list
+
+Reading site list in [NA12891.bim]
+  * 9666 sites included
+  * 26590 sites excluded
+
+Reading sample list in [NA12891.fam]
+  * 1 samples included
+  * 1 unrelateds / 0 duos / 0 trios in 1 different families
+
+Reading genotypes in [NA12891.bed]
+  * Plink binary file SNP-major mode
+
+Reading sample list [no.NA12891.samples]
+  * 2020 reference haplotypes included
+
+Reading SNPs in [hapmap3_r2_b36_chr20.legend]
+  * 9666 reference panel sites included
+  * 26590 reference panel sites excluded
+
+Reading reference haplotypes in [no.NA12891.haps]
+
+Reading genetic map in [genetic_map_chr20_combined_b36.txt]
+  * 79922 genetic positions found
+  * #set=8923 / #interpolated=743
+  * Physical map [0.01 Mb -&gt; 62.38 Mb] / Genetic map [0.00 cM -&gt; 108.66 cM]
+
+Checking missingness and MAF...
+  * 0 individuals with high rates of missing data (&gt;5%)
+  * 0 SNPs with high rates of missing data (&gt;5%)
+
+Building graphs [1/1]
+  * 1 graphs / 3222 segments / ~3 SNPs per segment / 103080 transitions
+  * 0 haploids / 1 unrelateds / 0 duos / 0 trios
+  * 2 founder haplotypes
+  * 2020 reference haplotypes
+
+Sampling haplotypes [1/1]
+
+Burn-in iteration [1/7] [1/1]
+
+Burn-in iteration [2/7] [1/1]
+
+Burn-in iteration [3/7] [1/1]
+
+Burn-in iteration [4/7] [1/1]
+
+Burn-in iteration [5/7] [1/1]
+
+Burn-in iteration [6/7] [1/1]
+
+Burn-in iteration [7/7] [1/1]
+
+Pruning iteration [1/8] [1/1]
+
+Pruning iteration [2/8] [1/1]
+
+Pruning iteration [3/8] [1/1]
+
+Pruning iteration [4/8] [1/1]
+
+Pruning iteration [5/8] [1/1]
+
+Pruning iteration [6/8] [1/1]
+
+Pruning iteration [7/8] [1/1]
+
+Pruning iteration [8/8] [1/1]
+
+Pruning graphs [1/1]
+  * 1 graphs / 1238 segments / ~7 SNPs per segment / 23923 transitions
+  * 0 haploids / 1 unrelateds / 0 duos / 0 trios
+  * 2 founder haplotypes
+  * 2020 reference haplotypes
+
+Main iteration [1/20] [1/1]
+
+Main iteration [2/20] [1/1]
+
+Main iteration [3/20] [1/1]
+
+Main iteration [4/20] [1/1]
+
+Main iteration [5/20] [1/1]
+
+Main iteration [6/20] [1/1]
+
+Main iteration [7/20] [1/1]
+
+Main iteration [8/20] [1/1]
+
+Main iteration [9/20] [1/1]
+
+Main iteration [10/20] [1/1]
+
+Main iteration [11/20] [1/1]
+
+Main iteration [12/20] [1/1]
+
+Main iteration [13/20] [1/1]
+
+Main iteration [14/20] [1/1]
+
+Main iteration [15/20] [1/1]
+
+Main iteration [16/20] [1/1]
+
+Main iteration [17/20] [1/1]
+
+Main iteration [18/20] [1/1]
+
+Main iteration [19/20] [1/1]
+
+Main iteration [20/20] [1/1]
+
+Normalising graphs [1/1]
+
+Solving haplotypes [1/1]
+
+Writing sample list in [out.NA12891.sample]
+
+Writing site list and haplotypes in [out.NA12891.haps]
+
+Running time: 9 seconds
+</pre>
+
+<h1 id="3.-Evaluate-phasing-results">3. Evaluate phasing results</h1>
+
+<p>The result files are&nbsp;<em>out.NA12891.haps</em>&nbsp;and&nbsp;<em>out.NA12891.sample</em>. You can check the content of these files using&nbsp;<em>head</em>&nbsp;or&nbsp;<em>less</em>.</p>
+
+<p>In&nbsp;[20]:</p>
+
+<pre>
+# Since we know the phase of NA12891, let&#39;s store it as the gold standard
+# In HAP files, haplotypes are represented are 0 or 1. 
+# The meaning of 0 and 1 depends on column &quot;a0&quot; and &quot;a1&quot;.
+# This dependency can make things complicated: if we need &quot;0&quot; for the same variants in two HAPS file, 
+# we will not be able to know that are the same allele or not.
+# Now, we want to represent them as A/C/G/T to avoid such confusion.
+# NOTE: `fgrep` will use a file (specified by `-f`) as input patterns, 
+#       `-w` is necessary, it means matching the whole words
+#       `-v` means invert match: only patterns are not matched will be outputted.
+# This command will store the true haplotype of NA12891 using letters (A/C/G/T)
+# NOTE: you can use `head` to check file contents
+paste  &lt;(cat hapmap3_r2_b36_chr20.legend |tail -n +2) NA12891.haps | \
+  fgrep -w -f exclude.site -v  | \
+  awk &#39;{d[&quot;0&quot;]=$3; d[&quot;1&quot;]=$4; print d[$5], d[$6];}&#39; &gt; correct.NA12891.haps
+</pre>
+
+<p>In&nbsp;[21]:</p>
+
+<pre>
+# Store ShapeIT results using letters
+# NOTE: you can use `head` to check file contents
+cat out.NA12891.haps |awk &#39;{d[&quot;0&quot;]=$4; d[&quot;1&quot;]=$5; print d[$6], d[$7];}&#39; &gt; out.NA12891.recode.haps
+</pre>
+
+<p>In&nbsp;[22]:</p>
+
+<pre>
+# Compare the two result files
+# We use 0 to represent the first haplotype in correct.NA12891.haps matches the 
+# second haplotype in out.NA12891.recode.haps, and use 1 to represent the other case.
+paste correct.NA12891.haps out.NA12891.recode.haps | \
+  awk &#39;{if ($1 == $4) {print &quot;0&quot;; } else {print &quot;1&quot;;}}&#39;  &gt; out.match
+</pre>
+
+<p>NOTE: out.match including 0s and 1s. If the phasing result is perfect, out.match should be all 1s or all 0s. When a phasing error happens, we will see 1 to 0 change or 0 to 1 change. These changes are called &quot;switch points&quot;.</p>
+
+<p>In&nbsp;[23]:</p>
+
+<pre>
+# now open R, and run the following to visualize phasing results
+echo &#39;pos &lt;- read.table(&quot;out.snp.mm&quot;, header = TRUE)$position
+match &lt;- read.table(&quot;out.match&quot;, header = FALSE)[,1]
+png(&quot;out.match.png&quot;, width = 1600, height = 600)
+plot(pos, match, main = &quot;Switch Points&quot;, type = &quot;s&quot;)
+dev.off()&#39; |R --vanilla
+# Now display the graph file
+display &lt; &quot;out.match.png&quot;
+</pre>
+
+<pre>
+R version 3.4.0 (2017-04-21) -- &quot;You Stupid Darkness&quot;
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type &#39;license()&#39; or &#39;licence()&#39; for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type &#39;contributors()&#39; for more information and
+&#39;citation()&#39; on how to cite R or R packages in publications.
+
+Type &#39;demo()&#39; for some demos, &#39;help()&#39; for on-line help, or
+&#39;help.start()&#39; for an HTML browser interface to help.
+Type &#39;q()&#39; to quit R.
+
+&gt; pos &lt;- read.table(&quot;out.snp.mm&quot;, header = TRUE)$position
+&gt; match &lt;- read.table(&quot;out.match&quot;, header = FALSE)[,1]
+&gt; png(&quot;out.match.png&quot;, width = 1600, height = 600)
+&gt; plot(pos, match, main = &quot;Switch Points&quot;, type = &quot;s&quot;)
+&gt; dev.off()
+null device 
+          1 
+&gt; 
+</pre>
+
+<p><cms-plugin alt="Image - unnamed file " id="11857" render-plugin="true" title="Image - unnamed file"><img alt="unnamed file" class="filer_image " src="/media/filer_public_thumbnails/filer_public/37/52/37522059-ca5d-4bc4-a421-134ec1076243/468e2118-135f-46e7-af66-6af2dcbebe2e.png__1600x600_q85_crop_subsampling-2_upscale.jpg" /> </cms-plugin></p>
+
+<p>The above graphs show there are some switching points along the chromosomes. From this global view, you may think the phasing results do not look good. However, if you observe a small segment, the phasing errors are quite low.</p>
+
+<p><em>Quiz</em>: a common metric to evaluate phasing software is the fraction of of wrongly inferred switch points. In the above case, can you calculate this metric? HINT: First, calculate the number of wrong swtich points. Then calculate the number of all possible switch points. Last, divide these two numbers. The answer should be around 3%.</p>
+
+<h1 id="Additional-exercise">Additional exercise</h1>
+
+<p>What if we include NA12891 in the reference? That means we put the true phasing results of NA12891 in the reference panel, and then use such reference panel to infer phases of NA12891 genotypes. Are we able to get perfect phasing results (no switching points)? How much more accuracy can we gain?</p>
+
+<p>In&nbsp;[24]:</p>
+
+<pre>
+# Re-run ShapeIT
+shapeit --input-bed NA12891.bed NA12891.bim NA12891.fam -M genetic_map_chr20_combined_b36.txt \
+  --input-ref hapmap3_r2_b36_chr20.haps hapmap3_r2_b36_chr20.legend all.sample \
+  --output-max cheat.NA12891.haps cheat.NA12891.sample --exclude-snp exclude.site --output-log cheat
+</pre>
+
+<pre>
+Segmented HAPlotype Estimation &amp; Imputation Tool
+  * Authors : Olivier Delaneau, Jared O&#39;Connell, Jean-Fran&ccedil;ois Zagury, Jonathan Marchini
+  * Contact : send an email to the OXSTATGEN mail list https://www.jiscmail.ac.uk/cgi-bin/webadmin?A0=OXSTATGEN
+  * Webpage : https://mathgen.stats.ox.ac.uk/shapeit
+  * Version : v2.r837
+  * Date    : 28/04/2017 02:52:15
+  * LOGfile : [cheat.log]
+
+MODE -phase : PHASING GENOTYPE DATA
+  * Autosome (chr1 ... chr22)
+  * Window-based model (SHAPEIT v2)
+  * Reference panel of haplotypes used
+  * MCMC iteration
+
+Parameters :
+  * Seed : 1493365935
+  * Parallelisation: 1 threads
+  * Ref allele is NOT aligned on the reference genome
+  * MCMC: 35 iterations [7 B + 1 runs of 8 P + 20 M]
+  * Model: 100 states per window [100 H + 0 PM + 0 R + 0 COV ] / Windows of ~2.0 Mb / Ne = 15000
+
+Reading SNPs to exclude from input file in [exclude.site]
+  * 26590 snps found in the exclude list
+
+Reading site list in [NA12891.bim]
+  * 9666 sites included
+  * 26590 sites excluded
+
+Reading sample list in [NA12891.fam]
+  * 1 samples included
+  * 1 unrelateds / 0 duos / 0 trios in 1 different families
+
+Reading genotypes in [NA12891.bed]
+  * Plink binary file SNP-major mode
+
+Reading sample list [all.sample]
+  * 2022 reference haplotypes included
+
+Reading SNPs in [hapmap3_r2_b36_chr20.legend]
+  * 9666 reference panel sites included
+  * 26590 reference panel sites excluded
+
+Reading reference haplotypes in [hapmap3_r2_b36_chr20.haps]
+
+Reading genetic map in [genetic_map_chr20_combined_b36.txt]
+  * 79922 genetic positions found
+  * #set=8923 / #interpolated=743
+  * Physical map [0.01 Mb -&gt; 62.38 Mb] / Genetic map [0.00 cM -&gt; 108.66 cM]
+
+Checking missingness and MAF...
+  * 0 individuals with high rates of missing data (&gt;5%)
+  * 0 SNPs with high rates of missing data (&gt;5%)
+
+Building graphs [1/1]
+  * 1 graphs / 3222 segments / ~3 SNPs per segment / 103080 transitions
+  * 0 haploids / 1 unrelateds / 0 duos / 0 trios
+  * 2 founder haplotypes
+  * 2022 reference haplotypes
+
+Sampling haplotypes [1/1]
+
+Burn-in iteration [1/7] [1/1]
+
+Burn-in iteration [2/7] [1/1]
+
+Burn-in iteration [3/7] [1/1]
+
+Burn-in iteration [4/7] [1/1]
+
+Burn-in iteration [5/7] [1/1]
+
+Burn-in iteration [6/7] [1/1]
+
+Burn-in iteration [7/7] [1/1]
+
+Pruning iteration [1/8] [1/1]
+
+Pruning iteration [2/8] [1/1]
+
+Pruning iteration [3/8] [1/1]
+
+Pruning iteration [4/8] [1/1]
+
+Pruning iteration [5/8] [1/1]
+
+Pruning iteration [6/8] [1/1]
+
+Pruning iteration [7/8] [1/1]
+
+Pruning iteration [8/8] [1/1]
+
+Pruning graphs [1/1]
+  * 1 graphs / 1133 segments / ~8 SNPs per segment / 20829 transitions
+  * 0 haploids / 1 unrelateds / 0 duos / 0 trios
+  * 2 founder haplotypes
+  * 2022 reference haplotypes
+
+Main iteration [1/20] [1/1]
+
+Main iteration [2/20] [1/1]
+
+Main iteration [3/20] [1/1]
+
+Main iteration [4/20] [1/1]
+
+Main iteration [5/20] [1/1]
+
+Main iteration [6/20] [1/1]
+
+Main iteration [7/20] [1/1]
+
+Main iteration [8/20] [1/1]
+
+Main iteration [9/20] [1/1]
+
+Main iteration [10/20] [1/1]
+
+Main iteration [11/20] [1/1]
+
+Main iteration [12/20] [1/1]
+
+Main iteration [13/20] [1/1]
+
+Main iteration [14/20] [1/1]
+
+Main iteration [15/20] [1/1]
+
+Main iteration [16/20] [1/1]
+
+Main iteration [17/20] [1/1]
+
+Main iteration [18/20] [1/1]
+
+Main iteration [19/20] [1/1]
+
+Main iteration [20/20] [1/1]
+
+Normalising graphs [1/1]
+
+Solving haplotypes [1/1]
+
+Writing sample list in [cheat.NA12891.sample]
+
+Writing site list and haplotypes in [cheat.NA12891.haps]
+
+Running time: 8 seconds
+</pre>
+
+<p>In&nbsp;[25]:</p>
+
+<pre>
+## let&rsquo;s examine cheat.NA12891.sample and cheat.NA12891.haps
+cat cheat.NA12891.haps |awk &#39;{d[&quot;0&quot;]=$4; d[&quot;1&quot;]=$5; print d[$6], d[$7];}&#39; &gt; cheat.NA12891.recode.haps 
+
+# compare the two results
+paste correct.NA12891.haps cheat.NA12891.recode.haps | \
+  awk &#39;{if ($1 == $4) {print &quot;0&quot;; } else {print &quot;1&quot;;}}&#39;  &gt; cheat.match
+</pre>
+
+<p>In&nbsp;[26]:</p>
+
+<pre>
+# In R
+echo &#39;pos &lt;- read.table(&quot;cheat.snp.mm&quot;, header = TRUE)$position
+match &lt;- read.table(&quot;cheat.match&quot;, header = FALSE)[,1]
+png(&quot;cheat.match.png&quot;, width = 1600, height = 600)
+plot(pos, match, main = &quot;Switch Points&quot;, type = &quot;s&quot;)
+dev.off()&#39; |R --vanilla
+display &lt; &quot;cheat.match.png&quot;
+</pre>
+
+<pre>
+R version 3.4.0 (2017-04-21) -- &quot;You Stupid Darkness&quot;
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type &#39;license()&#39; or &#39;licence()&#39; for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type &#39;contributors()&#39; for more information and
+&#39;citation()&#39; on how to cite R or R packages in publications.
+
+Type &#39;demo()&#39; for some demos, &#39;help()&#39; for on-line help, or
+&#39;help.start()&#39; for an HTML browser interface to help.
+Type &#39;q()&#39; to quit R.
+
+&gt; pos &lt;- read.table(&quot;cheat.snp.mm&quot;, header = TRUE)$position
+&gt; match &lt;- read.table(&quot;cheat.match&quot;, header = FALSE)[,1]
+&gt; png(&quot;cheat.match.png&quot;, width = 1600, height = 600)
+&gt; plot(pos, match, main = &quot;Switch Points&quot;, type = &quot;s&quot;)
+&gt; dev.off()
+null device 
+          1 
+&gt; 
+</pre>
+
+<p><cms-plugin alt="Image - unnamed file " id="11858" render-plugin="true" title="Image - unnamed file"><img alt="unnamed file" class="filer_image " src="/media/filer_public_thumbnails/filer_public/1e/52/1e527093-42ee-4256-8228-3addaf7a14a9/989407fc-25cf-4d92-95fb-7c5ef57e1c69.png__1600x600_q85_crop_subsampling-2_upscale.jpg" /> </cms-plugin></p>

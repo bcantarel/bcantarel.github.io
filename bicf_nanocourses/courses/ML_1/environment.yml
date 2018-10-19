@@ -1,0 +1,13 @@
+name: bicf-ML1
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::python=3.6.4
+  - anaconda::numpy=1.14.0
+  - anaconda::scipy=1.0.0
+  - conda-forge::pandas=0.22.0
+  - conda-forge::matplotlib=2.1.2
+  - conda-forge::seaborn=0.8.1
+  - conda-forge::tensorflow
+  - conda-forge::keras=2.1.4
+  - conda-forge::scikit-learn=0.19.1

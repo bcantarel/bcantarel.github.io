@@ -1,0 +1,12 @@
+name: bicf-python1
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::python=3.6.4
+  - anaconda::numpy=1.14.0
+  - anaconda::scipy=1.0.0
+  - conda-forge::pandas=0.22.0
+  - conda-forge::matplotlib=2.1.2
+  - conda-forge::seaborn=0.8.1
+  - conda-forge::bokeh=0.12.13
+  - conda-forge::spyder=3.2.6
