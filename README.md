@@ -4,10 +4,10 @@
 
 1. [Introduction to Python](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/python_1) at UTSW 
 2. [Programming for Biology 2018](http://programmingforbiology.org/) at CSHL
-   a. [Homology and Sequence Alignment I](cshl_programming_biology2018/HomologyAlignments.pdf)
-   b. [Homology and Sequence Alignment Workshop I](cshl_programming_biology2018/cshl_homology_workshop1)
-   c. [Homology and Sequence Alignment II](cshl_programming_biology2018/PSIBlastHmmer.pdf)
-   d. [Homology and Sequence Alignment Workshop II](cshl_programming_biology2018/cshl_homology_workshop2)
+   - [Homology and Sequence Alignment I](cshl_programming_biology2018/HomologyAlignments.pdf)
+   - [Homology and Sequence Alignment Workshop I](cshl_programming_biology2018/cshl_homology_workshop1)
+   - [Homology and Sequence Alignment II](cshl_programming_biology2018/PSIBlastHmmer.pdf)
+   - [Homology and Sequence Alignment Workshop II](cshl_programming_biology2018/cshl_homology_workshop2)
 3. [MatLab](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/matlab)
 
 ### UTSW Upcoming Courses
