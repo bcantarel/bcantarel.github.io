@@ -81,13 +81,3 @@ Questions:
 4. DNA:DNA BLASTN using (gi 8033) to the Reference mRNA sequences (refseq_rna)
 - Are there detectable Arabidopsis homologues? 
 1.	What are the BLAST DNA match/mismatch penalties used for the BLASTN search? 
-
-## Write a simple global nucleotide alignment program of your own for sequences of similar size (think amplicon sequences) using Python
-
-The input for your program should be the scores for match and mismatches and 2 sequences and allow for an option to calculate the scores for each combination of sequences and their reverse complements ie sequence 1 vs sequence 2, reverse complement sequence 1 vs sequence 2, sequence 1 vs reverse complement of sequence 2 and reverse complement of both sequence 1 and 2.
-
-1. What is the score of the alignment using the scores 1,-1 and the sequences:
-- sequence1 = "agtctgtca"
-- sequence1 = "gatctctgc"
-
-2. What are the scores of each combinations of reverse complements using the score 2/-2.
