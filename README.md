@@ -2,7 +2,7 @@
 
 ## 2018 Fall Semester
 
-1. [Introduction to Python](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/python_1) at UTSW 
+1. [Introduction to Python](bicf_nanocourses/courses/python_1) at UTSW 
 2. [Programming for Biology 2018](http://programmingforbiology.org/) at CSHL
    - [Homology and Sequence Alignment I](cshl_programming_biology2018/HomologyAlignments.pdf)
    - [Homology and Sequence Alignment Workshop I](cshl_programming_biology2018/cshl_homology_workshop1)
@@ -13,7 +13,7 @@
 ### UTSW Upcoming Courses
 
 
-#### [Introduction to Python I](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/python_1)
+#### [Introduction to Python I](bicf_nanocourses/courses/python_1)
 ##### October 19<sup>th</sup>, 26th<sup>th</sup> & November 2<sup>nd</sup>, 2018
 8:00 am – 5:00 pm each day, Room NG3.202 UTSW
 
@@ -33,7 +33,7 @@ The course will be interactive, with lectures followed by hands-on learning and 
 No previous programming experience is necessary. Familiarity with basic programming/scripting concepts is helpful.
 
 * * *
-## [MatLab](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/matlab)
+## [MatLab](bicf_nanocourses/courses/matlab)
 ### December 3<sup>rd</sup> & 4<sup>th</sup>, 2018
 
 9:00 am – 5:00 pm both days, Room NB2.100A

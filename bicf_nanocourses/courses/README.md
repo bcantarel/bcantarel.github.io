@@ -4,14 +4,13 @@
 
 | Course  | Dates |
 | ------------- | ------------- |
-| Computational Image Analysis | September 6, 7, 10, 11  |
 | Python, Level 1 | October 19, 26, November 2 |
 | MATLAB | December 3, 4 |
 
 * * *
 # Upcoming Courses
 
-## [Introduction to Python I](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/python_1)
+## [Introduction to Python I](bicf_nanocourses/courses/python_1)
 ### October 19<sup>th</sup>, 26th<sup>th</sup> & November 2<sup>nd</sup>, 2018
 8:00 am – 5:00 pm each day, Room NG3.202
 
@@ -31,7 +30,7 @@ The course will be interactive, with lectures followed by hands-on learning and 
 No previous programming experience is necessary. Familiarity with basic programming/scripting concepts is helpful.
 
 * * *
-## [MatLab](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/matlab)
+## [MatLab](bicf_nanocourses/courses/matlab)
 ### December 3<sup>rd</sup> & 4<sup>th</sup>, 2018
 
 9:00 am – 5:00 pm both days, Room NB2.100A
@@ -53,7 +52,7 @@ Academic Credit: 1 credit hour special topics
 * * *
 # Previous Nanocourses
 
-## [Computational Image Analysis](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/image_analysis)
+## [Computational Image Analysis](bicf_nanocourses/courses/image_analysis)
 ### September 6<sup>th</sup> - 7<sup>th</sup> and 10<sup>th</sup> - 11<sup>th</sup>, 2018
 
 This nanocourse offers an introduction to state-of-the-art computer vision methods to convert image data into quantitative information. The four-day intensive course covers image analysis fundamentals using theory lectures and hands-on computer exercises using popular image analysis programs such as ImageJ, CellProfiler and Matlab. Biomedical scientists will gain the background to (1) search for and evaluate existing image analysis software, and (2) start devising their own image analysis pipeline/software. The course will also include and "image analysis therapy" session where the class can brainstorm about each other's image analysis problems.
@@ -80,7 +79,7 @@ Academic Credit: 2 credit hours special topics
 This course is also part of the [Computational and Systems Biology curriculum](http://www.utsouthwestern.edu/education/graduate-school/programs/phd-degrees/specialized--supplemental-phd/computational-and-systems-biology/course-descriptions.html)
 
 * * *
-## [Introduction to R for Beginners, Level 1](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/r_beginner_1)
+## [Introduction to R for Beginners, Level 1](bicf_nanocourses/courses/r_beginner_1)
 ### July 12<sup>th</sup> & 19<sup>th</sup>, 2018
 
 9:00 am – 5:00 pm both days, Room NB2.100A
@@ -102,7 +101,7 @@ Course Size: 15 students
 
 Academic Credit: 1 credit hour special topics
 * * *
-## [Genomics Analysis, May 2018](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/genomics_genetic_variation)
+## [Genomics Analysis, May 2018](bicf_nanocourses/courses/genomics_genetic_variation)
 May 30<sup>th</sup>-June 1<sup>st</sup>, 2018
 
 9:00 am – 5:00 pm all days <br />
@@ -123,7 +122,7 @@ Course Size: 15 students
 
 Academic Credit: 1 credit hour special topics
 * * *
-## [Gene Expression and Regulation](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/gene_expression_regulation)
+## [Gene Expression and Regulation](bicf_nanocourses/courses/gene_expression_regulation)
 ### June 8<sup>th</sup> & 15<sup>th</sup>, 2018
 
 9:00 am – 5:00 pm both days, Room NB2.100A
@@ -134,7 +133,7 @@ Course Size: 15 students
 
 Academic Credit: 1 credit hour special topics
 * * *
-## [NCBI Workshops presented by NIH](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/ncbi_nanocourse/) 
+## [NCBI Workshops presented by NIH](bicf_nanocourses/courses/ncbi_nanocourse/) 
 
 ### March 28<sup>th</sup> & 29<sup>th</sup>, 2018 
 **Location: NG3.112**
@@ -152,7 +151,7 @@ Course Size: Unlimited, no registration.
 Academic Credit: Students who sign in for all sessions can receive 1 credit hour special topics
 * * *
 
-## [Machine Learning I](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/ML_1)
+## [Machine Learning I](bicf_nanocourses/courses/ML_1)
 ### March 8<sup>th</sup> & 9<sup>th</sup>, 2018
 
 Are you interested in machine learning?  This course is an introductory course for students to learn the basics.  Programming experience in Python is mandatory.
@@ -161,7 +160,7 @@ Course Size: 15 students
 
 Academic Credit: 1 credit hour special topics
 * * *
-## [Introduction to R for Beginners, Level II](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/r_beginner_2)
+## [Introduction to R for Beginners, Level II](bicf_nanocourses/courses/r_beginner_2)
 ### Two consecutive Thursdays, January 11<sup>th</sup> & 18<sup>th</sup>, 2018
 9:00 am – 5:00 pm both days, Room NB2.100A
 
@@ -184,7 +183,7 @@ Academic Credit: 1 credit hour special topic
 
 Registration for this course is closed. Please contact Rebekah Craig if you would like to be notified of future training opportunities.
 * * *
-## [Introduction to R for New Users](https://bicf.pages.biohpc.swmed.edu/bicf_nanocourses/r_beginner_1)</u></span>
+## [Introduction to R for New Users](bicf_nanocourses/courses/r_beginner_1)</u></span>
 ### July 21<sup>st</sup> and July 28<sup>th</sup>, 2017
 
 Do you want to be to do simple statistical analyses yourself? Do you find yourself spending time and effort generating the same plots and statistics for each project? <a>R</a> is a freely available language and programming environment for statistical computing and graphics which provides a wide variety of statistical and graphical techniques: linear and nonlinear modeling, statistical tests, time series analysis, classification, clustering, etc.
