@@ -3,7 +3,7 @@
 ## Understanding Scoring Matrices
  
 - Examine the PAM matrices at different levels:
-- Compare PAM matrices [30](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM30),[70](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM70) and [250](http://prowl.rockefeller.edu/aainfo/pam250.htm)
+- Compare PAM matrices [30](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM30),[70](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM70) and [250](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM250)
 
 ---
 Questions:
