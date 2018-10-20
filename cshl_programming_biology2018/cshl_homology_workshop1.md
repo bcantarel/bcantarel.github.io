@@ -2,8 +2,8 @@
  
 ## Understanding Scoring Matrices
  
-- Examine the PAM matrices at different levels [here](http://www.bioinformatics.nl/tools/pam.html)
-- Compare PAM matrices 10,100 and 250
+- Examine the PAM matrices at different levels:
+- Compare PAM matrices [30](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM30),[70](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/PAM70) and [250](http://prowl.rockefeller.edu/aainfo/pam250.htm)
 
 ---
 Questions:
@@ -16,7 +16,7 @@ Questions:
 
 ### Try Sequence Similarity Searching with FASTA 
 
-- Go to the [FASTA SERVER](fasta.bioch.virginia.edu)
+- Go to the [FASTA SERVER](http://fasta.bioch.virginia.edu)
 - Search the protein sequence Drosophila glutathione transferase (P20432) against the PIR1 Annotated protein sequence database.  
 - Type the accession in the search box and choose accession on the drop drown for “Query Sequence”
 - Take a look at the output. 
