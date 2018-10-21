@@ -16,9 +16,11 @@ Questions:
 
 ### Try Sequence Similarity Searching with FASTA 
 
+
 - Go to the [FASTA SERVER](http://fasta.bioch.virginia.edu)
-- Search the protein sequence Drosophila glutathione transferase (P20432) against the PIR1 Annotated protein sequence database.  
-- Type the accession in the search box and choose accession on the drop drown for “Query Sequence”
+- Search the protein sequence Drosophila glutathione transferase (P20432) against the PIR1 Annotated protein sequence database: 
+    - type the accession in the search box
+    - choose accession on the drop drown for “Query Sequence”
 - Take a look at the output. 
 
 --- 
@@ -61,8 +63,7 @@ Questions:
 
 ## Comparison of Protein:Protein, translated DNA:protein to DNA:DNA searches - more sensitive DNA searches
  
-- Using [BLAST](http://blast.ncbi.nlm.nih.gov/)
-- In the next three exercises, we will try to find gstt1_drome (P20432) homologs in the Arabidopsis genome using:
+- Using [BLAST](http://blast.ncbi.nlm.nih.gov/): in the next three exercises, we will try to find gstt1_drome (P20432) homologs in the Arabidopsis genome using:
   - protein:protein (BLASTP)
   - DNA:protein (BLASTX)
   - protein:DNA (TBLASTN)
@@ -74,10 +75,10 @@ Questions:
 
 ### Questions
 
-- What are the E()-values for Arabidopsis THETA1, phi 12, zeta- class 1 and lambda 1 for:
-1. Protein:Protein BLASTP with gstt1_drome (P20432) using the protein database RefSeq
-2. DNA:Protein BLASTX with GSTT1_DROME cDNA (gi 8033) using the protein database RefSeq
-3. Protein:DNA TBLASTN: with GSTT1_DROME cDNA (gi 8033) using the Reference mRNA sequences refseq_rna
-4. DNA:DNA BLASTN using (gi 8033) to the Reference mRNA sequences (refseq_rna)
-- Are there detectable Arabidopsis homologues? 
-1.	What are the BLAST DNA match/mismatch penalties used for the BLASTN search? 
+1. What are the E()-values for Arabidopsis THETA1, phi 12, zeta- class 1 and lambda 1 for:
+    - Protein:Protein BLASTP with gstt1_drome (P20432) using the protein database RefSeq
+    -  DNA:Protein BLASTX with GSTT1_DROME cDNA (gi 8033) using the protein database RefSeq
+    - Protein:DNA TBLASTN: with GSTT1_DROME cDNA (gi 8033) using the Reference mRNA sequences refseq_rna
+    - DNA:DNA BLASTN using (gi 8033) to the Reference mRNA sequences (refseq_rna)
+2. Are there detectable Arabidopsis homologues? 
+    -	What are the BLAST DNA match/mismatch penalties used for the BLASTN search? 
