@@ -36,24 +36,24 @@ The input for your program should be the scores for match and mismatches and 2 s
 
 ## Write a fasta parse to determine percent alignment coverage for each hit
 
-The input for your program shoud be this [file](out.txt)  
+The objective of this exercise is to practice regular expressions using the [original FASTA program output](out.txt).
 
-The output include:
-Hit Name
-Percent Query Covergage (alignment length/Query Length) Bit Score Alignment Lenth Query Length
+### Hints:
+- Query sequences are denoted with a number and a record separator '>>>' then the name of the query and the length denoted with a number and aa to indicate amino acid
+  - Example: 1>>>Query 1 Description Species or Organism information 787 aa
+- The alignments section of the file contains information about the alignment and the library hit sequence
+  - Each aligned hit begins with >>LibraryName Description with spaces
+  - Proceeding lines include information about the alignment including:
+    - score =  s-w opt: score
+    - bit score = bits: bit score 
+    - identify = number% identity
+    - alignment lenght= number aa overlap
 
-```
-Query: @
-  1>>>sp|P45796.1|XYND_PAEPO RecName: Full=Arabinoxylan arabinofuranohydrolase; Short=AXH; AltName: Full=AXH-m2,3; Short=AXH-m23; AltName: Full=Alpha-L-arabinofuranosidase; Short=AF; Flags: Precursor - 635 aa
-Library: UniProtKB/Swiss-Prot
-  200544181 residues in 558590 sequences
+**Parse this file and create output with the following columns**
 
-
->>SP:XYNA2_CLOSR P33558 Endo-1,4-beta-xylanase A
-OS=Clostridium stercorarium OX=1510 GN=xynA PE=1 SV=2 (512 aa)
- s-w opt: 230  Z-score: 447.3  bits: 92.7 E(558590): 2.3e-17
-Smith-Waterman score: 230; 32.9% identity (61.4% similar) in 249 aa overlap (398-618:267-497)
-
-```
-Here is an example:
-SP:XYNA2_CLOSR 39% 92.7 249 635 
+- Hit Name [example = SP:XYND_PAEPO]
+- Percent Query Coverage [example 32%] ie alignment length/query length (ignore gaps)
+- Bit Score [example=130.0]
+- E-Value [example=1.6e-28]
+- Alignment Length [example=131]
+- Query Length example [635]
