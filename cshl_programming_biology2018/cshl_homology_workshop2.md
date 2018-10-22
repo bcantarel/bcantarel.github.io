@@ -26,7 +26,12 @@ Questions:
 
 ## Write a simple global nucleotide alignment program of your own for sequences of similar size (think amplicon sequences) using Python
 
-The input for your program should be the scores for match and mismatches and 2 sequences and allow for an option to calculate the scores for each combination of sequences and their reverse complements ie sequence 1 vs sequence 2, reverse complement sequence 1 vs sequence 2, sequence 1 vs reverse complement of sequence 2 and reverse complement of both sequence 1 and 2.
+The input for your program should be the scores for match and mismatches, and 2 sequences. Allow for an option to calculate the scores for each combination of sequences and their reverse complements ie:  
+- sequence 1 vs sequence 2
+- reverse complement sequence 1 vs sequence 2
+- sequence 1 vs reverse complement of sequence 2
+- reverse complement of both sequence 1 and 2
+
 
 1. What is the score of the alignment using the scores 1,-1 and the sequences:
 - sequence1 = "agtctgtca"
@@ -34,13 +39,12 @@ The input for your program should be the scores for match and mismatches and 2 s
 
 2. What are the scores of each combinations of reverse complements using the score 2/-2.
 
-## Write a fasta parse to determine percent alignment coverage for each hit
+## Write a fasta parser to determine percent alignment coverage for each hit
 
 The input for your program shoud be this [file](out.txt)  
 
-The output include:
-Hit Name
-Percent Query Covergage (alignment length/Query Length) Bit Score Alignment Lenth Query Length
+The output should include:
+Hit Name, Percent Query Coverage (alignment length/Query Length), Bit Score, Alignment Length, Query Length
 
 ```
 Query: @
