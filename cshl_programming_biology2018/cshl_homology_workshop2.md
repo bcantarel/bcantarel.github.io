@@ -41,6 +41,7 @@ The input for your program should be the scores for match and mismatches, and 2 
 
 ## Write a fasta parser to determine percent alignment coverage for each hit
 
+
 The input for your program shoud be this [file](out.txt)  
 
 The output should include:
@@ -61,3 +62,26 @@ Smith-Waterman score: 230; 32.9% identity (61.4% similar) in 249 aa overlap (398
 ```
 Here is an example:
 SP:XYNA2_CLOSR 39% 92.7 249 635 
+
+The objective of this exercise is to practice regular expressions using the [original FASTA program output](out.txt).
+
+### Hints:
+- Query sequences are denoted with a number and a record separator '>>>' then the name of the query and the length denoted with a number and aa to indicate amino acid
+  - Example: 1>>>Query 1 Description Species or Organism information 787 aa
+- The alignments section of the file contains information about the alignment and the library hit sequence
+  - Each aligned hit begins with >>LibraryName Description with spaces
+  - Proceeding lines include information about the alignment including:
+    - score =  s-w opt: score
+    - bit score = bits: bit score 
+    - identify = number% identity
+    - alignment lenght= number aa overlap
+
+**Parse this file and create output with the following columns**
+
+- Hit Name [example = SP:XYND_PAEPO]
+- Percent Query Coverage [example 32%] ie alignment length/query length (ignore gaps)
+- Bit Score [example=130.0]
+- E-Value [example=1.6e-28]
+- Alignment Length [example=131]
+- Query Length example [635]
+
