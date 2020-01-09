@@ -15,7 +15,7 @@ If you already have R studio, please [update your R here](https://cran.r-project
 * Course Coordinator [Brandi Cantarel](mailto:brandi.cantarel@utsouthwestern.edu)
 * Course Administration [Neha Sinha](Neha.Sinha@UTSouthwestern.edu)
 * TAs
-    - Mingzhou Nie (Jan 10)
+    - Mingzhu Nie (Jan 10)
     - Erika Villa (Jan 10)
     - Holly Ruess (Jan 17)
     - Krishna Kanth Chitta (Jan 17)
