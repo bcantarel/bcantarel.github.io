@@ -4,14 +4,17 @@ This nanocourse will introduce Python for scientific computing.
 Python is an open-source, fun, easy to learn, and powerful programming language.
 With deep community support and wide ranging deployment across many domains, Python is a worthy tool for projects large and small that any computational scientist should keep on hand.
 
-Topics for this two day (all-day) course will include:
+Topics for this three day (all-day) course will include:
 
-- Basic install, setup, and IDEs
+- Basic install, setup
 - Basic Syntax
+- List, Dictionaries, Sets
 - Conditional statements, loops, functions
-- Modules, classes, scripting, debugging
-- Numerical arrays/matrices (numpy/scipy)
-- Data structures (pandas)
+- IO and Files
+- Regular Expressions
+- Manipulating Numerical data (numpy)
+- Data Frames (pandas)
+- API, searching for Bioinformatics databases
 
 The course will be interactive, with lectures followed by hands-on learning and exercises.
 No previous programming experience is necessary. Familiarity with basic programming/scripting concepts is helpful. Students will also have the opportunity to share their own technical challenges and explore as a class how python can help.
@@ -33,6 +36,8 @@ Room NG3.202
 
 [*Course Material*](lectures/day_1/python_day_1.zip)
 
+[*Course Material Key*](lectures/day_1/python_day_1_key.zip)
+
 | Time  | Topic |
 | ------------- | ------------- |
 | 08:00 - 09:00 a.m.  | Final Setup and TroubleShooting |
@@ -53,6 +58,15 @@ Room NG3.202
 * TA: [Guillaume Jimenez](mailto:Guillaume.Jimenez@UTSouthwestern.edu)
 * TA: [Andrew Jamieson](mailto:andrew.jamieson@utsouthwestern.edu)
 
+[*Course Material*](lectures/Python-NanoCourse-Day2.pptx)
+
+[*Workshop IV Key*](lectures/day_2/Day2-Lesson-3-Exercise1_key.ipynb)
+
+[*Homework*](lectures/day_2/Day2_Lesson 3_Homework.zip)
+
+[*Homework Key*](lectures/day_2/Day2_Lesson 3_Homework_key.zip)
+
+
 | Time  | Topic |
 | ------------- | ------------- |
 | 08:00 - 09:30 a.m. | [Loops, Dictionaries and Sets](lecture_python4.md)  |
@@ -60,7 +74,7 @@ Room NG3.202
 | 11:00 - 12:30 p.m.|[IO and Files](lecture_python5.md)|
 | 1:30 - 3:00 p.m.|[Workshop V](workshop_python5.md) |
 | 3:00 - 5:00 p.m.|[Regular Expressions](lecture_python6.md) |
-|   | [Workshop VI: Homework](workshop_python6.md) |
+|   | [Workshop VI: Homework](lectures/day_2/WorkshopVI.zip) |
 
 Day 3  | **November 2nd, 2018**  
 Room NG3.202
@@ -70,13 +84,21 @@ Room NG3.202
 * TA: [Gervaise Henry](Gervaise.Henry@UTSouthwestern.edu)
 * TA: [Alex Treacher](Alex.Treacher@UTSouthwestern.edu)
 
+[Numerical data Course Material](lectures/day_3/python_day_3.zip)
+
+[Numerical data Workshop Answers](lectures/day_3/python_day_3_keys.zip)
+
+[Requests Course Material](lectures/day_3/requests.ipynb)
+
 | Time  | Topic |
 | ------------- | ------------- |
-| 08:00 - 09:30 a.m. | [Modules, Scope and Functions](lecture_python7.md)  |
-| 09:30 - 11:00 p.m.  | [Workshop VII](workshop_python7.md)  |
-| 11:00 - 12:30 p.m.|[Complex Data Structures and Exceptions](lecture_python8.md)|
-| 1:30 - 3:00 p.m.|[Workshop VIII](workshop_python8.md) |
-| 3:00 - 5:00 p.m.|[Bioinformatics Packages in Python](lecture_python9.md) |
+| 08:00 - 08:30 a.m.  | Go over Homework from Day2 |
+| 08:30 - 9:30 a.m. | Manipulating Numerical data Numpy |
+| 09:30 - 10:30 p.m.  | Workshop VII  |
+| 10:30 - 11:30 p.m.| Manipulating Numerical data Pandas|
+| 11:30 - 12:30 p.m.| Workshop VIII|
+| 1:30 - 3:00 p.m.|  API, searching for Bioinformatics databases |
+| 3:00 - 5:00 p.m.|Workshop IX |
 
 ### Preparation for Class
 
@@ -84,4 +106,3 @@ Room NG3.202
 - [Download & Install: Anaconda Python (with Python 3.6)](https://www.anaconda.com/download/)
 
 	- Once installed, we will cover initial startup /setup of Python IDEs/ etc.. in the course.
-

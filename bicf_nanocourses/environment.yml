@@ -1,0 +1,29 @@
+name: mkdocs
+dependencies:
+- certifi=2016.2.28=py27_0
+- openssl=1.0.2l=0
+- pip=9.0.1=py27_1
+- python=2.7.13=0
+- readline=6.2=2
+- setuptools=36.4.0=py27_1
+- sqlite=3.13.0=0
+- tk=8.5.18=0
+- wheel=0.29.0=py27_0
+- zlib=1.2.11=0
+- pip:
+  - click==7.0
+  - jinja2==2.10.1
+  - livereload==2.6.0
+  - markdown==3.1
+  - markupsafe==1.1.1
+  - mkdocs==1.0.4
+  - mkdocs-bootswatch==1.0
+  - mkdocs-material==4.1.2
+  - mkdocs-windmill==1.0.0
+  - pygments==2.3.1
+  - pymdown-extensions==6.0
+  - pyyaml==5.1
+  - six==1.12.0
+  - tornado==6.0.2
+prefix: /home2/bicf_user/.conda/envs/mkdocs
+

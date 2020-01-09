@@ -12,4 +12,4 @@ Participants will be asked to bring their own laptop and may be required to down
 The nanocourse series is open to all students, postdocs, research assistants, faculty and other personnel at UT Southwestern. We will also consider registrations from individuals at other institutions on a limited basis. Acceptance into nanocourses is competitive and decisions will be based on answers to questions on the registration form. Academic credit may be available to students through the Graduate School and Postdoctoral Affairs offices.
 
 # How to register
-Please see the Upcoming Nanocourses section below for more information. To be added to our email notification list, please contact [Rebekah Craig] (mailto:rebekah.craig@utsouthwestern.edu).
+Please see the Upcoming Nanocourses section below for more information. To be added to our email notification list, please contact [Rebekah Craig](mailto:rebekah.craig@utsouthwestern.edu).

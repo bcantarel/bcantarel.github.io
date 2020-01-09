@@ -1,13 +1,14 @@
-# [BICF](http://www.utsouthwestern.edu/labs/bioinformatics/) R for Beginners 2
+# [BICF](http://www.utsouthwestern.edu/labs/bioinformatics/) R for Beginners 2: Data Science with R
 
 Have you already taken the R for Beginner 1 and now want to build up your skills? Do you want to create interactive plots or perform complicated genomics analsysis with Bioconductor? Do you understand dataframes, matries and vectors but need more practice on more sophisticaled analysis?  
 
-In this continuation of the R Beginner 1 Nanocourse, we will cover:
-1. review what you learned in R Beginner 1
-2. show you how to merge and search excel sheets
-3. create small scripts for repetitive tasks
-4. generate interactive plots
-5. use Bioinformatics packages from Bioconductor.  
+We will cover:
+
+- Data Importing and Cleaning with [tidy](https://tidyr.tidyverse.org) & [stringr](https://stringr.tidyverse.org)
+- Data Manipulation and Data Joining with [dplyr](https://dplyr.tidyverse.org)
+- Correlations and Simple Regression  
+- Data Visualization with [ggplot2](https://ggplot2.tidyverse.org)
+- R Scripting and Markdown
 
 Students will also have a chance to present their own data challenges and come up analysis strategies.
 
@@ -25,18 +26,17 @@ If you already have R studio, please [update your R here](https://cran.r-project
 
 | Time  | Topic | Instructor|
 | ------------- | ------------- | ------------- |
-| | January 11th 2018  | Room NB2.100A |
-| 9 - 10:30 a.m. | [Simple Data Structure, Plots and Stats](DataStructurePlots_Slides_01112018.pdf)  | Jeon Lee |
-| 10:30 - 12 p.m. | [R Review Workshop](r_DataStructurePlots_01112018.zip)  | Jeon Lee and Jiwoong Kim |
-| 1 pm - 2 p.m.  | [ Data Manipulation](RStringSQL.pdf)| Brandi Cantarel|
-| 2:00 - 3:00 p.m.| [ Data Manipulation Workshop](r_datamanipulation.md) <br> [Data Manipulation Datasets](r_datamani.zip)| |
-| 3:00 - 4:00 p.m. | [Scripting](Scripting_01112018.pdf) | Rong Lu |
-| 4:00 - 5:00 p.m. | [Scripting Workshop](rscripting.html) <br> [Scripting Data](rscripting_workshop.zip) | |
-| | January 18th 2018 | Room NB2.100A |
-| 9 - 10 a.m. | [Interactive Plotting](InteractivePlotting.pdf)  | Min Kim |
-| 10 - 11 a.m. | [Shiny/Plotly Workshop](InteractivePlotting_Workshop.pdf)  | |
-| 11am - 12 p.m.  | [ Using Bioconductor Packages](bioconductor_intro.pdf)| Venkat Malladi |
-| 1:00 - 2:30 p.m.| [ Bioconductor Workshop: RNASeq and ChipSeq](r_bioconductor.md) <br> [Bioconductor Datasets](bioconductor_RNAseq.zip)| |
+| | January 11th 2019  | Room NB2.100A |
+| 9 - 12:00 a.m. | [Data Importing and Cleaning (with Answers)](DataClean.nb.html) <br> [Data Files](DataCleaning.zip) | Brandi Cantarel |
+| 1:00 pm - 2:00 p.m.  | [ Data Manipulation and Data Joining ](beginner_r_2_dataManipulation_lecture.zip)| Spencer Barnes |
+| 2:00 - 3:00 p.m.| [ Workshop II](beginner_r_2_dataManipulation_workshop.zip) | |
+| 3:00 - 4:00 p.m. | [Correlations and Linear Regression](Stat_Lecture-R2_nanocourse_01092019.html) | Rong Lu |
+| 4:00 - 5:00 p.m. | [Workshop III](Stat_Workshop-R2_Questions_Only_01092019.html) <br> [Workshop III Solutions](Stat_Workshop-R2_nanocourse_01092019.html) | |
+| | January 18th 2019 | Room NB2.100A |
+| 9:00 - 10:00 a.m. | [Data Visualization with GGPlot](Data_Visualization_with_GGPlot.html)  | Jeon Lee |
+| 10:00 - 11:00 a.m. | [Workshop IV](Workshop_Data Visualization with GGPlot_nb.html)  | |
+| 11:00 - 12:00 p.m.| [Scripting and Markdown](Scripting_01112018.pdf) | Chris Bennett |
+| 1:00 - 2:30 p.m. | [Scripting Workshop](rscripting.html) <br> [Scripting Data](rscripting_workshop.zip) | |
 | 2:30 - 5:00 p.m. | [R Therapy: Student Case Studies]() | All instructors |
 
 ## R Therapy

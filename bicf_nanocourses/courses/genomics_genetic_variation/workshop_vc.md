@@ -13,14 +13,17 @@ First, we will log into the log into a compute node,install a necessary package 
 
 * Set up a [WebGui](https://portal.biohpc.swmed.edu/terminal/webgui) session on BioHPC
 * Log into via the VNC
-* Open a terminal window -- you should be in the directory /archive/nanocourse/May2018/trainXX
-* Copy data from /archive/nanocourse/May2018/shared/vc_calling_session2 to your train directory
+* Open a terminal window -- you should be in the directory /archive/nanocourse/genome_analysis/trainXX (train01 used in the example)
+* Copy data from /archive/nanocourse/genome_analysis/shared/vc_calling_session2 to your train directory
 * hint 
 
 ~~~~
-cp /archive/nanocourse/May2018/shared/vc_calling_session2/* /archive/nanocourse/May2018/trainXX/
-cd /archive/nanocourse/May2018/trainXX/
+cd /archive/nanocourse/genome_analysis/shared/vc_calling_session2
+cp * /archive/nanocourse/genome_analysis/train01/
+cd /archive/nanocourse/genome_analysis/train01/vc_calling_session2
 ~~~~
+
+#### Germline SNV calling
 
 ## Run Germline Variant Calling Program Strelka 2
 
@@ -29,39 +32,52 @@ First we are going to run variant calling using a program called Stelka2 on 2 en
 Here are the commands that you will need to run Strelka2
 
 ~~~~
-module load strelka/2.9.0 samtools/1.6 manta/1.3.1
+module load strelka/2.9.0 samtools/1.6
 mkdir manta strelka
-configManta.py --bam HD752.nanocourse.bam --bam HD728.nanocourse.bam --referenceFasta /project/shared/bicf_workflow_ref/GRCh38/genome.fa --runDir manta
-manta/runWorkflow.py -m local -j 8
-configureStrelkaGermlineWorkflow.py --bam HD752.nanocourse.bam --bam HD728.nanocourse.bam --referenceFasta /project/shared/bicf_workflow_ref/GRCh38/genome.fa --indelCandidates manta/results/variants/candidateSmallIndels.vcf.gz --runDir strelka
+configureStrelkaGermlineWorkflow.py --bam HD752.nanocourse.bam --bam HD728.nanocourse.bam --referenceFasta /project/shared/bicf_workflow_ref/GRCh38/genome.fa --runDir strelka
 strelka/runWorkflow.py -m local -j 8
-bcftools norm -c s -f /project/shared/bicf_workflow_ref/GRCh38/genome.fa -w 10 -O z -o Horizon.strelka2.vcf.gz strelka/results/variants/variants.vcf.gz
 ~~~~
+
 
 ## Run Somatic Variant Calling Program Shimmer
 
+#### Somatic variants
+
 ~~~~
-module load snpeff/4.3q shimmer/0.1.1 samtools/1.6  vcftools/0.1.14
+module load shimmer/0.1.1
+mkdir shimmer
 shimmer.pl --minqual 25 --ref /project/shared/bicf_workflow_ref/GRCh38/genome.fa HD752.nanocourse.bam HD728.nanocourse.bam --outdir shimmer 2> shimmer.err
-module unload shimmer/0.1.1
-vcf-annotate -n --fill-type shimmer/somatic_diffs.vcf | java -jar $SNPEFF_HOME/SnpSift.jar filter '(GEN[*].DP >= 10)'| bgzip > Horizon.shimmer.vcf.gz
+cd shimmer
+module load snpeff/4.3q
+java -jar $SNPEFF_HOME/snpEff.jar GRCh38.86 somatic_diffs.vcf > somatic_diffs_annotate.vcf
 ~~~~
+
 
 ## Run Structural Variant Calling Program Delly
 
 ~~~~
-module load  delly2/v0.7.7-multi samtools/1.6 bedtools/2.26.0 snpeff/4.3q vcftools/0.1.14
+module load delly2/v0.7.7-multi
 delly2 call -t BND -o delly_translocations.bcf -q 30 -g /project/shared/bicf_workflow_ref/GRCh38/genome.fa HD728.nanocourse.bam HD752.nanocourse.bam
 delly2 call -t DUP -o delly_duplications.bcf -q 30 -g /project/shared/bicf_workflow_ref/GRCh38/genome.fa HD728.nanocourse.bam HD752.nanocourse.bam
 delly2 call -t INV -o delly_inversions.bcf -q 30 -g /project/shared/bicf_workflow_ref/GRCh38/genome.fa HD728.nanocourse.bam HD752.nanocourse.bam
 delly2 call -t DEL -o delly_deletion.bcf -q 30 -g /project/shared/bicf_workflow_ref/GRCh38/genome.fa HD728.nanocourse.bam HD752.nanocourse.bam
 delly2 call -t INS -o delly_insertion.bcf -q 30 -g /project/shared/bicf_workflow_ref/GRCh38/genome.fa HD728.nanocourse.bam HD752.nanocourse.bam
-delly2 filter -t BND -o  delly_tra.bcf -f somatic -s samples.tsv delly_translocations.bcf
-delly2 filter -t DUP -o  delly_dup.bcf -f somatic -s samples.tsv delly_duplications.bcf
-delly2 filter -t INV -o  delly_inv.bcf -f somatic -s samples.tsv delly_inversions.bcf
-delly2 filter -t DEL -o  delly_del.bcf -f somatic -s samples.tsv delly_deletion.bcf
-delly2 filter -t INS -o  delly_ins.bcf -f somatic -s samples.tsv delly_insertion.bcf
+~~~~
+
+samples.tsv - change normal to control 
+
+~~~~
+delly2 filter -t BND -o  delly_tra.bcf -f somatic -s samples.tsv delly_translocations.bcf`
+delly2 filter -t DUP -o  delly_dup.bcf -f somatic -s samples.tsv delly_duplications.bcf`
+delly2 filter -t INV -o  delly_inv.bcf -f somatic -s samples.tsv delly_inversions.bcf`
+delly2 filter -t DEL -o  delly_del.bcf -f somatic -s samples.tsv delly_deletion.bcf`
+delly2 filter -t INS -o  delly_ins.bcf -f somatic -s samples.tsv delly_insertion.bcf`
+
+module load vcftools/0.1.14 samtools/1.6
 bcftools concat -a -O v delly_dup.bcf delly_inv.bcf delly_tra.bcf delly_del.bcf delly_ins.bcf| vcf-sort -t temp > delly.vcf
+java -jar $SNPEFF_HOME/snpEff.jar GRCh37.75 delly.vcf > delly_annotate.vcf
+mkdir delly
+mv delly_* delly
 ~~~~
 
 ## Run the Germline Program on Astrocyte
@@ -75,7 +91,7 @@ While you are running the pipeline on the command line, you can run the full ana
 
 
 
-## Examine the BAM File in IGV
+## Examine the HD728.nanocourse.bam File in IGV
 
 ~~~~
 module load IGV/2.3.90
@@ -131,4 +147,5 @@ Compare your visual results to the variants identified manually from these posit
   * Input the Genes that you found in the section above (hint click genes) and click analyze all
   * Pick a few genes (bookmark)and save to a file
   * Try filters and set minimum coverage > 25, allele frequency < 0.05 and exclude non-coding intronic variants
+
 

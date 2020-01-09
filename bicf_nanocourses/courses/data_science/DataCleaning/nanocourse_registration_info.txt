@@ -1,0 +1,577 @@
+Year	Month	CourseName	StudentID	Department	CareerStatus
+2016	5	Genome Wide Association Studies	365		
+2016	5	Genome Wide Association Studies	209		
+2016	5	Genome Wide Association Studies	184		
+2016	5	Genome Wide Association Studies	340		
+2016	5	Genome Wide Association Studies	68		
+2016	5	Genome Wide Association Studies	245		
+2016	5	Genome Wide Association Studies	171		
+2016	5	Genome Wide Association Studies	7		
+2016	5	Genome Wide Association Studies	243		
+2016	5	Genome Wide Association Studies	362		
+2016	5	Genome Wide Association Studies	289		
+2016	5	Genome Wide Association Studies	238		
+2016	5	Genome Wide Association Studies	60		
+2016	5	Genome Wide Association Studies	178		
+2016	5	Genome Wide Association Studies	73		
+2016	5	Genome Wide Association Studies	215		
+2016	5	Genome Wide Association Studies	357		
+2016	5	Genome Wide Association Studies	334		
+2016	5	Genome Wide Association Studies	401		
+2017	9	Computational Image Analysis I	8	McDermott Center	Other Researcher
+2017	9	Computational Image Analysis I	14	Biochemistry	Faculty
+2017	9	Computational Image Analysis I	25	Bioinformatics	Grad/Med Student
+2017	9	Computational Image Analysis I	93	Radiology	Grad/Med Student
+2017	9	Computational Image Analysis I	153	AIRC	Postdoc
+2017	9	Computational Image Analysis I	226	Molecular Genetics	Faculty
+2017	9	Computational Image Analysis I	251	Neuroscience	Postdoc
+2017	9	Computational Image Analysis I	254	Bioinformatics	Grad/Med Student
+2017	9	Computational Image Analysis I	268	Cell Biology	Other Researcher
+2017	9	Computational Image Analysis I	282	Cell Biology	Postdoc
+2017	9	Computational Image Analysis I	294	Biophysics	Grad/Med Student
+2017	9	Computational Image Analysis I	324	Biophysics	Grad/Med Student
+2017	9	Computational Image Analysis I	338	Bioinformatics	Other Researcher
+2017	9	Computational Image Analysis I	385	Physiology	Postdoc
+2017	9	Computational Image Analysis I	391	Neuroscience	Postdoc
+2018	9	Computational Image Analysis I	36	Neuroscience	Faculty
+2018	9	Computational Image Analysis I	81	Bioinformatics	Grad/Med Student
+2018	9	Computational Image Analysis I	87	Bioinformatics	Grad/Med Student
+2018	9	Computational Image Analysis I	92	Cell Biology	Faculty
+2018	9	Computational Image Analysis I	102	Radiology	Postdoc
+2018	9	Computational Image Analysis I	183	CAND	Grad/Med Student
+2018	9	Computational Image Analysis I	220	Internal Medicine	Postdoc
+2018	9	Computational Image Analysis I	231	Radiation Oncology	Other Researcher
+2018	9	Computational Image Analysis I	257	Cell Biology	Postdoc
+2018	9	Computational Image Analysis I	311	Immunology	Grad/Med Student
+2018	9	Computational Image Analysis I	337	Bioinformatics	Postdoc
+2018	9	Computational Image Analysis I	346	CMCRI	Postdoc
+2018	9	Computational Image Analysis I	359	SCCC	Grad/Med Student
+2018	9	Computational Image Analysis I	372	Molecular Genetics	Postdoc
+2019	9	Computational Image Analysis I	42	Radiation Oncology	Postdoc
+2019	9	Computational Image Analysis I	45	Molecular Biology	Postdoc
+2019	9	Computational Image Analysis I	96	Urology	Postdoc
+2019	9	Computational Image Analysis I	139	Neuroscience	Grad/Med Student
+2019	9	Computational Image Analysis I	181	Bioinformatics	Postdoc
+2019	9	Computational Image Analysis I	189	Dermatology	Postdoc
+2019	9	Computational Image Analysis I	234	Molecular Biology	Postdoc
+2019	9	Computational Image Analysis I	336	Bioinformatics	Other Researcher
+2019	9	Computational Image Analysis I	349	Biophysics	Postdoc
+2019	9	Computational Image Analysis I	361	Pharmacology	Postdoc
+2019	9	Computational Image Analysis I	364	Biophysics	Grad/Med Student
+2017	9	Computational Image Analysis II	8	McDermott Center	Other Researcher
+2017	9	Computational Image Analysis II	14	Biochemistry	Faculty
+2017	9	Computational Image Analysis II	25	Bioinformatics	Grad/Med Student
+2017	9	Computational Image Analysis II	93	Radiology	Grad/Med Student
+2017	9	Computational Image Analysis II	153	AIRC	Postdoc
+2017	9	Computational Image Analysis II	226	Molecular Genetics	Faculty
+2017	9	Computational Image Analysis II	251	Neuroscience	Postdoc
+2017	9	Computational Image Analysis II	254	Bioinformatics	Grad/Med Student
+2017	9	Computational Image Analysis II	268	Cell Biology	Other Researcher
+2017	9	Computational Image Analysis II	282	Cell Biology	Postdoc
+2017	9	Computational Image Analysis II	294	Biophysics	Grad/Med Student
+2017	9	Computational Image Analysis II	324	Biophysics	Grad/Med Student
+2017	9	Computational Image Analysis II	338	Bioinformatics	Other Researcher
+2017	9	Computational Image Analysis II	385	Physiology	Postdoc
+2017	9	Computational Image Analysis II	391	Neuroscience	Postdoc
+2018	9	Computational Image Analysis II	36	Neuroscience	Faculty
+2018	9	Computational Image Analysis II	81	Bioinformatics	Grad/Med Student
+2018	9	Computational Image Analysis II	87	Bioinformatics	Grad/Med Student
+2018	9	Computational Image Analysis II	92	Cell Biology	Faculty
+2018	9	Computational Image Analysis II	102	Radiology	Postdoc
+2018	9	Computational Image Analysis II	183	CAND	Grad/Med Student
+2018	9	Computational Image Analysis II	220	Internal Medicine	Postdoc
+2018	9	Computational Image Analysis II	231	Radiation Oncology	Other Researcher
+2018	9	Computational Image Analysis II	257	Cell Biology	Postdoc
+2018	9	Computational Image Analysis II	311	Immunology	Grad/Med Student
+2018	9	Computational Image Analysis II	337	Bioinformatics	Postdoc
+2018	9	Computational Image Analysis II	346	CMCRI	Postdoc
+2018	9	Computational Image Analysis II	359	SCCC	Grad/Med Student
+2018	9	Computational Image Analysis II	372	Molecular Genetics	Postdoc
+2019	9	Computational Image Analysis II	42	Radiation Oncology	Postdoc
+2019	9	Computational Image Analysis II	45	Molecular Biology	Postdoc
+2019	9	Computational Image Analysis II	96	Urology	Postdoc
+2019	9	Computational Image Analysis II	139	Neuroscience	Grad/Med Student
+2019	9	Computational Image Analysis II	181	Bioinformatics	Postdoc
+2019	9	Computational Image Analysis II	189	Dermatology	Postdoc
+2019	9	Computational Image Analysis II	234	Molecular Biology	Postdoc
+2019	9	Computational Image Analysis II	336	Bioinformatics	Other Researcher
+2019	9	Computational Image Analysis II	349	Biophysics	Postdoc
+2019	9	Computational Image Analysis II	361	Pharmacology	Postdoc
+2019	9	Computational Image Analysis II	364	Biophysics	Grad/Med Student
+2016	12	CUDA C/C++ Accelerated GPU Computing	26	Bioinformatics	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	44	Clinical Sciences	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	46	Radiology	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	56	Radiology	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	71	Pharmacology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	90	Radiation Oncology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	117	Clinical Sciences	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	126	Neuroscience	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	141	Radiology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	155	GCSB	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	193	Biochemistry	Faculty
+2016	12	CUDA C/C++ Accelerated GPU Computing	218	Bioinformatics	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	223	Biophysics	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	230	Biophysics	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	264	Radiation Oncology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	265	Bioinformatics	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	274	Plastic Surgery	Faculty
+2016	12	CUDA C/C++ Accelerated GPU Computing	275	Biophysics	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	291	Bioinformatics	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	296	Radiation Oncology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	317	Clinical Sciences	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	326	Radiology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	338	GCRB	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	358	Bioinformatics	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	362	Physiology	Faculty
+2016	12	CUDA C/C++ Accelerated GPU Computing	376	Bioinformatics	Other Researcher
+2016	12	CUDA C/C++ Accelerated GPU Computing	394	Clinical Sciences	Grad/Med Student
+2016	12	CUDA C/C++ Accelerated GPU Computing	400	Cell Biology	Postdoc
+2016	12	CUDA C/C++ Accelerated GPU Computing	403	AIRC	Grad/Med Student
+2019	8	Deep Learning for Healthcare Genomics	8	McDermott Center	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	47	Immunology	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	54	Bioinformatics	Faculty
+2019	8	Deep Learning for Healthcare Genomics	79	Bioinformatics	Postdoc
+2019	8	Deep Learning for Healthcare Genomics	113	Bioinformatics	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	124	Bioinformatics	Grad/Med Student
+2019	8	Deep Learning for Healthcare Genomics	125	Urology	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	132	Bioinformatics	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	142	Bioinformatics	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	159	Immunology	Faculty
+2019	8	Deep Learning for Healthcare Genomics	179	Bioinformatics	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	181	Bioinformatics	Postdoc
+2019	8	Deep Learning for Healthcare Genomics	194	Radiology	Faculty
+2019	8	Deep Learning for Healthcare Genomics	198	Neuroscience	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	205	Bioinformatics	Grad/Med Student
+2019	8	Deep Learning for Healthcare Genomics	269	Radiation Oncology	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	299	Internal Medicine	Faculty
+2019	8	Deep Learning for Healthcare Genomics	338	Bioinformatics	Other Researcher
+2019	8	Deep Learning for Healthcare Genomics	361	Pharmacology	Postdoc
+2019	8	Deep Learning for Healthcare Genomics	404	Internal Medicine	Grad/Med Student
+2018	6	Gene Expression and Regulation	2	Internal Medicine	Postdoc
+2018	6	Gene Expression and Regulation	119	Neuroscience	Postdoc
+2018	6	Gene Expression and Regulation	133	GCRB	Postdoc
+2018	6	Gene Expression and Regulation	165	Physiology	Postdoc
+2018	6	Gene Expression and Regulation	180	Dermatology	Postdoc
+2018	6	Gene Expression and Regulation	182	Molecular Biology	Postdoc
+2018	6	Gene Expression and Regulation	234	Molecular Biology	Postdoc
+2018	6	Gene Expression and Regulation	302	Pharmacology	Postdoc
+2018	6	Gene Expression and Regulation	314	Radiation Oncology	Postdoc
+2018	6	Gene Expression and Regulation	316	Molecular Genetics	Other Researcher
+2018	6	Gene Expression and Regulation	318	Pharmacology	Postdoc
+2018	6	Gene Expression and Regulation	321	Immunology	Other Researcher
+2018	6	Gene Expression and Regulation	347	Biochemistry	Grad/Med Student
+2018	6	Gene Expression and Regulation	395	Molecular Biology	Grad/Med Student
+2018	6	Gene Expression and Regulation	397	Microbiology	Postdoc
+2019	6	Gene Expression and Regulation	1	Internal Medicine	Grad/Med Student
+2019	6	Gene Expression and Regulation	9	Molecular Biology	Grad/Med Student
+2019	6	Gene Expression and Regulation	29	Internal Medicine	Faculty
+2019	6	Gene Expression and Regulation	64	CMCRI	Grad/Med Student
+2019	6	Gene Expression and Regulation	70	Immunology	Postdoc
+2019	6	Gene Expression and Regulation	78	Pharmacology	Postdoc
+2019	6	Gene Expression and Regulation	111	Neuroscience	Grad/Med Student
+2019	6	Gene Expression and Regulation	123	Internal Medicine	Other Researcher
+2019	6	Gene Expression and Regulation	128	Internal Medicine	Postdoc
+2019	6	Gene Expression and Regulation	208	SCCC	Postdoc
+2019	6	Gene Expression and Regulation	233	Radiation Oncology	Faculty
+2019	6	Gene Expression and Regulation	258	Internal Medicine	Postdoc
+2019	6	Gene Expression and Regulation	356	GCRB	
+2019	6	Gene Expression and Regulation	361	Pharmacology	Postdoc
+2019	6	Gene Expression and Regulation	367	Radiation Oncology	Other Researcher
+2019	6	Gene Expression and Regulation	373	Cell Biology	Postdoc
+2019	6	Gene Expression and Regulation	405	CMCRI	Faculty
+2017	4	Genome Wide Association Studies	11	AIRC	Postdoc
+2017	4	Genome Wide Association Studies	24	Molecular Biology	Other Researcher
+2017	4	Genome Wide Association Studies	53	Neuroscience	Postdoc
+2017	4	Genome Wide Association Studies	66	Immunology	Postdoc
+2017	4	Genome Wide Association Studies	77	Pharmacology	Postdoc
+2017	4	Genome Wide Association Studies	106	Otolaryngology 	Faculty
+2017	4	Genome Wide Association Studies	118	CMCRI	Faculty
+2017	4	Genome Wide Association Studies	154	SCCC	Postdoc
+2017	4	Genome Wide Association Studies	163	GCRB	Postdoc
+2017	4	Genome Wide Association Studies	268	Cell Biology	Other Researcher
+2017	4	Genome Wide Association Studies	286	Radiation Oncology	Postdoc
+2017	4	Genome Wide Association Studies	290	McDermott Center	Postdoc
+2017	4	Genome Wide Association Studies	314	SCCC	Grad/Med Student
+2017	4	Genome Wide Association Studies	391	Neuroscience	Postdoc
+2018	5	Genomics Analysis	24	Molecular Biology	Grad/Med Student
+2018	5	Genomics Analysis	65	Internal Medicine	Other Researcher
+2018	5	Genomics Analysis	102	Radiology	Postdoc
+2018	5	Genomics Analysis	118	CMCRI	Faculty
+2018	5	Genomics Analysis	151	Neuroscience	Grad/Med Student
+2018	5	Genomics Analysis	244	Pathology	Faculty
+2018	5	Genomics Analysis	253	McDermott Center	Postdoc
+2018	5	Genomics Analysis	255	Internal Medicine	Faculty
+2018	5	Genomics Analysis	295	SCCC	Other Researcher
+2018	5	Genomics Analysis	311	Immunology	Grad/Med Student
+2018	5	Genomics Analysis	356	CMCRI	Postdoc
+2018	5	Genomics Analysis	374	GCRB	Postdoc
+2018	5	Genomics Analysis	377	Biochemistry	Postdoc
+2018	5	Genomics Analysis	392	CMCRI	Postdoc
+2018	5	Genomics Analysis	399	McDermott Center	Grad/Med Student
+2019	5	Genomics Analysis	12	SCCC	Other Researcher
+2019	5	Genomics Analysis	94	SCCC	Postdoc
+2019	5	Genomics Analysis	107	Molecular Biology	Postdoc
+2019	5	Genomics Analysis	127	Internal Medicine	Postdoc
+2019	5	Genomics Analysis	133	GCRB	Postdoc
+2019	5	Genomics Analysis	158	Pathology	Other Researcher
+2019	5	Genomics Analysis	165	Physiology	Postdoc
+2019	5	Genomics Analysis	168	Pathology	Other Researcher
+2019	5	Genomics Analysis	208	SCCC	Postdoc
+2019	5	Genomics Analysis	232	Biophysics	Other Researcher
+2019	5	Genomics Analysis	246	Pathology	Other Researcher
+2019	5	Genomics Analysis	272	SCCC	Postdoc
+2019	5	Genomics Analysis	306	CAND	Postdoc
+2019	5	Genomics Analysis	318	Pharmacology	Postdoc
+2019	5	Genomics Analysis	346	CMCRI	Postdoc
+2019	5	Genomics Analysis	370	Internal Medicine	Postdoc
+2019	5	Genomics Analysis	373	Cell Biology	Postdoc
+2018	5	Immune Profiling	65	Internal Medicine	Other Researcher
+2018	5	Immune Profiling	102	Radiology	Postdoc
+2018	5	Immune Profiling	118	CMCRI	Faculty
+2018	5	Immune Profiling	120	Molecular Genetics	Postdoc
+2018	5	Immune Profiling	210	Radiation Oncology	Other Researcher
+2018	5	Immune Profiling	244	Pathology	Faculty
+2018	5	Immune Profiling	295	SCCC	Other Researcher
+2018	5	Immune Profiling	308	Bioinformatics	Other Researcher
+2018	5	Immune Profiling	311	Immunology	Grad/Med Student
+2018	5	Immune Profiling	312	Neurology	
+2018	5	Immune Profiling	314	Radiation Oncology	Postdoc
+2018	5	Immune Profiling	337	Bioinformatics	Postdoc
+2018	5	Immune Profiling	377	Biochemistry	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	10	CMCRI	Grad/Med Student
+2016	12	"Intro to R for Beginners, Level I "	24	Molecular Biology	Grad/Med Student
+2016	12	"Intro to R for Beginners, Level I "	50	Cell Biology	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	62	Cell Biology	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	69	Internal Medicine	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	86	GCRB	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	117	Clinical Sciences	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	176	Immunology	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	248	Cell Biology	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	274	Plastic Surgery	Faculty
+2016	12	"Intro to R for Beginners, Level I "	278	Microbiology	Grad/Med Student
+2016	12	"Intro to R for Beginners, Level I "	301	GCRB	Grad/Med Student
+2016	12	"Intro to R for Beginners, Level I "	303	SCCC	Faculty
+2016	12	"Intro to R for Beginners, Level I "	304	Neuroscience	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	365	CMCRI	Postdoc
+2016	12	"Intro to R for Beginners, Level I "	398	Bioinformatics	Postdoc
+2017	7	"Intro to R for Beginners, Level I "	77	Pharmacology	Other Researcher
+2017	7	"Intro to R for Beginners, Level I "	119	Neuroscience	Postdoc
+2017	7	"Intro to R for Beginners, Level I "	122	Neuroscience	Postdoc
+2017	7	"Intro to R for Beginners, Level I "	130	Cell Biology	Postdoc
+2017	7	"Intro to R for Beginners, Level I "	136	Biochemistry	Other Researcher
+2017	7	"Intro to R for Beginners, Level I "	166	Urology	Grad/Med Student
+2017	7	"Intro to R for Beginners, Level I "	180	Dermatology	Postdoc
+2017	7	"Intro to R for Beginners, Level I "	187	Molecular Biology	Faculty
+2017	7	"Intro to R for Beginners, Level I "	262	Neuroscience	Other Researcher
+2017	7	"Intro to R for Beginners, Level I "	267	Biochemistry	Other Researcher
+2017	7	"Intro to R for Beginners, Level I "	341	Neuroscience	Grad/Med Student
+2017	7	"Intro to R for Beginners, Level I "	389	Biophysics	Grad/Med Student
+2017	7	"Intro to R for Beginners, Level I "	395	Molecular Biology	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	17	Neuroscience	Other Researcher
+2018	7	"Intro to R for Beginners, Level I "	19	Psychiatry	Postdoc
+2018	7	"Intro to R for Beginners, Level I "	20	Neuroscience	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	28	Neuroscience	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	39	Microbiology	Postdoc
+2018	7	"Intro to R for Beginners, Level I "	58	Cell Biology	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	98	Radiology	Postdoc
+2018	7	"Intro to R for Beginners, Level I "	151	Neuroscience	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	152	Molecular Biology	Postdoc
+2018	7	"Intro to R for Beginners, Level I "	229	GCSB	Postdoc
+2018	7	"Intro to R for Beginners, Level I "	242	AIRC	Other Researcher
+2018	7	"Intro to R for Beginners, Level I "	252	Neuroscience	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	293	Molecular Biology	Grad/Med Student
+2018	7	"Intro to R for Beginners, Level I "	377	Biochemistry	Postdoc
+2018	7	"Intro to R for Beginners, Level I "	379	Molecular Biology	Grad/Med Student
+2017	1	"Intro to R for Beginners, Level II"	7	Biochemistry	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	13	Cell Biology	Other Researcher
+2017	1	"Intro to R for Beginners, Level II"	15	Cell Biology	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	43	GCRB	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	49	Molecular Genetics	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	122	Neuroscience	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	154	SCCC	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	163	GCRB	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	212	Clinical Sciences	Other Researcher
+2017	1	"Intro to R for Beginners, Level II"	219	Urology	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	236	Cell Biology	Grad/Med Student
+2017	1	"Intro to R for Beginners, Level II"	239	Pharmacology	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	243	CGHD	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	251	Psychiatry	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	266	Neuroscience	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	288	Cell Biology	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	292	GCRB	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	300	Bioinformatics	Other Researcher
+2017	1	"Intro to R for Beginners, Level II"	313	Internal Medicine	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	322	Cell Biology	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	339	Neuroscience	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	344	Biochemistry	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	360	GCRB	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	362	Physiology	Faculty
+2017	1	"Intro to R for Beginners, Level II"	377	Biochemistry	Postdoc
+2017	1	"Intro to R for Beginners, Level II"	398	Bioinformatics	Postdoc
+2018	1	"Intro to R for Beginners, Level II"	19	Psychiatry	Postdoc
+2018	1	"Intro to R for Beginners, Level II"	85	Bioinformatics	Other Researcher
+2018	1	"Intro to R for Beginners, Level II"	101	Urology	Faculty
+2018	1	"Intro to R for Beginners, Level II"	129	AIRC	Grad/Med Student
+2018	1	"Intro to R for Beginners, Level II"	141	Radiology	Postdoc
+2018	1	"Intro to R for Beginners, Level II"	180	Dermatology	Postdoc
+2018	1	"Intro to R for Beginners, Level II"	204	GCRB	Grad/Med Student
+2018	1	"Intro to R for Beginners, Level II"	266	Neuroscience	Faculty
+2018	1	"Intro to R for Beginners, Level II"	267	Biochemistry	Other Researcher
+2018	1	"Intro to R for Beginners, Level II"	270	Clinical Sciences	Other Researcher
+2018	1	"Intro to R for Beginners, Level II"	277	GCRB	Postdoc
+2018	1	"Intro to R for Beginners, Level II"	278	Internal Medicine	Postdoc
+2018	1	"Intro to R for Beginners, Level II"	300	Bioinformatics	Other Researcher
+2018	1	"Intro to R for Beginners, Level II"	354	Urology	Faculty
+2019	1	"Intro to R for Beginners, Level II"	122	Neuroscience	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	167	Bioinformatics	Grad/Med Student
+2019	1	"Intro to R for Beginners, Level II"	202	Neurology	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	227	Bioinformatics	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	234	Molecular Biology	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	254	Bioinformatics	Grad/Med Student
+2019	1	"Intro to R for Beginners, Level II"	279	Immunology	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	287	Pharmacology	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	292	GCRB	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	339	Neuroscience	Other Researcher
+2019	1	"Intro to R for Beginners, Level II"	346	CMCRI	Postdoc
+2019	1	"Intro to R for Beginners, Level II"	369	SCCC	Faculty
+2018	3	Machine Learning I	34	Biophysics	Grad/Med Student
+2018	3	Machine Learning I	41	Radiology	Postdoc
+2018	3	Machine Learning I	108	Radiation Oncology	Grad/Med Student
+2018	3	Machine Learning I	141	Radiology	Postdoc
+2018	3	Machine Learning I	160	Neuroscience	Grad/Med Student
+2018	3	Machine Learning I	163	GCRB	Postdoc
+2018	3	Machine Learning I	181	Bioinformatics	Postdoc
+2018	3	Machine Learning I	237	Neuroscience	Grad/Med Student
+2018	3	Machine Learning I	274	Plastic Surgery	Faculty
+2018	3	Machine Learning I	311	Immunology	Grad/Med Student
+2018	3	Machine Learning I	333	Physiology	Grad/Med Student
+2018	3	Machine Learning I	339	Neuroscience	Postdoc
+2018	3	Machine Learning I	375	Bioinformatics	Other Researcher
+2018	3	Machine Learning I	381	Clinical Sciences	Faculty
+2018	3	Machine Learning I	392	CMCRI	Postdoc
+2019	3	Machine Learning I	9	Molecular Biology	Grad/Med Student
+2019	3	Machine Learning I	27	GCSB	Grad/Med Student
+2019	3	Machine Learning I	102	Radiology	Postdoc
+2019	3	Machine Learning I	114	Clinical Sciences	Postdoc
+2019	3	Machine Learning I	122	Neuroscience	Postdoc
+2019	3	Machine Learning I	164	Microbiology	Other Researcher
+2019	3	Machine Learning I	169	Biophysics	Grad/Med Student
+2019	3	Machine Learning I	185	CMCRI	Postdoc
+2019	3	Machine Learning I	249	McDermott Center	Other Researcher
+2019	3	Machine Learning I	254	Bioinformatics	Grad/Med Student
+2019	3	Machine Learning I	257	Cell Biology	Postdoc
+2019	3	Machine Learning I	260	GCSB	Grad/Med Student
+2019	3	Machine Learning I	276	Clinical Sciences	Postdoc
+2019	3	Machine Learning I	309	Neurosurgery	Other Researcher
+2019	3	Machine Learning I	345	Bioinformatics	Grad/Med Student
+2019	3	Machine Learning I	363	SCCC	Postdoc
+2019	3	Machine Learning I	390	GCSB	Grad/Med Student
+2019	2	MATLAB for Scientific Data Exploration	35	Biophysics	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	40	CAND	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	82	Bioinformatics	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	97	Radiology	Other Researcher
+2019	2	MATLAB for Scientific Data Exploration	192	AIRC	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	228	GCSB	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	250	Psychiatry	Grad/Med Student
+2019	2	MATLAB for Scientific Data Exploration	320	Immunology	Other Researcher
+2019	2	MATLAB for Scientific Data Exploration	323	Bioinformatics	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	346	CMCRI	Postdoc
+2019	2	MATLAB for Scientific Data Exploration	352	AIRC	Postdoc
+2018	3	NCBI Workshop	3	Internal Medicine	Faculty
+2018	3	NCBI Workshop	6	Urology	Faculty
+2018	3	NCBI Workshop	16	Clinical Sciences	grant specialist
+2018	3	NCBI Workshop	18	Internal Medicine	Faculty
+2018	3	NCBI Workshop	22	Internal Medicine	Faculty
+2018	3	NCBI Workshop	23	Pediatrics	Faculty
+2018	3	NCBI Workshop	24	Molecular Biology	Grad/Med Student
+2018	3	NCBI Workshop	30	Internal Medicine	Faculty
+2018	3	NCBI Workshop	32	Microbiology	Grad/Med Student
+2018	3	NCBI Workshop	33	CGHD	grant specialist
+2018	3	NCBI Workshop	47	Immunology	staff
+2018	3	NCBI Workshop	48	Internal Medicine	Faculty
+2018	3	NCBI Workshop	51	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	55	Pediatrics	grant specialist
+2018	3	NCBI Workshop	57	Psychiatry	Faculty
+2018	3	NCBI Workshop	59	Molecular Biology	Other Researcher
+2018	3	NCBI Workshop	61	Molecular Biology	staff
+2018	3	NCBI Workshop	63	Radiology	grant specialist
+2018	3	NCBI Workshop	65	Internal Medicine	Other Researcher
+2018	3	NCBI Workshop	67	Bioinformatics	staff
+2018	3	NCBI Workshop	72	Radiation Oncology	Postdoc
+2018	3	NCBI Workshop	74	Internal Medicine	grant specialist
+2018	3	NCBI Workshop	75	OB/GYN	Postdoc
+2018	3	NCBI Workshop	76	Urology	grant specialist
+2018	3	NCBI Workshop	80	Pathology	Faculty
+2018	3	NCBI Workshop	80	Pathology	Faculty
+2018	3	NCBI Workshop	83	Internal Medicine	grant specialist
+2018	3	NCBI Workshop	84	CTM	grant specialist
+2018	3	NCBI Workshop	86	OB/GYN	Faculty
+2018	3	NCBI Workshop	88	Microbiology	Other Researcher
+2018	3	NCBI Workshop	89	health care sciences	grant specialist
+2018	3	NCBI Workshop	91	Molecular Biology	Postdoc
+2018	3	NCBI Workshop	95	Internal Medicine	Postdoc
+2018	3	NCBI Workshop	99	AIS	staff
+2018	3	NCBI Workshop	100	Biophysics	grant specialist
+2018	3	NCBI Workshop	103	Pathology	Faculty
+2018	3	NCBI Workshop	104	CTM	grant specialist
+2018	3	NCBI Workshop	105	Pediatrics	Faculty
+2018	3	NCBI Workshop	110	Radiology	grant specialist
+2018	3	NCBI Workshop	113	Bioinformatics	Other Researcher
+2018	3	NCBI Workshop	118	CMCRI	Faculty
+2018	3	NCBI Workshop	120	Molecular Genetics	Postdoc
+2018	3	NCBI Workshop	121	Internal Medicine	Other Researcher
+2018	3	NCBI Workshop	125	Urology	Other Researcher
+2018	3	NCBI Workshop	131	Immunology	staff
+2018	3	NCBI Workshop	132	Bioinformatics	Other Researcher
+2018	3	NCBI Workshop	137	Radiation Oncology	Faculty
+2018	3	NCBI Workshop	138	Pathology	Other Researcher
+2018	3	NCBI Workshop	140	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	143	Urology	Other Researcher
+2018	3	NCBI Workshop	144	Molecular Biology	Faculty
+2018	3	NCBI Workshop	145	Immunology	Other Researcher
+2018	3	NCBI Workshop	147	Urology	Other Researcher
+2018	3	NCBI Workshop	149	Neurology	Faculty
+2018	3	NCBI Workshop	156	Neuroscience	Faculty
+2018	3	NCBI Workshop	157	Dermatology	Postdoc
+2018	3	NCBI Workshop	158	Pathology	Other Researcher
+2018	3	NCBI Workshop	161	Bioinformatics	Other Researcher
+2018	3	NCBI Workshop	162	Psychiatry	grant specialist
+2018	3	NCBI Workshop	173	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	175	Radiology	grant specialist
+2018	3	NCBI Workshop	180	Dermatology	Postdoc
+2018	3	NCBI Workshop	188	Physiology	Faculty
+2018	3	NCBI Workshop	190	Internal Medicine	Postdoc
+2018	3	NCBI Workshop	195	office of the president	staff
+2018	3	NCBI Workshop	196	Internal Medicine	Faculty
+2018	3	NCBI Workshop	197	Internal Medicine	grant specialist
+2018	3	NCBI Workshop	199	Pediatrics	Faculty
+2018	3	NCBI Workshop	200	Internal Medicine	staff
+2018	3	NCBI Workshop	201	Microbiology	Grad/Med Student
+2018	3	NCBI Workshop	203	Pediatrics	Other Researcher
+2018	3	NCBI Workshop	206	Radiology	grant specialist
+2018	3	NCBI Workshop	207	Pathology	Faculty
+2018	3	NCBI Workshop	211	Psychiatry	grant specialist
+2018	3	NCBI Workshop	213	McDermott Center	grant specialist
+2018	3	NCBI Workshop	214	CGHD	grant specialist
+2018	3	NCBI Workshop	215	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	216	Pediatrics	Postdoc
+2018	3	NCBI Workshop	217	IR	staff
+2018	3	NCBI Workshop	222	Biophysics	Grad/Med Student
+2018	3	NCBI Workshop	224	Surgery	Faculty
+2018	3	NCBI Workshop	225	Internal Medicine	grant specialist
+2018	3	NCBI Workshop	227	Bioinformatics	Postdoc
+2018	3	NCBI Workshop	235	Pathology	Faculty
+2018	3	NCBI Workshop	240	Pediatrics	grant specialist
+2018	3	NCBI Workshop	241	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	244	Pathology	Faculty
+2018	3	NCBI Workshop	247	Pediatrics	grant specialist
+2018	3	NCBI Workshop	259	Internal Medicine	grant specialist
+2018	3	NCBI Workshop	261	AIRC	grant specialist
+2018	3	NCBI Workshop	263	Microbiology	Grad/Med Student
+2018	3	NCBI Workshop	266	Neuroscience	Faculty
+2018	3	NCBI Workshop	280	Pathology	Faculty
+2018	3	NCBI Workshop	281	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	283	Pediatrics	Postdoc
+2018	3	NCBI Workshop	297	Pediatrics	Postdoc
+2018	3	NCBI Workshop	298	Urology	Other Researcher
+2018	3	NCBI Workshop	305	Urology	Other Researcher
+2018	3	NCBI Workshop	308	Bioinformatics	Other Researcher
+2018	3	NCBI Workshop	310	Immunology	Grad/Med Student
+2018	3	NCBI Workshop	314	Radiation Oncology 	Postdoc
+2018	3	NCBI Workshop	316	Molecular Genetics	Other Researcher
+2018	3	NCBI Workshop	319	ACGME (clinical genetics)	Other Researcher
+2018	3	NCBI Workshop	320	Immunology	Other Researcher
+2018	3	NCBI Workshop	325	Internal Medicine	staff
+2018	3	NCBI Workshop	327	Parkland Hospital	grant specialist
+2018	3	NCBI Workshop	328	grad school	staff
+2018	3	NCBI Workshop	329	Radiation Oncology	Other Researcher
+2018	3	NCBI Workshop	330	Urology	Other Researcher
+2018	3	NCBI Workshop	331	biochemistry	Grad/Med Student
+2018	3	NCBI Workshop	332	McDermott Center	grant specialist
+2018	3	NCBI Workshop	335	Radiology	grant specialist
+2018	3	NCBI Workshop	338	Bioinformatics	Other Researcher
+2018	3	NCBI Workshop	342	Neurology	Faculty
+2018	3	NCBI Workshop	343	Opthamology	Faculty
+2018	3	NCBI Workshop	348	CAND	Faculty
+2018	3	NCBI Workshop	350	Pathology	other researcher
+2018	3	NCBI Workshop	353	Clinical Sciences	Other Researcher
+2018	3	NCBI Workshop	355	Opthamology	Other Researcher
+2018	3	NCBI Workshop	356	CMCRI	Postdoc
+2018	3	NCBI Workshop	366	Pathology	Postdoc
+2018	3	NCBI Workshop	376	Bioinformatics	Other Researcher
+2018	3	NCBI Workshop	380	Pathology	Postdoc
+2018	3	NCBI Workshop	382	Bioinformatics	staff
+2018	3	NCBI Workshop	383	Pharmacology	Faculty
+2018	3	NCBI Workshop	387	CMCRI	staff
+2018	3	NCBI Workshop	388	Internal Medicine	Postdoc
+2018	3	NCBI Workshop	391	Neuroscience	Postdoc
+2018	3	NCBI Workshop	392	CMCRI	Postdoc
+2018	3	NCBI Workshop	393	Internal Medicine	Faculty
+2018	3	NCBI Workshop	396	Immunology	Postdoc
+2018	3	NCBI Workshop	402	CMCRI	Faculty
+2018	3	NCBI Workshop	406	Opthamology	Postdoc
+2018	2	Python I	21	Bioinformatics	Postdoc
+2018	2	Python I	37	Microbiology	Postdoc
+2018	2	Python I	38	Neuroscience	Grad/Med Student
+2018	2	Python I	98	Radiology	Postdoc
+2018	2	Python I	102	Radiology	Postdoc
+2018	2	Python I	109	GCRB	Postdoc
+2018	2	Python I	221	Cell Biology	Postdoc
+2018	2	Python I	236	GCRB	Grad/Med Student
+2018	2	Python I	237	Neuroscience	Grad/Med Student
+2018	2	Python I	274	Plastic Surgery	Faculty
+2018	2	Python I	284	AIRC	Other Researcher
+2018	2	Python I	323	Bioinformatics	Postdoc
+2018	2	Python I	339	Neuroscience	Postdoc
+2018	2	Python I	351	Cell Biology	Postdoc
+2018	2	Python I	375	Bioinformatics	Other Researcher
+2018	2	Python I	386	CMCRI	Postdoc
+2018	2	Python I	399	McDermott Center	Grad/Med Student
+2018	10	Python I	4	Clinical Sciences	Faculty
+2018	10	Python I	31	Pediatrics	Postdoc
+2018	10	Python I	52	Cell Biology	Other Researcher
+2018	10	Python I	77	Pharmacology	Other Researcher
+2018	10	Python I	112	Clinical Sciences	Other Researcher
+2018	10	Python I	115	Cell Biology	Postdoc
+2018	10	Python I	116	Neurology and Neurotherapeutics	Postdoc
+2018	10	Python I	122	Neuroscience	Postdoc
+2018	10	Python I	131	Pathology	Other Researcher
+2018	10	Python I	135	Clinical Sciences	Other Researcher
+2018	10	Python I	146	Immunology	Other Researcher
+2018	10	Python I	148	Neuroscience	Grad/Med Student
+2018	10	Python I	150	Cell Biology	Grad/Med Student
+2018	10	Python I	151	McDermott Center	Grad/Med Student
+2018	10	Python I	174	Clinical Sciences	Other Researcher
+2018	10	Python I	177	Urology	Postdoc
+2018	10	Python I	186	CMCRI	Postdoc
+2018	10	Python I	191	Internal Medicine	Postdoc
+2018	10	Python I	192	AIRC	Postdoc
+2018	10	Python I	202	Neuroscience	Postdoc
+2018	10	Python I	228	GCSB	Postdoc
+2018	10	Python I	256	Clinical Sciences	Other Researcher
+2018	10	Python I	271	Immunology	Postdoc
+2018	10	Python I	273	Radiology	Postdoc
+2018	10	Python I	277	GCRB	Postdoc
+2018	10	Python I	307	Biophysics	Postdoc
+2018	10	Python I	315	Radiology	Other Researcher
+2018	10	Python I	337	Bioinformatics	Postdoc
+2018	10	Python I	350	Pathology	Grad/Med Student
+2018	10	Python I	368	Immunology	Other Researcher
+2018	10	Python I	371	Biophysics	Grad/Med Student
+2018	10	Python I	378	Pharmacology	Postdoc
+2018	10	Python I	384	CMCRI	Grad/Med Student
+2018	10	Python I	397	Microbiology	Postdoc
+2019	4	Python II	5	Internal Medicine	Other Researcher
+2019	4	Python II	15	Cell Biology	Postdoc
+2019	4	Python II	133	GCRB	Postdoc
+2019	4	Python II	134	Cell Biology	Postdoc
+2019	4	Python II	170	Internal Medicine	Postdoc
+2019	4	Python II	172	Neuroscience	Postdoc
+2019	4	Python II	183	CAND	Grad/Med Student
+2019	4	Python II	228	GCSB	Postdoc
+2019	4	Python II	249	McDermott Center	Other Researcher
+2019	4	Python II	273	Radiology	Postdoc
+2019	4	Python II	285	Radiology	Other Researcher
+2019	4	Python II	363	SCCC	Postdoc
+2019	4	Python II	369	SCCC	Faculty
+2019	4	Python II	386	CMCRI	Postdoc

@@ -8,7 +8,7 @@ Topics covered will include:
 * Variation Detection Tools
 * Somatic and Germline Variant Priorization in Cancer, Medelian and Complex Diseases
 * Population Genetics to Identify Risk Loci
-* Immune Profiling using Sequence Data
+
 
 ## Contacts
 * Course Coordinator [Daehwan Kim](mailto:daehwan.kim@utsouthwestern.edu)
@@ -27,15 +27,13 @@ Topics covered will include:
 
 | Time  | Topic | Instructor|
 | ------------- | ------------- | ------------- |
-| | May 30th 2018| |
-| 08:00 - 09:30 a.m.| [Sequencing and Sequence Alignment](ShortReadAlignment.pdf)  | Daehwan Kim |
-| 09:30 - 12:00 p.m.| [Sequence Alignment Workshop](workshop_alignment.html)  | |
-| 01:00 - 02:30 p.m.| [Variant Calling: SNVs, InDel and SVs](Genome_Variation_VC.pdf)| Brandi Cantarel |
-| 02:30 - 05:00 p.m.| [Variant Calling Workshop](workshop_vc.md)| |
-| | May 31th 2018| |
-| 08:00 - 09:30 a.m.| [Variant Prioritization in Cancer and in Trios](Variant_Prioritization_Lecture.pdf)  | Ling Cai |
-| 09:30 - 12:00 p.m.| [Variant Prioritization Workshop](Variant_Prioritization_workshop.md)  | |
-| 01:00 - 02:30 p.m.| [Population Genetics](PopulationGenetics.pdf)| He Zhang |
-| 02:30 - 05:00 p.m.| [Population Genetics Workshop](PopulationGenetics-workshop.pdf) | |
-| | June 1st 2018| |
-| 08:00 - 04:30 p.m.|[Immune Sequencing Technology Overview](immune_receptor_profiling.md) | VDJServer team |
+| | May 1st 2019| |
+| 09:00 - 10:30 a.m.| [Sequencing and Sequence Alignment](ShortReadAlignment.pdf)  | Daehwan Kim |
+| 10:30 - 02:00 p.m.| [Sequence Alignment Workshop](workshop_alignment.html) 1 hour for lunch (12-1) | |
+| 02:00 - 03:30 p.m.| [Variant Calling: SNVs, InDel and SVs](Genome_Variation_VC.pdf)| Karthigayini Sivaprakasam |
+| 03:30 - 05:00 p.m.| [Variant Calling Workshop](workshop_vc.md)| |
+| | May 2nd 2019| |
+| 09:00 - 10:30 a.m.| [Variant Prioritization in Cancer and in Trios](Variant_Prioritization_Lecture.pdf)  | Brandi Cantarel |
+| 10:30 - 12:00 p.m.| [Variant Prioritization Workshop](Variant_Prioritization_workshop.md)  | |
+| 01:00 - 02:30 p.m.| [Population Genetics](PopulationGenetics.pdf)| Julia Kozlitina |
+| 02:30 - 05:00 p.m.| [Population Genetics Workshop](PopulationGenetics-workshop.pdf)<br>[Word version](Workshop_5.2.2019.docx) | |

@@ -1,0 +1,16 @@
+before_script:
+  - module add python/2.7.x-anaconda
+  - conda env create --quiet --file environment.yml --force
+  - conda list --name mkdocs
+  - source activate mkdocs
+
+pages:
+  script:
+  - mkdocs build
+  - mv site public
+  artifacts:
+    paths:
+    - public
+    expire_in: 3 mins
+  only:
+  - master

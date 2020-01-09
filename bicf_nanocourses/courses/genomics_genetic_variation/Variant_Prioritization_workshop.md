@@ -1,33 +1,94 @@
-
 # Workshop for Variant Prioritization
 
 Today we are going to:
  
-* Practice VCF manipulation skills with BCFtools
-* Perform project QC
-* Filter variants with GEMINI
+
+* Find genes that are associated with a phenotype
+* Identify Candidate variation
     * Solving a rare disease case from a trio.
     * Identifying somatic muations in paired cancer-normal cell lines.
+* Filter Varinats by QC using BCFTools
 
+## Find Genes associated with a Phenoype using the NCBI Tools
+
+### Find Variants of a gene of Interest
+* From the [NCBI Gene database](https://www.ncbi.nlm.nih.gov/gene)
+1. Search the Term = msh6 (also try this in PubMed) or msh6[sym] AND human[orgn]
+2. Go to the Variation section of the Gene record (in the Table of Contents)
+3. Variation Viewer (GRCh38) 
+4. Filter by Source dbSNP, in ClinVar, Pathogenic
+
+### Find Variants Associated with a Disease
+* From the [MedGen database](https://www.ncbi.nlm.nih.gov/medgen)
+1. Search the term = severe combined immunodeficiency
+2. Some have active Gene links. To limit to those that do:
+ - Use Limits (link under search box) to select those "Associated with a gene", run Search
+ - Use the "Find related data" menu, select the Gene database (takes you to Gene)
+3. Pick of of the listed diseases and click the ClinVar link (open in new window)
+ - Filter Pathogenic Variants
+ - Filter by Reviewer Status to find expertly reviewed variants.
+ - How many variants do you find
+4. Select on link for the disease
+    - What are tissues where the genes associated with that disease are expressed?
+
+## Filtering Variants
+
+### Solving a rare disease case from a trio
+
+#### A patient presented at the hospital with hyperammonemia after giving birth. The patient and her parents have been sequenced. The VCF (Hg19) file provided for you.
+
+* Go to [Gene.iobio](http://gene.iobio.io)
+* Load the VCF File and Index, hyperammonemia.vcf.gz and hyperammonemia.vcf.gz.tbi by Clicking Files
+   - Proband = GMDP_3_0054_1
+   - Father = GMDP_3_0054_2
+   - Mother = GMDP_3_0054_3
+   - Hint click trio and load the file 3 files and select the sample name for each of family member
+* Add a gene list
+   - Use the phenotype button to add the gene list.
+   - Increase the number of genes from 10 to 100
+* See all variants (not just coding variants) -- Under Options
+* Also update filters to see all impact variants not just those with "know pathgenicity"
+* Once you have updated the filters, click Analyze all
+
+Hint, this is a compound het with one mutation not in the coding region
+
+Can you find out what might be the causal variant?  
+
+### Identifying disease causing muations in paired cancer sample
+
+#### A patient presented at the hospital with .  The patient's tumor has been sequenced.  The VCF (HG38) file has been provided for you.
+
+* Here is a gene list for clinically actionable solid tumors
+
+* Go to [Gene.iobio](http://gene.iobio.io)
+* Load the VCF File and Index, AML_Cancer.vcf.gz and AML_Cancer.vcf.gz.tbi
+* Change the Genome Build to HG38
+* Add a gene list
+   - AKT1,ALK,APC,ATM,BRAF,CDH1,CTNNB1,EGFR,ERBB2,FBXW7,FGFR2,GNAQ,GNAS,HRAS,IDH1,KIT,KRAS,MET,NRAS,PDGFRA,PIK3CA,PTEN,SMAD4,SMARCB1,SMO,SRC,STK11,TP53
+* Explore these variants
+   - Are any of these Pathogenic or High Impact variants seen in other AML patients (search COSMIC)
+   - Are any of these mutations associated with treatment (search CIVIC)
+   - Are any of these mutations seen in subjects in GnomAD
+ 
 ## Log into BioHPC
 First, we will log into the a compute node
 
 * Set up a [WebGUI](https://portal.biohpc.swmed.edu/terminal/webgui) session on BioHPC
 * Launch via "connect with VNC client", open using [turbovnc](https://sourceforge.net/projects/turbovnc/). You can also launch the session by "connect via web" but copying and pasting may not work under this mode.
-* Open a terminal window -- you should be in the directory /archive/nanocourse/May2018/trainXX
+* Open a terminal window -- you should be in the directory /archive/nanocourse/genome_analysis/trainXX
 * Copy session3 material into your directory and work from there
 ~~~~
-cp -r /archive/nanocourse/May2018/shared/session3 .
+cp -r /archive/nanocourse/genome_analysis/shared/session3 .
 cd session3
 ~~~~
 
 
 ## Practice VCF manipulation skills with BCFtools
-First we are going to practice VCF manipulation skills on VCF from [CEPH family 1463 with 17 members](https://www.coriell.org/0/Sections/Collections/NIGMS/CEPHFamiliesDetail.aspx?PgId=441&fam=1463&).
+We are going to practice VCF manipulation skills on VCF from [CEPH family 1463 with 17 members](https://www.coriell.org/0/Sections/Collections/NIGMS/CEPHFamiliesDetail.aspx?PgId=441&fam=1463&).
 
 * Load bcftools module on BioHPC
 ~~~~
-module load bcftools 
+module load bcftools htslib/gcc/1.8
 ~~~~
 
 
@@ -146,213 +207,6 @@ tabix -l vcf_playground/maternal_family_X.vcf.gz
 ~~~~
 ~~~~
 bcftools concat vcf_playground/maternal_family_autosomes.vcf.gz vcf_playground/maternal_family_X.vcf.gz -O z -o vcf_playground/maternal_family_recombined.vcf.gz
+tabix vcf_playground/maternal_family_recombined.vcf.gz
 tabix -l vcf_playground/maternal_family_recombined.vcf.gz
 ~~~~
-
-
-
-## Perform project QC
-
-* Run pedigree VCF QC tool [peddy](https://github.com/brentp/peddy)
-~~~~
-source activate py2.7-nano
-mkdir peddy_QC
-cd peddy_QC
-python -m peddy -p 16 --plot --prefix ceph-1463 ../ceph1463.vcf.gz ../ceph1463.ped
-cd ..
-~~~~
-
-## Using GEMINI
-
-~~~~
-module load gemini
-mkdir gemini_practices
-mkdir ~/.gemini
-cp gemini-config.yaml ~/.gemini/
-~~~~
-
-* Look at gemini usage messages  
-~~~~
-gemini --help
-~~~~
-~~~~
-gemini load --help
-gemini annotate --help
-gemini query --help
-~~~~
-~~~~
-gemini de_novo --help
-gemini comp_hets --help
-gemini autosomal_recessive --help
-gemini x_linked_recessive --help
-~~~~
-~~~~
-gemini set_somatic --help
-~~~~
-We will try out some of these tools in the following commands, you may refer to the documentation to understand the options we will be using.
-
-### Solving a rare disease case from a trio
-
-#### A patient presented at the hospital with hyperammonemia after giving birth. The patient and her parents have been sequenced. The VCF (Hg19) and ped files are provided for you.  Can you find out the disease causing variant(s)?
-* Load vcf and ped files into a GEMINI database **(this can take a while, you may skip this step and proceed from GMDP_3_0054.db, which is the result from this step that has already been generated for you)**.
-~~~~
-gemini load -v GMDP_3_0054.annot.vt.vep.vcf.gz -t VEP -p GMDP_3_0054.ped --cores 32 GMDP_3_0054.db
-~~~~
-* Since the vcf was generated as a union of four callers, we want to import the information from "CallSet" field of the vcf into the gemini database as well.
-~~~~
-gemini annotate -f GMDP_3_0054.annot.vt.vep.vcf.gz \
-    -a extract -c CallSet -t text -e CallSet -o uniq_list GMDP_3_0054.db
-~~~~
-* What are the tables and fields for each in this database?
-~~~~
-gemini db_info GMDP_3_0054.db
-~~~~
-* Take a look at the ped file
-~~~~
-cat GMDP_3_0054.ped
-~~~~
-* Check the sample names
-~~~~
-gemini query -q "SELECT name FROM samples" --header GMDP_3_0054.db
-~~~~
-* Which sample is from the affected proband (phenotype being 2)?
-~~~~
-gemini query -q "SELECT name FROM samples WHERE phenotype == 2" GMDP_3_0054.db
-~~~~
-* How many variants are from chromosome 1?
-~~~~
-gemini query -q "SELECT COUNT(*) FROM variants WHERE chrom == 'chr1'" GMDP_3_0054.db
-~~~~
-
-#### Pathogenic variants from clinvar
-~~~~
-gemini query -q \
-    "select gene,chrom,start,end,ref,alt,impact,codon_change,aa_change,\
-    gt_types,gt_depths,gt_ref_depths,gt_alt_depths,max_aaf_all,gnomad_num_hom_alt,gnomad_num_het,\
-    clinvar_sig,clinvar_disease_name,clinvar_gene_phenotype,gerp_bp_score,cadd_scaled \
-    from variants where clinvar_sig LIKE '%pathogenic%'" \
-    --header GMDP_3_0054.db > gemini_practices/GMDP_3_0054.pathogenic.txt
-~~~~
-
-#### Filter by different inheritance models
-* de novo 
-~~~~
-gemini de_novo GMDP_3_0054.db \
-    --columns "gene,chrom,start,end,ref,alt,impact,codon_change,aa_change,\
-    gt_types,gt_depths,gt_ref_depths,gt_alt_depths,max_aaf_all,gnomad_num_hom_alt,gnomad_num_het,\
-    clinvar_sig,clinvar_disease_name,clinvar_gene_phenotype,gerp_bp_score,cadd_scaled" \
-    --filter "max_aaf_all < 0.001 AND impact_severity != 'LOW' AND gnomad_num_het < 1">\
-    gemini_practices/GMDP_3_0054.denovo.txt
-~~~~
-* compound heterozygous
-~~~~
-gemini comp_hets GMDP_3_0054.db \
-    --columns "gene,chrom,start,end,ref,alt,impact,codon_change,aa_change,\
-    gt_types,gt_depths,gt_ref_depths,gt_alt_depths,max_aaf_all,gnomad_num_hom_alt,gnomad_num_het,\
-    clinvar_sig,clinvar_disease_name,clinvar_gene_phenotype,gerp_bp_score,cadd_scaled" \
-    --filter "max_aaf_all < 0.001 AND impact_severity != 'LOW' AND gnomad_num_het < 1">\
-    gemini_practices/GMDP_3_0054.comp_hets.txt
-~~~~
-* autosomal recessive
-~~~~
-gemini autosomal_recessive GMDP_3_0054.db \
-    --columns "gene,chrom,start,end,ref,alt,impact,codon_change,aa_change,\
-    gt_types,gt_depths,gt_ref_depths,gt_alt_depths,max_aaf_all,gnomad_num_hom_alt,gnomad_num_het,\
-    clinvar_sig,clinvar_disease_name,clinvar_gene_phenotype,gerp_bp_score,cadd_scaled" \
-    --filter "max_aaf_all < 0.001 AND impact_severity != 'LOW' AND gnomad_num_het < 1">\
-    gemini_practices/GMDP_3_0054.autosomal_recessive.txt
-~~~~
-* x-linked recessive
-~~~~
-gemini x_linked_recessive GMDP_3_0054.db \
-    --columns "gene,chrom,start,end,ref,alt,impact,codon_change,aa_change,\
-    gt_types,gt_depths,gt_ref_depths,gt_alt_depths,max_aaf_all,gnomad_num_hom_alt,gnomad_num_het,\
-    clinvar_sig,clinvar_disease_name,clinvar_gene_phenotype,gerp_bp_score,cadd_scaled" \
-    --filter "max_aaf_all < 0.001 AND impact_severity != 'LOW' AND gnomad_num_het < 1">\
-    gemini_practices/GMDP_3_0054.x_linked_recessive.txt
-~~~~
-
-#### Number of records under each inheritance mode
-~~~~
-for file in gemini_practices/GMDP_3_0054.*.txt; do wc -l $file; done
-~~~~
-You may open these files in excel and check further
-
-#### Making a diagnosis
-* Find out genes and HPO terms associated with Hyperammonemia using resource downloaded from [here](http://compbio.charite.de/jenkins/job/hpo.annotations.monthly/lastStableBuild/)
-* You may also search for the term [here](http://compbio.charite.de/hpoweb/)
-~~~~
-grep Hyperammonemia ALL_SOURCES_ALL_FREQUENCIES_diseases_to_genes_to_phenotypes.txt > gemini_practices/Hyperammonemia_candidate_genes.txt
-~~~~
-* Alternatively you can use [Phenomizer](http://compbio.charite.de/phenomizer/) to obtain a list of candidate diseases and related gene sets. This would be particularly helpful when multiple phenotypes present.
-
-Can you find out what might be the causal variant?  
-
-* Answer
-~~~~
-cd gemini_practices
-# for each file generated by a specific inheritance model or ad hoc query:
-for file in GMDP_3_0054.*.txt; do 
-    # select unique genes from the first column as our candidate genes, loop through them:
-    for candidate_gene in $(cut -f1 $file|sort|uniq); do 
-        # for each known disease gene in the second column of the file we obtained through HPO term mapping:
-        for disease_gene in $(cut -f2 Hyperammonemia_candidate_genes.txt); do 
-            # match to see if the candidate gene is in a known disease gene, if it is, then
-            if [ $candidate_gene = $disease_gene ]; then 
-                # print the name of the disease gene, and the model name of the file
-                echo "$disease_gene found under $(echo $file|cut -f2 -d .) mode"
-                # create a result file (if it does not exist)
-                touch trio_result.txt
-                # write the header into this result file
-                head -n1 $file >> trio_result.txt
-                # append the variant records to this result file
-                grep $disease_gene $file >> trio_result.txt
-            fi
-        done
-    done
-done
-~~~~
-~~~~
-# check columns 1-6 and 10 of this result file
-cut -f -6,10 trio_result.txt | column -t | less -S
-~~~~
-
-### Identifying somatic muations in paired cancer-normal cell lines.
-
-#### A pair of cell lines from the same lung cancer patient (HCC4017, cancer cell line vs HBEC30, immortalized human bronchial epithelial cell line) have been sequenced and the VCF (lifted over from Hg38 to Hg19) and ped files are provided to you. Can you identify the somatic mutations?
-* Load vcf and ped files into a GEMINI database **(this can take a while, you may skip this step and proceed from CellLine.db, which is the result from this step that has already been generated for you)**.
-~~~~
-gemini load -v CellLine.vt.vcf.gz -t snpEff -p CellLine.ped --cores 32 CellLine.db
-~~~~
-* Check the ped file
-~~~~
-cat CellLine.ped
-~~~~
-* Check the sample names
-~~~~
-gemini query -q "SELECT name FROM samples" --header CellLine.db
-~~~~
-* Find run set_somatic to flag somatic mutations and save output
-~~~~
-(cat somatic_mutation_header; \
-gemini set_somatic \
-    --min-depth 30 \
-    --min-qual 20 \
-    --min-somatic-score 15 \
-    --min-tumor-depth 10 \
-    --min-norm-depth 10 \
-    CellLine.db) > gemini_practices/CellLine_Somatic_Mutations.txt
-~~~~
-
-* Obtain additional information for somatic mutations  
-~~~~
-gemini query -q \
-    "SELECT chrom,start,end,gene,vcf_id,somatic_score,gt_types,ref,alt,qual,type,sub_type,codon_change,aa_change,\
-    aa_length,biotype,impact_severity,impact,is_somatic,gerp_bp_score,cadd_scaled,fitcons\
-    FROM variants WHERE is_somatic==1 ORDER BY vcf_id DESC" \
-    --header CellLine.db > gemini_practices/CellLine_Somatic_Mutations_additional.txt
-~~~~
-~~~~
-column -t gemini_practices/CellLine_Somatic_Mutations_additional.txt | less -S
-~~~~
-You may open these files in excel and check further

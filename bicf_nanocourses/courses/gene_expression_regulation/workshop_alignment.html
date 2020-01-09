@@ -13,22 +13,24 @@
   <meta name="MobileOptimized" content="320"/>
   <meta name="viewport" content="width=device-width,initial-scale=1">
    <body>
-     <h1>BICF Nanocourse: Gene Expression and Regulation (06/08/2018)</h1>
+     <h1>BICF Nanocourse: Gene Expression and Regulation (06/06/2019)</h1>
      <p>
+
+<h3><font color="blue">Your account and password are trainXX and passwordXX, respectively.</font></h3>
 
 Today we are going to:
 <ul>
-  <li>Align genomic sequences to a reference genome</li> <br>
+  <li>Align RNA sequencing reads to a reference genome</li> <br>
   <li>Examine alignments using samtools</li> <br>
-  <li>Examine alignments in IGV</li> <br>
+  <li>Examine alignments in Integrative Genomics Viewer (IGV)</li> <br>
 </ul>
 
 First, we will log into a compute node: <br>
 <p>
   <ol>
     <li>Open <a href="https://portal.biohpc.swmed.edu/accounts/login/?next=terminal/webgui/">https://portal.biohpc.swmed.edu/accounts/login/?next=terminal/webgui/</a> using a web browser</li> <br>
-    <li>Input your training ID (TRAINID) and password (PASSWORD)</li> <br>
-    <li>Go to Cloud Services, then Web Visualization</li> <br>
+    <li>Input your training ID (trainXX) and password (passwordXX)</li> <br>
+    <li>Go to Cloud Services, then click Web Visualization</li> <br>
     <li>Click the <b>Connect via web</b> link to launch your web visualization GUI</li> <br>
   </ol>
 <p>
@@ -39,7 +41,7 @@ List of Linux commands<br>
 <p>
   <ol>
     <li>
-      Shows the current working directory <br>
+      Display the current working directory <br>
       <code> pwd </code>
     </li> <br>
     <li>
@@ -47,25 +49,25 @@ List of Linux commands<br>
       <code> cd /usr </code>
     </li> <br>
     <li>
-      Change directory to /archive/nanocourse/June2018/TRAINID<br>
-      <code> cd /archive/nanocourse/June2018/TRAINID </code>
+      Change directory to /archive/nanocourse/gene_expr/trainXX , where trainXX is your account<br>
+      <code> cd /archive/nanocourse/gene_expr/trainXX </code>
     </li> <br>
     <li>
       Change directory to your home directory <br>
       <code> cd ~ </code>
     </li> <br>
     <li>
-      Show files under the current directory <br>
+      Display files under the current directory <br>
       <code> ls -l </code>
     </li> <br>
     <li>
-      Show the files used in the morning session <br>
-      <code> ls -l /archive/nanocourse/June2018/shared/session1 </code>
+      Display the files to be used during this session <br>
+      <code> ls -l /archive/nanocourse/gene_expr/shared/session1 </code>
     </li> <br>
     <li>
       Make a shortcut to the course files <br>
       <font color="red">
-	<code> ln -s /archive/nanocourse/June2018/shared/session1 session1 </code>
+	<code> ln -s /archive/nanocourse/gene_expr/shared/session1 session1 </code>
       </font>
     </li> <br>
   </ol>
@@ -73,7 +75,7 @@ List of Linux commands<br>
 
   
 The file name and path to the real single-end sequencing reads for this workshop is: <br>
-&emsp;session1/reads/RNA.heart.e11.rep1.fastq.gz <br>
+&emsp;session1/reads/RNA.heart.e11.rep1.fastq.gz <br> <br>
 To examine the file, you can optionally perform the following commands: <br>
 <p>
   <ol>
@@ -82,23 +84,23 @@ To examine the file, you can optionally perform the following commands: <br>
       <code> gzip -cd session1/reads/RNA.heart.e11.rep1.fastq.gz > RNA.heart.e11.rep1.fastq </code>
     </li> <br>
     <li>
-      Show the text file; to stop the command, type <i>ctrl+c</i><br>
+      Display the text file; to stop the command, type <i>ctrl+c</i><br>
       <code> cat RNA.heart.e11.rep1.fastq </code>
     </li> <br>
     <li>
-      Shows the first 10 lines of the read file <br>
+      Display the first 10 lines of the read file <br>
       <code> head RNA.heart.e11.rep1.fastq </code>
     </li> <br>
     <li>
-      Shows the first page of the read file; type <i>space</i> to go to the next page, and type <i>q</i> to quit <br>
+      Display the first page of the read file; type <i>space</i> to go to the next page, and type <i>q</i> to quit <br>
       <code> less RNA.heart.e11.rep1.fastq </code>
     </li> <br>
     <li>
-      Shows the first page of the read file directly on the compressed file using pipe | <br>
+      Display the first page of the read file directly on the compressed file using pipe | <br>
       <code> gzip -cd session1/reads/RNA.heart.e11.rep1.fastq.gz | less </code>
     </li> <br>
     <li>
-      Count the number of lines of a read file <br>
+      Count the number of lines in a read file <br>
       <code> wc -l RNA.heart.e11.rep1.fastq </code>
     </li> <br>
     <li>
@@ -108,7 +110,7 @@ To examine the file, you can optionally perform the following commands: <br>
   </ol>
 <p>  
 
-Now we are going to run our alignment using the single-end reads against the mouse genome, mm10 (the alignment step using HISAT2 might take 15 to 20 minutes) <br>
+Now we are going to run our alignment using the single-end reads against the mouse genome, mm10 (this alignment step using HISAT2 might take 15 to 20 minutes) <br>
 <p>
   <ol>
     <li>
@@ -125,7 +127,7 @@ Next we will view the results of the alignment using samtools in two different f
   <ol>
     <li>
       Look at the SAM file (use <i> space </i> to go to the next page and <i> q </i> to quit) <br>
-      <code> less e11.rep1.sam </code>
+      <code> less heart.e11.sam </code>
     </li> <br>
     <li>
       Convert the SAM file into a BAM file <br>
@@ -153,6 +155,11 @@ Next we will view the results of the alignment using samtools in two different f
       Look at alignments between 61,989,341 and 61,990,361 on Chromosome 15 <br>
       <code> session1/programs/samtools view heart.e11.sorted.bam 15:61,989,341-61,990,361 </code>
     </li> <br>
+
+    <li>
+      Look at bases of reads located at a particular locus to identify variants  <br>
+      <code> session1/programs/samtools mpileup -f session1/indexes/genome.fa -r 15:61,989,341-61,990,361 heart.e11.sorted.bam </code>
+    </li><br>
   </ol>
 <p>    
 

@@ -49,22 +49,22 @@ You will not need to bring a laptop computer for this course. When you arrive yo
 
 # Schedule
 
-Day 1  | **March 8th, 2018**  
-Room BL3.212 
+Day 1  | **Feb 28th, 2019**  
+Room NB2.100A
 
-![Schedule_Day1](img/Schedule_Day1_v2.png)
+![Schedule_Day1](img/Schedule_Day1_2019.png)
 
-Day 2  | **March 9th, 2018**  
-Room BL3.212 
+Day 2  | **March 1st, 2019**  
+Room NG3.202
 
 Probabilistic graphical models: [lecture](https://git.biohpc.swmed.edu/BICF/bicf_nanocourses/blob/master/courses/ML_1/lectures/PGM_talk.pdf), 
 [exercise](https://git.biohpc.swmed.edu/BICF/bicf_nanocourses/blob/master/courses/ML_1/exercises/PGM.ipynb)
 
 
-![Schedule_Day2](img/Schedule_Day2_v2.png)
+![Schedule_Day2](img/Schedule_Dat2_2019.PNG)
 
 
-__TAs:__ Andrew Jamieson, Behrouz Saghafi Khadem, Bo Ci, Devin O'Kelly, Jeon Lee, Minzhe Zhang, Viren Amin, Yi Du
+__TAs:__ 
 
 
 

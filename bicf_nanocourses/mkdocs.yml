@@ -5,7 +5,10 @@ pages:
 - Home: 'index.md'
 - About: 'aboutnanocourses.md'
 - Programming and Scripting:
-    - 'Python': 'python_1/index.md'
+    - 'Python I': 'python_1/index.md'
+    - 'Python II': 'python_2/index.md'
+    - 'Data Science in R': 'data_science/index.md'
+    - 'Data Science R Intro': 'data_science/r_intro.md'
     - 'R I': 'r_beginner_1/index.md'
     - 'R I: Data Structure Workshop': 'r_beginner_1/rdatastructures.md'
     - 'R I: Student Project Ideas': 'r_beginner_1/student_project_ideas.md'
@@ -14,6 +17,8 @@ pages:
     - 'R II: Data Manipulation Workshop Answers': 'r_beginner_2/r_datamanipulation_answers.md'
     - 'R II: Bioconductor Workshop: RNASeq and ChipSeq': 'r_beginner_2/r_bioconductor.md'
     - 'R II: Bioconductor Workshop: RNASeq and ChipSeq Answers': 'r_beginner_2/r_bioconductor_answers.md'
+    - 'MATLAB': 'matlab/index.md'
+    
 - NCBI Workshop:
     - 'Course Description': 'ncbi_nanocourse/index.md'
     - 'Install CGWin': 'ncbi_nanocourse/cgwin.md'
@@ -21,6 +26,7 @@ pages:
     - 'Machine Learning': 'ML_1/index.md'
     - 'Computational Image Analysis': 'image_analysis/index.md'
 - Genomics:
+    - 'Deep Learning for Healthcare Genomics': 'markiiisys/index.md'
     - 'Variant Detection': 'genomics_genetic_variation/index.md'
     - 'Unix Workshop': 'genomics_genetic_variation/unix_workshop.md'
     - 'Variant Calling Workshop': 'genomics_genetic_variation/workshop_vc.md'

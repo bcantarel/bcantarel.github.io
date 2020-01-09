@@ -13,7 +13,7 @@
   <meta name="MobileOptimized" content="320"/>
   <meta name="viewport" content="width=device-width,initial-scale=1">
    <body>
-     <h1>BICF Genomics Analysis: Genetic Variation (05/30/2018)</h1>
+     <h1>BICF Genomics Analysis: Genetic Variation (5/1/2019)</h1>
      <p>
 
 This morning we are going to:
@@ -28,7 +28,6 @@ First, we will log into a compute node after installing a necessary package: <br
   <ol>
     <li>Open <a href="https://portal.biohpc.swmed.edu/accounts/login/?next=terminal/webgui/">https://portal.biohpc.swmed.edu/accounts/login/?next=terminal/webgui/</a> using a web browser</li> <br>
     <li>Input your training ID (e.g. train03) and password </li> <br>
-    <li>Download and install TurboVNC</li> <br>
     <li>Click the Launch Job button on the bottom to launch your web visualization GUI</li> <br>
   </ol>
 <p>
@@ -39,7 +38,7 @@ List of Linux commands<br>
 <p>
   <ol>
     <li>
-      Shows the current working directory <br>
+      Show the current working directory <br>
       <code> pwd </code>
     </li> <br>
     <li>
@@ -47,8 +46,8 @@ List of Linux commands<br>
       <code> cd /usr </code>
     </li> <br>
     <li>
-      Change directory to /archive/nanocourse/May2018/trainXX, where trainXX is your account<br>
-      <code> cd /archive/nanocourse/May2018/trainXX </code>
+      Change directory to /archive/nanocourse/genome_analysis/trainXX, where trainXX is your account<br>
+      <code> cd /archive/nanocourse/genome_analysis/trainXX </code>
     </li> <br>
     <li>
       Change directory to your home directory <br>
@@ -60,12 +59,12 @@ List of Linux commands<br>
     </li> <br>
     <li>
       Show the files used in the morning session <br>
-      <code> ls -l /archive/nanocourse/May2018/shared/session1 </code>
+      <code> ls -l /archive/nanocourse/genome_analysis/shared/session1 </code>
     </li> <br>
     <li>
       Make a shortcut to the course files <br>
       <font color="red">
-	<code> ln -s /archive/nanocourse/May2018/shared/session1 session1 </code>
+	<code> ln -s /archive/nanocourse/genome_analysis/shared/session1 session1 </code>
       </font>
     </li> <br>
   </ol>
@@ -75,6 +74,8 @@ List of Linux commands<br>
 The file names and paths to the real paired-end sequencing reads for this workshop are: <br>
 &emsp;session1/reads/HD728.R1.fastq.gz <br>
 &emsp;session1/reads/HD728.R2.fastq.gz <br>
+<br>
+
 To examine the files, you can optionally perform the following commands: <br>
 <p>
   <ol>
@@ -91,15 +92,15 @@ To examine the files, you can optionally perform the following commands: <br>
       <code> cat HD728.R1.fastq </code>
     </li> <br>
     <li>
-      Shows the first 10 lines of the read file <br>
+      Show the first 10 lines of the read file <br>
       <code> head HD728.R1.fastq </code>
     </li> <br>
     <li>
-      Shows the first page of the read file, type <i>space</i> to go to the next page, and type <i>q</i> to quit <br>
+      Show the first page of the read file (type <i>space</i> to go to the next page, and type <i>q</i> to quit) <br>
       <code> less HD728.R1.fastq </code>
     </li> <br>
     <li>
-      Shows the first page of the read file directly on the compressed file using pipe | <br>
+      Show the first page of the read file directly on the compressed file using pipe | <br>
       <code> gzip -cd session1/reads/HD728.R1.fastq.gz | less </code>
     </li> <br>
     <li>

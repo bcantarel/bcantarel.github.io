@@ -1,0 +1,667 @@
+---
+title: "R Data Cleaning"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Data Importing and Cleaning
+
+## Data Types from R I
+
+### Load Necessary Libraries
+```{r}
+library(readxl)
+library(tidyverse)
+library(gridExtra)
+#setwd("~/courses/R_Courses/DataCleaning")
+#install.packages("htmlwidgets")
+```
+
+
+### Vectors and Matrices
+
+A vector can be a “collection” of values or a single value
+1. Atomic vector
+  - a collection of values
+2. Factors
+  - special vectors that represent categorical data
+
+```{r}
+genotype <- c(rep("WT",5),rep("KO",5))
+genotype <- factor(genotype,levels=c("WT","KO"))
+genotype
+summary(genotype)
+```
+
+3. Matrix
+  - special vector with rows and columns
+
+```{r}
+y <- matrix(1:20, nrow=5,ncol=4,byrow = FALSE)
+y
+y <- matrix(1:20, nrow=5,ncol=4,byrow = TRUE)
+y
+t(y) #transpose
+rowSums(y)
+colMeans(y)
+```
+
+4. Data frame
+  - a special data structure of rows and columns, the default structure for reading in “excel-like” files
+
+```{r}
+d <- c(1,2,3,4)
+e <- c("red", "white", "red", NA)
+f <- c(TRUE,TRUE,TRUE,FALSE)
+x <- data.frame(d,e,f)
+names(x) <- c("ID","Color","Passed")
+x
+```
+
+5. Tibble
+  - A special type of data.frame
+  - has a refined built-in print method to show only the first 10 rows
+  
+  
+```{r}
+library(tibble)
+as_tibble(iris)
+tibble(x = 1:5, y = 1, z = x ^ 2 + y)
+```
+
+6. List
+  - a vector of different data types (including other vectors)
+
+```{r}
+a <- c(1:5)
+y <- matrix(1:20, nrow=5,ncol=4,byrow = TRUE)
+w <- list(name="Fred", mynumbers=a, mymatrix=y, age=5.3)
+w
+```
+
+
+## Reading Data Into R
+
+Dataframes is the R native data type for storing a table of mixed datatypes.  Tribbles are enhanced dataframes used by the tidyverse packages.
+
+1. read_table
+  - Reads a file into a dataframe
+2. read_csv
+  - Reads a comma separated file into a dataframe
+3. readxl
+  - Reads an XLS or XLSX file into a tribble
+4. readr
+  - Reads a file into a tribble
+
+### Loading Data with readr and readxl
+
+Load the an excel file on death rates and life expectancy
+
+```{r}
+excel_sheets('Death_rates_and_life_expectancy_at_birth.xlsx')
+deathrates <- read_excel('Death_rates_and_life_expectancy_at_birth.xlsx',sheet = 'NCHS_-_Death_rates_and_life_exp')
+```
+
+Load the CSV file demographics
+```{r}
+demographics <- read_csv('demographics.csv')
+```
+
+Create a CSV file on the fly
+
+```{r}
+read_csv("a,b,c
+1,2,3
+4,5,6")
+```
+
+Skipping Lines
+
+```{r}
+read_csv("The first line of metadata
+         The second line of metadata
+         x,y,z
+         1,2,3", skip = 2)
+```
+
+```{r}
+read_csv("# A comment I want to skip
+x,y,z
+1,2,3", comment = "#")
+```
+
+No Header Line
+
+```{r}
+read_csv("1,2,3\n4,5,6", col_names = FALSE)
+```
+
+Setting the Colnames
+
+```{r}
+read_csv("1,2,3\n4,5,6", col_names = c("x", "y", "z"))
+```
+
+## Data Types in Files
+
+readr uses a heuristic to figure out the type of each column
+
+- logical: contains only “F”, “T”, “FALSE”, or “TRUE”.
+- integer: contains only numeric characters (and -).
+- double: contains only valid doubles (including numbers like 4.5e-5).
+- number: contains valid doubles with the grouping mark inside.
+- time: matches the default time_format.
+- date: matches the default date_format.
+- date-time: any ISO8601 date.
+
+```{r}
+guess_parser("2010-10-01")
+guess_parser("15:01")
+guess_parser(c("TRUE", "FALSE"))
+guess_parser(c("1", "5", "9"))
+guess_parser(c("12,352,561"))
+str(parse_guess("2010-10-10"))
+```
+
+readr allows you to set the data types:
+- col_guess() - the default
+- col_character()
+- col_double(), col_euro_double() • col_datetime(format = "") Also
+- col_date(format = ""), col_time(format = "")
+- col_factor(levels, ordered = FALSE)
+- col_integer()
+- col_logical()
+- col_number(), col_numeric()
+- col_skip()
+
+```{r}
+x <- read_csv('demographics.csv',col_types=cols(PAT_ID=col_character(),GENDER=col_character(),BIRTH_DATE=col_date(),DEATH_DATE=col_date(), RACE=col_character(),ETHNICITY=col_character()))
+```
+
+## Writing Data
+
+1. CSV
+
+```{r}
+write_csv(demographics, "test1.csv")
+```
+
+2. R Binary Format
+
+```{r}
+write_rds(demographics, "demographics.rds")
+```
+
+
+## Data Cleaning: Missing Values and Controlled Language
+
+A table is tidy if:
+
+- Each variable is in its own column
+- Each observation, or case, is in its own row
+
+Tidy Data:
+
+- Makes variables easy to access as vectors
+- Preserves cases during vectorized operations
+
+### Examine the Data with ggplot2
+
+```{r}
+p1 <- ggplot(deathrates, aes(x=Race, y=AverageLifeExpectancy_Years,color=Race)) + geom_boxplot()
+p2 <- ggplot(deathrates, aes(x=Sex, y=AverageLifeExpectancy_Years,color=Sex)) + geom_boxplot()
+grid.arrange(p1,p2,nrow=1)
+```
+
+### Handle Missing Data with tidyr
+
+There are several ways to deal with missing data:
+
+1. drop (drop_na) 
+  - Drop rows containing NA’s in columns.
+2. replace (replace_na)
+  - Replace NAs by column
+3. fill (fill_na)
+  - Fill in NA’s in columns with most recent non-NA values.
+
+### Drop NAs
+
+```{r}
+nrow(deathrates)
+t1 <- drop_na(deathrates,AverageLifeExpectancy_Years)
+nrow(t1)
+```
+
+### Replace NAs
+
+```{r}
+t2 <- replace_na(deathrates,list(AverageLifeExpectancy_Years = 68))
+head(deathrates)
+head(t2)
+```
+
+### Fill NAs
+
+```{r}
+t3 <- fill(deathrates,AverageLifeExpectancy_Years)
+nrow(drop_na(deathrates))
+nrow(drop_na(t3))
+head(t3)
+```
+
+## Regular Expressions
+
+Regular expressions, or regexps, are a concise language for describing patterns in strings.
+
+```{r}
+str <- c("Mouse:C57BL:WT:001","Mouse:C57BL:WT:002","Mouse:C57BL:KO:001","Mouse:C57BL:KO:002","Mouse:B6129SF2:WT:001","Mouse:B6129SF2:WT:002","Mouse:B6129SF2:KO:001","Mouse:B6129SF2:KO:002")
+str_view_all(str,"M\\w")
+str_view_all(str,"M\\w+")
+str_view_all(str,"M|K")
+str_view_all(str,"[MWK]")
+str_view_all(str,"\\d+")
+str_view_all(str,"M[:alpha:]")
+str_view_all(str,"M[:alpha:]+")
+str_view_all(str,"[:digit:]+")
+str_view_all(str,"BL*")
+str_view_all(str,"[:digit:]{2}")
+str_view_all(str,"^Mouse:C")
+str_view_all(str,"001$")
+```
+
+*Coding in Regex*
+
+Here is an example of the sequences names from a fastq file:
+
+NB551050:207:HVWYGBGX9:1:12103:8448:7970:CGTTTCCT
+NB551050:207:HVWYGBGX9:1:12103:8448:7970:CGTTTCCT
+NB551050:207:HVWYGBGX9:1:12107:14501:17909:GCTAATGG
+NB551050:207:HVWYGBGX9:1:12107:14501:17909:GCTAATGG
+NB551050:207:HVWYGBGX9:4:11401:4511:6993:ATGCTTTA
+NB551050:207:HVWYGBGX9:4:11401:4511:6993:ATGCTTTA
+NB551050:207:HVWYGBGX9:2:11304:2936:5123:CTTTGTAT
+NB551050:207:HVWYGBGX9:4:12609:24035:16440:CTTTGTAT
+NB551050:207:HVWYGBGX9:2:11304:2936:5123:CTTTGTAT
+NB551050:207:HVWYGBGX9:4:12609:24035:16440:CTTTGTAT
+
+- Using regular expression parse out to the machine name, flowcell id.
+- Create a regular expression to find all of the sequences with a UMI starting with CTT and ending with T[A or G]T
+
+## String Functions using stringR
+
+*Detecting Matches*
+
+- str_detect: returns a true false
+- str_which: return the indexes of the vector with a match
+- str_count: returns a count of matches
+- str_locate: returns a string
+
+```{r}
+str_detect(demographics$GENDER,'F')
+str_which(demographics$GENDER,'F')
+str_count(demographics$GENDER,'F')
+str_locate(demographics$GENDER,'F')
+```
+
+*String Length*
+
+- str_length: returns string length
+- str_truc: truncates string
+- str_trim: removes whitespace
+- str_pad: makes all strings the same length
+
+```{r}
+teststr <- c("banana","strawberry","pineapple", " apple ")
+str_length(teststr)
+str_trunc(teststr,6)
+str_trim(teststr)
+str_pad(teststr,10)
+```
+
+*Order*
+
+- str_order: returns vector indexes in sort order
+- str_sort: returns vector in sort order
+
+```{r}
+str_order(teststr)
+str_sort(teststr)
+```
+
+*Capitilization*
+
+- str_to_upper: returns strings in upper case
+- str_to_lower: returns string in lower case
+- str_to_title: return string to title case, first letter in each word is capitalized
+
+```{r}
+str_to_upper(teststr)
+str_to_lower(teststr)
+str_to_title(str_c(teststr, sep=" ",collapse = " "))
+```
+
+*Concat and Split*
+
+- str_c: Concat Vectors ir Strings Inside of a Vector
+- str_dup: Duplicate
+- str_glue: Create String with String and Variables
+- str_split_fixed: Split a vector of strings into a matrix of substrings
+- str_split: Split a vector of strings into a matrix of substrings
+
+```{r}
+str_c(teststr, teststr, sep=" ")
+str_c(teststr, collapse = " ")
+str_dup(teststr,3)
+```
+
+```{r}
+firstname <- "Firstname"
+lastname <- "Lastname"
+course <- "Data Science for Biologist"
+startdate <- as.Date("2020-01-10")
+str_glue(
+  "Dear {firstname} {lastname}: ",
+  "Congratulations, you have been accepted into the {course} Nanocourse, ",
+  "starting on {format(startdate, '%A, %B %d, %Y')}."
+)
+```
+
+```{r}
+str_split(teststr,"",4)
+str_split(teststr,"a")
+str_split_fixed(teststr,"",4)
+```
+
+*Subset*
+
+- str_sub: Extract substrings from a character vector.
+- str_subset:  Return only the strings that contain a pattern match.
+- str_extract: Return the first pattern match found in each string, as a vector.
+- str_extract_all: Return the all pattern matches found in each string, as a vector.
+- str_match: Return the first pattern match found in each string, as a matrix with a column for each ( ) group in pattern
+- str_match_all: Return the all pattern match found in each string, as a matrix with a column for each ( ) group in pattern
+
+```{r}
+str <- c("Mouse:C57BL:WT:001","Mouse:C57BL:WT:002","Mouse:C57BL:KO:001","Mouse:C57BL:KO:002","Mouse:B6129SF2:WT:001","Mouse:B6129SF2:WT:002","Mouse:B6129SF2:KO:001","Mouse:B6129SF2:KO:002")
+str_sub(str,6)
+str_sub(str,-6)
+str_sub(str,1,4)
+str_subset(str,"1")
+str_match(str,"1")
+str_match_all(str,"1")
+```
+
+### Inconsistent Data Entry
+
+Check the gender categories in the demographics table
+
+```{r}
+unique(demographics$GENDER)
+```
+
+*Mutate Strings*
+
+- str_replace: Split a vector of strings into a matrix of substrings
+- str_replace_all: Split a vector of strings into a matrix of substrings
+
+*Replace Data Entry Mistakes*
+
+Update the Gender Column to Make 2 GENDER Categories M and F
+
+```{r}
+demographics$GENDER <- str_replace(demographics$GENDER,'F.+','F')
+demographics$GENDER <- str_replace(demographics$GENDER,'MALE','M')
+unique(demographics$GENDER)
+```
+
+
+## Reshaping Data: Gather and Spread
+
+```{r}
+deathrates$Race <- str_replace(deathrates$Race,'All Races','All')
+head(deathrates)
+filter(deathrates,Year==1900)
+dr1 <- spread(deathrates, Race, AverageLifeExpectancy_Years)
+dr2 <- gather(dr1, `All`, `Black`, `White`, key = "Race", value = "AvgLifeExpectancy")
+head(dr1)
+head(dr2)
+```
+
+# Transpose A Table 
+
+```{r}
+df1 <- data.frame(rows = c("one","two","three"),two = 1:3,three=1:3)
+df1
+df2 <- df1 %>% gather(newrows,valname,-rows) %>% spread(rows,valname)
+df2
+```
+
+## Split and Join Cells
+
+```{r}
+dm1 <- separate(demographics, BIRTH_DATE, into = c("BirthDayOfMonth", "BirthMonth","BirthYear"))
+head(dm1)
+dm2 <- unite(demographics,RACE,ETHNICITY,col="Population",sep=' ')
+head(dm2)
+```
+
+**separate_rows allows for the separation to generate multiple rows**
+
+## Expand Table
+
+```{r}
+deathrates[is.na(deathrates$AverageLifeExpectancy_Years),]
+t1[is.na(t1$AverageLifeExpectancy_Years),]
+t3 <- complete(t1,Year=1900:2015,Race=c('All','Black','White'),Sex=c('Both Sexes','Male','Female'))
+t1[is.na(t1$AverageLifeExpectancy_Years),]
+t3[is.na(t3$AverageLifeExpectancy_Years),]
+t4 <- complete(t1,Year=1900:2015,Race=c('All','Black','White'),Sex=c('Both Sexes','Male','Female'),fill=list(AverageLifeExpectancy_Years=68))
+t4[t4$Year>2014,]
+```
+
+```{r}
+df <- tibble(
+  year   = c(2010, 2010, 2010, 2010, 2012, 2012, 2012),
+  qtr    = c(   1,    2,    3,    4,    1,    2,    3),
+  return = rnorm(7)
+)
+df %>% expand(year = full_seq(2010:2012, 1), qtr)
+```
+
+## Merging Tables
+
+1. Create a data frame of BMI for the patients in demographics
+
+#![bind](binding.png)
+#![bind_rows](bind_rows.png)
+#![bind_cols](bind_cols.png)
+
+```{r}
+bmi <- rnorm(20,mean=30,sd=5)
+pat_id <- dm2$PAT_ID
+pat.bmi <- bind_cols(as.data.frame(pat_id),as.data.frame(bmi))
+head(pat.bmi)
+```
+
+2. merge dm2 and pat.bmi
+
+```{r}
+dm3 <- merge(dm2,pat.bmi,by.x='PAT_ID',by.y='pat_id')
+head(dm3)
+ggplot(dm3,aes(x=GENDER, y=bmi,color=GENDER)) + geom_boxplot()
+```
+
+#![Data Import CheetSheet](data-import.pdf)
+
+## Workshop
+
+### Tibble vs Dataframe
+
+1. How can you tell if an object is a tibble? (Hint: try printing mtcars, which is a regular data frame).
+
+```{r}
+print(mtcars)
+as.tibble(mtcars)
+```
+
+
+2. Compare and contrast the following operations on a data.frame and equivalent tibble. 
+  - What is different?
+  - Why might the default data frame behaviours cause you frustration?
+
+*data.frame*
+
+```{r}
+df <- data.frame(abc = 1, xyz = "a")
+df$xyz
+df[, "xyz"]
+df[, c("abc", "xyz")]
+```
+
+```{r}
+df <- tibble(abc=1,xyz='a')
+df$xyz
+df[['xyz']]
+df[, c("abc", "xyz")]
+```
+
+
+3. If you have the name of a variable stored in an object, e.g. var <- "mpg", how can you extract the reference variable from a tibble?
+
+```{r}
+cars <- as.tibble(mtcars)
+cars$mpg
+```
+
+
+4. Practice referring to non-syntactic names in the following data frame by:
+- Extracting the variable called 1.
+
+```{r}
+annoying <- tibble(`1` = 1:10,`2` = `1` * 2 + rnorm(length(1)))
+```
+
+```{r}
+annoying$`1`
+```
+
+- Plotting a scatterplot of 1 vs 2.
+- Creating a new column called 3 which is 2 divided by 1.
+- Renaming the columns to one, two and three.
+
+```{r}
+ggplot(annoying,aes(x=`1`,y=`2`)) + geom_point()
+annoying$`3` <- annoying$`2`/annoying$`1`
+colnames(annoying) <- c("one","two","three")
+annoying
+```
+
+5. What does tibble::enframe() do? When might you use it?
+
+```{r}
+enframe(annoying$one)
+```
+
+### Reading and Writing Data
+
+1. What function would you use to read a file where fields were separated with "|"?
+  
+   *read_delim*
+  
+2. What sort of data can be read using read_fwf()?
+  
+  *Read A Fixed Width File Into A Tibble*
+  
+3. Sometimes strings in a CSV file contain commas. To prevent them from causing problems they need to be surrounded by a quoting character, like " or '. By convention, read_csv() assumes that the quoting character will be ", and if you want to change it you’ll need to use read_delim() instead. What arguments do you need to specify to read the following text into a data frame?
+
+x,y
+1,'a,b'
+
+```{r}
+read_csv('x,y\n1,"a,b"')
+```
+
+4. Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+
+```{r}
+read_csv("a,b,\n1,2,3\n4,5,6")
+read_csv("a,b,c\n1,2,\n1,2,3,4")
+read_csv("a,b\n\"1,")
+read_csv("a,b\n1,2\na,b")
+read_delim("a;b\n1;3",delim=';')
+```
+
+
+```{r}
+read_csv("a,b,c\n1,2,3\n4,5,6")
+read_csv("a,b,c,d\n1,2,NA,NA\n1,2,3,4")
+read_csv("a,b\n1,NA")
+read_csv("a,b\n1,2\na,b")
+read_delim("a;b\n1;3",delim=';')
+```
+
+
+5. Write out a CSV file from one of your correct objects from #4.
+```{r}
+ex1 <- read_csv("a,b,c,d\n1,2,NA,NA\n1,2,3,4")
+write_csv(ex1,'example_file.csv')
+```
+
+
+### Demographics
+
+1. Open the file demographics.csv (used in lecture) 
+2. There are mistakes in the column RACE, where AA = Black and Caucasian = White.  
+  - Create a new object (data.frame or tribble) where only one term is used for field "RACE" of this study.
+
+```{r}
+demographics <- read_csv('demographics.csv')
+demographics$RACE <- str_replace(demographics$RACE,'AA','Black')
+demographics$RACE <- str_replace(demographics$RACE,'Caucasian','White')
+demographics$RACE
+```
+
+
+3. Separate the BIRTH DATE and DEATH DATE into month, year and day of month for each.
+  - Replace the nas in death.year with 2019
+  - Calculate the current age or age at death using the birth.year and death.year
+  
+  4. Generate a bmi table using the PAT_ID and a randomly generated bmi as shown in the lecture.
+  - Merge this table with the demographics table
+  - Plot BMI vs Age
+  
+```{r}
+dm1 <- separate(demographics, BIRTH_DATE, into = c("BirthDayOfMonth", "BirthMonth","BirthYear"))
+dm2 <- separate(dm1, DEATH_DATE, into = c("DeathDayOfMonth", "DeathMonth","DeathYear"))
+
+dm4 <- replace_na(dm2,list(DeathYear = 20))
+dm4$BirthYear <- as.numeric(dm4$BirthYear) + 1900
+dm4$DeathYear <- as.numeric(dm4$DeathYear) + 2000 #assume all deaths happen after 2000
+dm4$age <- as.numeric(dm4$DeathYear) - dm4$BirthYear
+dm4$bmi <- rnorm(20,mean=30,sd=5)
+dm4
+ggplot(dm4,aes(x=age,y=bmi)) + geom_point()
+```
+
+```{r}
+dm3 <- separate(dm1, DEATH_DATE, into = c("DeathDayOfMonth", "DeathMonth","DeathYear"))
+```
+
+### US Causes of Death
+
+1. Open the excel table using readr: CausesOfDeathUSA.xlsx
+```{r}
+excel_sheets('CausesOfDeathUSA.xlsx')
+causedeath <- read_excel('CausesOfDeathUSA.xlsx',sheet = 'Sheet 1 - NCHS_-_Leading_Causes',skip=1)
+causedeath
+```
+
+
+2. Separate field '113 Cause Name' into SubCauseName and SubCauseCode.  Ex. Malignant neoplasms (C00-C97) into SubCauseName=Malignant neoplasms and SubCauseCode=C00-C97
+
+```{r}
+cd <- separate(causedeath, `113 Cause Name`, into = c("SubCauseName","SubCauseCode"))
+cd
+```
+

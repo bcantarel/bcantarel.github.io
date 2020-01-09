@@ -2,13 +2,15 @@
 
 - Instructors
     - [Khuloud Jaqaman](mailto:khuloud.jaqaman@utsouthwestern.edu) -  [Jaqaman Lab](http://www.utsouthwestern.edu/labs/jaqaman/)
-    - [Andrew Jamieson](mailto:andrew.jamieson@utsouthwestern.edu)  - [Danuser Lab](http://www.utsouthwestern.edu/labs/danuser/) 
+    - [Andrew Jamieson](mailto:andrew.jamieson@utsouthwestern.edu)  - [Bioinformatics Core Facility (BICF)](https://www.utsouthwestern.edu/labs/bioinformatics/) 
     - [Kate Luby-Phelps](mailto:Kate.Phelps@UTSouthwestern.edu) - [Live Cell Imaging Core Facility](http://www.utsouthwestern.edu/research/core-facilities/live-cell-imaging.html)
 - TAs
-    - [Devin O'Kelly](mailto:Devin.OKelly@UTSouthwestern.edu)
-    - [Xuexia Jiang](mailto:Xuexia.Jiang@UTSouthwestern.edu)
-    - [Ning Zhang](mailto:Ning.Zhang@UTSouthwestern.edu)
+    - [Zhiguo Shang](mailto:Zhiguo.Shang@UTSouthwestern.edu)
+    - [Tra Ngo](mailto:tra.ngo@UTSouthwestern.edu)
+    - [Jesus Vega-Lugo](mailto:Jesus.Vega-Lugo@UTSouthwestern.edu)
     - [Qiongjing (Jenny) Zou](mailto:Qiongjing.Zou@UTSouthwestern.edu)
+    - [Devin O'Kelly](mailto:Devin.OKelly@UTSouthwestern.edu)
+    - [Ning Zhang](mailto:Ning.Zhang@UTSouthwestern.edu)
 
 ### Software to Install
 - [Download ImageJ/FIJI](http://fiji.sc/)
@@ -34,14 +36,15 @@
             - Plugins > JACop
         - [Plugin: Mosaic](http://mosaic.mpi-cbg.de/?q=downloads/imageJ)
             - Plugins> Mosasic
-- [Download CellProfiler](http://cellprofiler.org/releases/) Note, we will teach with [version 2.2.0](http://cellprofiler.org/previous_releases/)
-- [Download MATLAB 2018a](https://www.mathworks.com/downloads/)
+- [Download CellProfiler](http://cellprofiler.org/releases/) Note, we will teach with [version 2.2.0](http://cellprofiler.org/previous_releases/), but the latest version can be used as well [version 3.1.8](https://cellprofiler.org/releases/)  
+    - [Please watch this short introductory video reviewing what CellProfiler is (by the creator Anne Carpenter)](https://www.ibiology.org/techniques/cellprofiler/) 
+- [Download MATLAB 2019a](https://www.mathworks.com/downloads/)
     - Please also download the following MATLAB packages 
         - [u-Track Particle Tracking](http://www.utsouthwestern.edu/labs/danuser/software/)    
-        - [Matlab Toolbox for Dimensionality Reduction](https://cloud.biohpc.swmed.edu/index.php/s/MHeBsWiwiPFJNe3)
+        - [Matlab Toolbox for Dimensionality Reduction](https://cloud.biohpc.swmed.edu/index.php/s/TFnRX8YRrWfLo2a)
 
-### [Course Materials Link*](https://cloud.biohpc.swmed.edu/index.php/s/k1fZsYwyKwXb42B)
-### [Image Analysis Therapy Upload*](https://cloud.biohpc.swmed.edu/index.php/s/cE1Y8tnGp29J2Oj)
+### [Course Materials Link*](https://cloud.biohpc.swmed.edu/index.php/s/fAxR3eYZ7Do6EQA)
+### [Image Analysis Therapy Upload*](https://cloud.biohpc.swmed.edu/index.php/s/DzkSKb6KHAcyAoW)
 *Password provided in class
 
 ##Schedule
@@ -58,4 +61,4 @@
 
 Coming soon! -->
 
-[logo]: img/Schedule_CIA_2018.png
+[logo]: img/schedule_2019.png
