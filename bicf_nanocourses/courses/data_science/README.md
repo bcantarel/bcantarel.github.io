@@ -18,6 +18,7 @@ If you already have R studio, please [update your R here](https://cran.r-project
     - Mingzhou Nie (Jan 10)
     - Erika Villa (Jan 10)
     - Holly Ruess (Jan 17)
+    - Jaideep Chaudhary (Jan 24th and Jan 31st)
 
 ***
 
