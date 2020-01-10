@@ -37,7 +37,7 @@ If you already have R studio, please [update your R here](https://cran.r-project
 | 1/10/2020 | Room NB2.100A|
 | [Introduction to R](RDataStructures.pdf) and [R Data Structures](r_intro.html)<br>[Rmd](r_intro.Rmd)<br>[Workshop 1](rdatastructures.md)<br>[DataFiles](DataStructureLecture.zip) | Brandi Cantarel |
 | [Data Importing and Cleaning with Tidyverse](DataClean.html)<br>[Workshop 2](DataCleaning.zip) | Brandi Cantarel |
-| [Data Manipulation and Data Joining with dplyr and tidyverse](r_dataManipulation_lecture_1_8_20.zip)<br>[Workshop]( r_dataManipulation_workshop_1_8_20.zip)<br>[Workshop Solutions](courses_r_beginner_2_beginner_r_2_dataManipulation_workshop_answers.html)| Spencer Barnes |
+| [Data Manipulation and Data Joining with dplyr and tidyverse](r_dataManipulation_lecture_1_8_20.zip)<br>[Workshop]( r_dataManipulation_workshop_1_8_20.zip)<br>[Workshop Solutions](dataManipulation_workshop_answers.html)| Spencer Barnes |
 | 1/17/2020 | Room NB2.100A|
 | Introduction to Statistical Tests | Jeremey Mathews |
 | Correlations and Linear Regression|  Jeremey Mathews + Jeon Lee |
