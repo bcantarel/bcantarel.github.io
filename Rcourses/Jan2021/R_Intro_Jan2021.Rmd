@@ -1,0 +1,705 @@
+# Objects in R: Introduction to R Data Structures
+
+## R Data Structures
+* Vectors 
+    - Atomic vector — a collection of values
+    - Factors — special vectors that represent categorical data
+* Matrix — a special vector with rows and columns
+* Data frame — a special data structure of rows and columns, the default structure for reading in “excel-like” files
+* List — a vector of different data types (including other vectors)
+
+
+## R Variables are Objects
+
+* The variables in R are technically known as objects
+    - Objects should have meaningful names
+    - Try to avoid common function names such as mean and sqrt or else it gets confusing
+* Object names CANNOT start with a number
+* Object names CAN have “.” and numbers within them
+* Avoid “_”
+
+**Variables (objects) can be created by = or <-**
+```{r}
+x <- 'abc'
+x = 'abc'
+x
+```
+
+**Determine data type of a variable**
+```{r}
+typeof(x)
+```
+
+**Determine the number of variables in a variable**
+```{r}
+length(x)
+```
+
+*1*
+
+**Determine the number of characters in a variable**
+```{r}
+nchar(x)
+```
+
+### R Data Types
+
+
+* Character
+    - “a”, “abc”,”hello world”
+* Numeric (double or integer)
+    - 1, 10.3, -199
+* Logical
+    - TRUE, FALSE
+* Complex
+    - 1+4i
+
+**These data types allow you to know what sort of functions can be performed** 
+
+```{r}
+1 + 2
+```
+
+### Determine data types
+
+```{r}
+x <- 4
+typeof(x)
+```
+
+```{r}
+x <- 4
+y <- 4.8 
+typeof(y)
+x+y
+```
+
+***These data types allow you to know what sort of functions can be performed***
+
+```{r}
+x <- 'a'
+typeof(x)
+y <- 'Hello There'
+typeof(y)
+```
+
+**For example numbers can be added but characters can’t be**
+
+```{r}
+x <- 'a'
+y <- 'Hello There'
+#x+y
+```
+
+```{r}
+x <- TRUE
+typeof(x)
+```
+
+```{r}
+y <- FALSE
+typeof(y)
+```
+
+```{r}
+x <- 1+4i
+typeof(x)
+```
+
+```{r}
+x <- c(1:4)
+typeof(x)
+```
+
+### Basic Arithmetic
+
+**Numbers in R need not be given object names**
+
+```{r}
+20+3
+20-3
+20*3
+```
+
+```{r}
+20*3
+20/3
+20^3
+```
+
+**Remainder of the Division**
+
+```{r}
+20 %% 3
+```
+
+**Integer of the Division**
+
+```{r}
+20 %/% 3
+```
+
+```{r}
+z <- 3*3
+sqrt(z)
+```
+
+```{r}
+x <- 20
+y <- 3
+x + y
+x - y
+x * y
+x / y
+x ^ y
+x %% y 
+x %/% y #(integer of the division)
+```
+
+## Built-In Functions
+
+* Built-in functions are operations that one can “perform” on object that are available in R
+* User-defined functions are functions that are written by the user
+* Packages are R functions that are written by the R community that need to be loaded before using them
+
+### Getting Help with Functions
+
+* R Help
+    - help()
+    - ?
+* The help() function and ? help operator in R provide access to the documentation pages for R functions, data sets, and other objects, both for packages in the standard R distribution and for contributed packages. 
+* To access documentation for the standard lm (linear model) 
+    - help(lm)
+    - help(“lm")
+    - ?lm
+    - ?"lm" (i.e., the quotes are optional).
+* To access help for a function in a package that’s not currently loaded, specify in addition the name of the package: for the rlm() (robust linear model) function in the MASS package:
+    - help(rlm, package="MASS")
+
+### Built-In Math Functions
+
+| Function | Description |
+| ----------- | ----------- |
+| abs(x) | absolute value |
+| sqrt(x) | square root |
+| ceiling(x) | ceiling(3.475) is 4 |
+| floor(x) | floor(3.475) is 3 |
+| trunc(x) | trunc(5.99) is 5 |
+| round(x, digits=n) | round(3.475, digits=2) is 3.48 |
+| signif(x, digits=n) | signif(3.475, digits=2) is 3.5 |
+| cos(x), sin(x), tan(x) | also acos(x), cosh(x), acosh(x), etc. |
+| log(x) | natural logarithm |
+| log10(x) | common logarithm |
+| exp(x) | e^x |
+
+**absolute value**
+
+```{r}
+x <- -2
+abs(x)
+```
+
+**square root**
+```{r}
+x <- 4
+sqrt(x)
+```
+
+**Rounding and Creating Integers**
+```{r}
+x <- 4.693959
+n <- 3
+ceiling(x)
+```
+
+```{r}
+floor(x)
+```
+
+```{r}
+trunc(x)
+```
+*4*
+```{r}
+round(x, digits=n)
+```
+*4.694*
+```{r}
+signif(x, digits=n)
+```
+
+**Triganometry**
+```{r}
+x <- 60
+cos(x)
+```
+
+```{r}
+x <- 60
+sin(x)
+```
+
+```{r}
+tan(x)
+```
+
+
+**Logarithms and Exponents**
+```{r}
+x <- 3.2
+log(x)
+```
+
+```{r}
+log10(x)
+```
+
+```{r}
+exp(x)
+```
+
+## Built In Statistical Functions
+
+### Means, Medians, Ranges and Other Basic Functions on Number Sets
+
+
+```{r}
+x <- 1:20
+mean(x)
+sd(x)
+median(x)
+min(x)
+max(x)
+```
+
+```{r}
+quantile(x)
+```
+
+```{r}
+range(x)
+sum(x)
+diff(x, lag=1)
+y <- scale(x, center=TRUE, scale=TRUE)
+plot(x,y)
+```
+
+### Built-In String Functions
+
+| Function | Description |
+| ----------- |----------- |
+| substr(x, start=n1, stop=n2) | Extract or replace substrings in a character vector. |
+| grep(pattern, x , ignore.case=FALSE, fixed=FALSE) | Search for pattern in x. If fixed =FALSE then pattern is a regular expression. If fixed=TRUE then pattern is a text string. Returns matching indices. |
+| sub(pattern, replacement, x, ignore.case =FALSE, fixed=FALSE) | Find pattern in x and replace with replacement text. If fixed=FALSE then pattern is a regular expression. |
+| strsplit(x, split) | Split the elements of character vector x at split. |
+| paste(..., sep="") | Concatenate strings after using sep string to seperate them |
+| toupper(x) | Uppercase |
+| tolower(x) | Lowercase |
+
+### String Manipulation
+
+**Concatenate strings after using sep string to seperate them.**
+```{r}
+a <- "Hello"
+b <- 'How'
+c <- "are you? "
+paste(a,b,c)
+```
+
+```{r}
+paste(a,b,c, sep = "-")
+```
+
+```{r}
+paste(a,b,c, sep = "", collapse = "")
+```
+
+```{r}
+paste('x',1:3,sep="")
+```
+
+```{r}
+paste('x',1:3,sep="M")
+```
+
+```{r}
+paste('Today is', date())
+```
+
+**Text Capitalization: Create Upper and Lowercase strings**
+
+```{r}
+a <- 'hEllo'
+toupper(a)
+```
+
+```{r}
+tolower(a)
+```
+
+
+**Extract or replace substrings in a character vector.**
+
+```{r}
+substring(a,1,2)
+```
+
+```{r}
+substring(a,2,5)
+```
+
+```{r}
+x <- "abcdef" 
+substr(x, 2, 4)
+```
+
+**grep**
+
+*Search for pattern in x. If fixed =FALSE then pattern is a regular expression.  If fixed=TRUE then pattern is a text string. Returns matching indices.*
+
+```{r}
+grep("A", c("b","A","c"), fixed=TRUE)
+```
+
+**substitution**
+
+*Find pattern in x and replace with replacement text. If fixed=FALSE then pattern is a regular expression.  If fixed = T then pattern is a text string.*
+```{r}
+sub("\\s",".","Hello There") 
+```
+
+**Split the elements of character vector x at split.**
+
+```{r}
+strsplit("abc", "")
+```
+
+### Other Built in Functions
+
+| Function | Description |
+| ----------- | ----------- |
+| seq(from , to, by) | generate a sequence |
+| rep(x, ntimes | repeat x n times |
+| cut(x, n) | cut divides the range of x into intervals and codes the values in x according to which interval they fall. The leftmost interval corresponds to level one, the next leftmost to level two and so on. | 	
+
+**generate a sequence**
+```{r}
+seq(1,10,2)
+```
+
+**Repeat a string**
+```{r}
+rep("a",3)
+```
+
+**divide continuous variable in factor with n levels**
+```{r}
+y <- cut(1:20, 20)
+y
+```
+
+### Vectors and Matrices
+
+A vector can be a “collection” of values or a single value
+
+* Atomic vector
+    - a collection of values
+* Factors
+    - special vectors that represent categorical data
+* Matrix
+    - special vector with rows and columns
+* Data frame
+    - a special data structure of rows and columns, the default structure for reading in “excel-like” files
+* List
+    - a vector of different data types (including other vectors)
+
+
+**Vectors**
+
+*An example of a numeric vector*
+
+```{r}
+x <- 1
+x
+```
+
+```{r}
+y <- c(1:10) 
+y
+length(y)
+typeof(y)
+```
+
+**Vectors can be any datatype (character, logical, complex)**
+
+```{r}
+x <- c('a','b','c','d','e')
+x
+```
+
+
+```{r}
+typeof(x)
+```
+
+**For Numerical Vectors you can do comparisons**
+
+```{r}
+x <- c(1:10)
+x
+```
+
+```{r}
+x > 3
+```
+
+```{r}
+(x > 3) & (x < 8)
+```
+
+```{r}
+x[x > 3]
+```
+
+**Comparisons are logical objects**
+
+```{r}
+typeof((x > 3) & (x < 8))
+```
+
+**Combining Vectors**
+
+```{r}
+x <- c(1:10)
+x <- c(x,11:20)
+x
+```
+
+**Performing Math on Vectors**
+
+```{r}
+x <- c(1:10)
+x*3
+```
+
+
+```{r}
+x[4]
+```
+
+
+### Factors Are Nominal Vectors
+
+The factor stores the nominal values as a vector of integers in the range [ 1... k ] and an internal vector of character strings (the original values) mapped to these integers.
+
+```{r}
+genotype <- c(rep("WT",5),rep("KO",5))
+factor(genotype)
+```
+
+```{r}
+genotype <- factor(genotype,levels=c("WT","KO"))
+genotype
+```
+
+```{r}
+summary(genotype)
+```
+
+## Matrix
+
+**special vector with rows and columns**
+
+* All columns in a matrix must have the same mode(numeric, character, etc.) and the same length. The general format is:
+  - mymatrix <- matrix(vector, nrow=r, ncol=c, byrow=FALSE)
+  - byrow=TRUE indicates that the matrix should be filled by rows. 
+  - byrow=FALSE indicates that the matrix should be filled by columns (the default)
+
+
+```{r}
+y <- matrix(1:20, nrow=5,ncol=4)
+y 
+cells <- c(1,26,24,68)
+rnames <- c("R1", "R2")
+cnames <- c("C1", "C2") 
+x <- matrix(cells, nrow=2, ncol=2, byrow=TRUE, dimnames=list(rnames, cnames))
+x 
+```
+
+```{r}
+x[,1] # 1st column of matrix
+x[2,] # 2nd row of matrix 
+x[2,1] # row 2, column 1
+x[1,2] 
+```
+
+## Functions to Combine and Calculate Statistics on Matrices
+
+* cbind(A,B,...)
+    - Combine matrices(vectors) horizontally. Returns a matrix.
+* rbind(A,B,...)
+    - Combine matrices(vectors) vertically. Returns a matrix.
+* rowMeans(A)
+    - Returns vector of row means.
+* rowSums(A)
+    - Returns vector of row sums.
+* colMeans(A)
+    - Returns vector of column means.
+* colSums(A)
+    - Returns vector of column sums.
+* t(A)
+    - Transpose
+
+
+```{r}
+y <- matrix(1:20, nrow=5,ncol=4,byrow = FALSE)
+y
+y <- matrix(1:20, nrow=5,ncol=4,byrow = TRUE)
+y
+t(y) #transpose
+rowSums(y)
+colMeans(y)
+```
+
+# Data Frames
+
+* A special data structure of rows and columns, the default structure for reading in “excel-like” files
+* A data frame is more general than a matrix, in that different columns can have different modes (numeric, character, factor, etc.). This is similar to SAS and SPSS datasets.
+
+```{r}
+d <- c(1,2,3,4)
+e <- c("red", "white", "red", NA)
+f <- c(TRUE,TRUE,TRUE,FALSE)
+x <- data.frame(d,e,f)
+names(x) <- c("ID","Color","Passed")
+x
+```
+
+```{r}
+setwd("~/Downloads/DataStructureLecture")
+tbl <- read.csv(file="sample_example_R1_data_structures.csv",header=TRUE)
+tbl
+```
+
+```{r}
+tbl[3:5] 
+```
+
+```{r}
+tbl[c("SampleID","Tissue")]
+```
+
+```{r}
+tbl$Gender 
+```
+
+```{r}
+tbl[tbl$SampleGroup == 'monocytes',]
+```
+
+```{r}
+subset(x=tbl,SampleGroup == 'monocytes',select=c('Tissue','SampleID'))
+```
+
+```{r}
+setwd("~/Downloads/DataStructureLecture")
+tbl1 <- read.csv(file="sample_example_R1_data_structures.csv",header=TRUE)
+tbl2 <- read.csv(file="table2.csv",header=TRUE)
+tbl2
+```
+
+## DataFrame Functions
+
+* gives a very brief description of the data
+    - str(df)
+* gives the name of each variables
+    - names(df)
+* gives some very basic summary statistics for each variable
+    - summary(df)
+* shows the first few rows
+    - head(df)
+* shows the last few rows.
+    - tail(df)	
+* looks at duplicated elements and returns a logical vector. You can use table() to summarize this vector.
+    - duplicated()
+* keeps only the unique lines in a dataset
+    - unique()	
+
+
+```{r}
+merge.tbl <- merge(tbl1,tbl2,by='SampleID')
+merge.tbl
+```
+
+```{r}
+help('merge')
+```
+
+## Lists
+
+An ordered collection of objects (components). A list allows you to gather a variety of (possibly unrelated) objects under one name.
+
+
+```{r}
+w <- list(name="Fred", mynumbers=a, mymatrix=y, age=5.3)
+w
+```
+
+## Switching Between Formats
+
+* convert to dataframe
+  - as.data.frame(x,row.names=NULL,colnames=names(x))
+* convert to list
+  - as.list(x)
+* convert to matrix
+  - as.matrix(x,mode='any')
+  - mode can be numeric,character,list or any
+* convert to vector
+  - as.vector(x,mode='any')
+
+```{r}
+cells <- c(1,26,24,68)
+rnames <- c("R1", "R2")
+cnames <- c("C1", "C2") 
+x <- matrix(cells, nrow=2, ncol=2, byrow=TRUE, dimnames=list(rnames, cnames))
+df.x <- as.data.frame(x)
+df.x
+```
+```{r}
+ as.list(df.x)
+```
+```{r}
+as.matrix(df.x)
+```
+
+```{r}
+as.vector(unlist(df.x))
+```
+
+# Workspace Functions
+
+* lists the objects in your workspace
+    - ls()	
+* removes an object in your workspace
+    - rm(object1,object2)
+* removes all objects in your workspace
+    - rm(list=ls())
+* saves R objects to a file
+    - save(object1,object2,file=“file.RData”)
+* load an R object from a file
+    - load(“file.Rdata”)
+* find current working directory   
+    - getwd()
+* set working directory    
+    - setwd(‘C:/workingDirectory’) #	
+* quit
+    - quit()
+* list all packages available to load
+    - library()
+* load package
+    - library(package)
+    - require(package)
+* Install Packages
+    - install.packages(“ggplot2")
+    - source(“http://bioconductor.org/biocLite.R")
+    - biocLite("DESeq2")
