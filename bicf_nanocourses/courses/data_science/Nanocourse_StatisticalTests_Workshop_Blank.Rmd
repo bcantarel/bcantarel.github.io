@@ -1,0 +1,69 @@
+---
+title: "Nanocourse_statisticalTests_Workshop"
+author: "Jeremy Mathews"
+date: "January 17, 2020"
+output: html_document
+---
+
+This workshop is designed to compliment the Introduction to Statistical Tests Lecture from the BICF Data Science in R Nanocourse.
+
+```{r include=FALSE}
+library(tidyverse)
+```
+
+Try to answer the following questions to the best of your ability. If you need further assistance please raise your hand and an instructor or T.A. will come by and help you.
+
+## Problem 1
+Lets consider the beavers datasets. This dataset contains body temperatures recorded for 2 different beavers. The goal of this problem is to determine whether the body temperatures of beaver 1 and beaver 2 are the same or different.
+```{r}
+b1 <- beaver1$temp
+b2 <- beaver2$temp
+```
+
+1. Generate a hypothesis to be tested.
+
+2. Select an alpha value and state why.
+
+3. Calculate the test statistic. i.e. What is the average temperature of each beaver?
+
+4. Estimate p-value and determine the confidence interval.
+
+5. Draw a conclusion from the result.  
+
+## Problem 2
+Now consider the mtcars dataset. It contains information collected on the motor trend car road tests for different vehicles. For this problem we are interested in determining whether the number of cylinders in a car has any effect on the mpg efficiency.
+```{r}
+car <- mtcars %>% select(mpg, cyl)
+car4 <- car[car$cyl==4,]
+car6 <- car[car$cyl==6,]
+car8 <- car[car$cyl==8,]
+```
+
+1. Generate a hypothesis to be tested.
+
+2. Select an alpha value and explain why.
+
+3. Calculate the test statistic. i.e. What is the average mpg for each cylinder count?
+
+4. Estimate p-value using the correct test.
+
+5. Draw a conclusion from the results.
+
+## Problem 3
+Below is a table of the number of males and females, with and without cardiovascular disease (CAD). We wish to discover if there is an association between gender and diagnosis of CAD.
+
+```{r}
+CAD <- matrix(c(493,43,290,174), ncol = 2)
+colnames(CAD) <- c('Female', 'Male')
+rownames(CAD) <- c('No', 'Yes')
+```
+
+1. Generate the hypothesis.
+
+2. Pick an alpha value and explain why.
+
+3. Run the proper statistical test to answer the question.
+
+4. Draw a conclusion from the results of the statistical test.  
+
+5. **Bonus** What is the odds ratio, and what does it tell us about the data?  

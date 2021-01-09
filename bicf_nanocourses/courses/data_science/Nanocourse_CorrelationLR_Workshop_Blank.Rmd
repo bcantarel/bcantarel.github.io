@@ -1,0 +1,42 @@
+---
+title: "Correlation and Linear Regression Workshop"
+author: "Jeremy Mathews"
+date: "January 17, 2020"
+output: html_document
+---
+
+This workshop is designed to compliment the Correlations and Linear Regression Lecture from the BICF Data Science in R Nanocourse.
+
+```{r include=FALSE}
+library(tidyverse)
+```
+
+Try to answer the following questions to the best of your ability. If you need further assistance please raise your hand and an instructor or T.A. will come by and help you.
+
+## Problem 1
+
+Lets consider the swiss dataset. This dataset contains data on Swiss fertility and socioeconomic indicators from 1888. Specifically, lets take a look at Fertility and Infant Mortality.
+```{r}
+swiss
+```
+
+1. Pick an alpha value and generate a hypothesis as to linear association between fertility and infant mortality.  
+
+2. Test the correlation between these two variables.  
+
+3. Draw a conclusion as to the linear association between fertility and infant mortality.  
+
+4. Generate a linear regression model to estimate the relationship between fertility and infant mortality.
+
+## Problem 2
+
+Lets consider the pressure dataset. This dataset contains data on the temperature and vapor pressure of mercury. We would like to know if there is a correlation between the temperature and pressure.
+```{r}
+pressure
+```
+
+1. Which correlation test can be performed and why?
+
+2. Do the test and interpret the results.
+
+3. **Bonus** Why does the results show what they do?

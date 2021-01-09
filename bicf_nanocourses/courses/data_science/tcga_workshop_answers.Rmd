@@ -1,0 +1,116 @@
+---
+title: "TCGAbiolinks workshop"
+output: html_notebook
+---
+
+In this exercise, we will download data from the GDC and analyze it.
+
+Set proxies and working directory
+```{r}
+Sys.setenv(http_proxy="proxy.swmed.edu:3128")
+Sys.setenv(https_proxy="proxy.swmed.edu:3128")
+setwd("~/r_nanocourse_2020/")
+```
+
+Load TCGAbiolinks package.
+
+```{r}
+library(TCGAbiolinks)
+```
+
+1. Craft two TCGAbiolinks queries to find tumor and normal BRCA RNA-seq expression count data from GDC (use the `legacy = TRUE` option for integer read counts). 
+
+```{r}
+query <- GDCquery(project = "TCGA-BRCA", 
+                  data.category = "Gene expression",
+                  data.type = "Gene expression quantification",
+                  experimental.strategy = "RNA-Seq",
+                  platform = "Illumina HiSeq",
+                  file.type = "results",
+                  sample.type = "Solid Tissue Normal",
+                  legacy = TRUE)
+
+query.2 <- GDCquery(project = "TCGA-BRCA", 
+                  data.category = "Gene expression",
+                  data.type = "Gene expression quantification",
+                  experimental.strategy = "RNA-Seq",
+                  platform = "Illumina HiSeq",
+                  file.type = "results",
+                  sample.type = "Primary solid Tumor",
+                  legacy = TRUE)
+
+
+```
+
+
+2. Select 50 or so samples from the results of each, then create a new query using only the 100 samples from the previous step (use `barcode = your.list` in the query.)
+
+```{r}
+tumor.patients <- query$results[[1]]$cases[1:50]
+normal.patients <- query.2$results[[1]]$cases[1:50]
+
+```
+
+
+
+3. Download the results of the query.
+```{r, results="hide"}
+query.3 <- GDCquery(project = "TCGA-BRCA", 
+                  data.category = "Gene expression",
+                  data.type = "Gene expression quantification",
+                  experimental.strategy = "RNA-Seq",
+                  platform = "Illumina HiSeq",
+                  file.type = "results",
+                  barcode = c(tumor.patients, normal.patients),
+                  legacy = TRUE)
+
+GDCdownload(query.3)
+
+data <- GDCprepare(query.3)
+
+
+```
+
+
+4. Using TCGAbiolinks functions:
++ Normalize the data
+```{r}
+norm.data <- TCGAanalyze_Normalization(data, geneInfo = TCGAbiolinks::geneInfo)
+```
+
+
++ Perfrom differential expression analysis.
+```{r}
+deres <- TCGAanalyze_DEA(mat1 = norm.data[,1:50], mat2 = norm.data[,51:100],Cond1type = "tumor", Cond2type = "normal")
+```
+
+
++ Produce a table of DEG's showing gene names, logFC, FDR, and tumor and normal expression values. 
+```{r echo=TRUE}
+dataDEGsLevel <- TCGAanalyze_LevelTab(deres,"Tumor","Normal", norm.data[,normal.samples], norm.data[, tumor.samples])
+head(dataDEGsLevel)
+```
+
+5. Create a heatmap showcasing the expression of the top 40 or so differentially expressed genes (you may wish to calculate logcpm and zscore values for a clearer heatmap).
+
+```{r, eval=FALSE}
+library(pheatmap)
+dataDEGsLevel <- dataDEGsLevel[order(dataDEGsLevel$FDR, decreasing = FALSE),]
+genes.int <- dataDEGsFiltLevel[1:40,1] 
+##OR##
+genes.int <- row.names(dataDEGsLevel)[1:40]
+
+heat.data <- norm.data[rownames(norm.data) %in% genes.int,]
+##or##
+heat.data <- norm.data[genes.int,]
+
+heat.data <- scale(heat.data)
+
+pheatmap(heat.data, show_colnames = FALSE, fontsize_row = 6)
+
+```
+```{r}
+pheatmap(heat.data, show_colnames = FALSE, fontsize_row = 6)
+```
+
+

@@ -1,0 +1,76 @@
+---
+title: "Correlation and Linear Regression Workshop"
+author: "Jeremy Mathews"
+date: "January 17, 2020"
+output: html_document
+---
+
+This workshop is designed to compliment the Correlations and Linear Regression Lecture from the BICF Data Science in R Nanocourse.
+
+```{r include=FALSE}
+library(tidyverse)
+```
+
+Try to answer the following questions to the best of your ability. If you need further assistance please raise your hand and an instructor or T.A. will come by and help you.
+
+## Problem 1
+
+Lets consider the swiss dataset. This dataset contains data on Swiss fertility and socioeconomic indicators from 1888. Specifically, lets take a look at Fertility and Infant Mortality.
+```{r}
+swiss
+```
+
+1. Pick an alpha value and generate a hypothesis as to linear association between fertility and infant mortality.  
+```{r}
+plot(swiss$Fertility, swiss$Infant.Mortality)
+```
+
+H0: $\rho$ = 0   
+H1: $\rho$ > 0
+
+$\alpha$ = 0.05
+
+2. Test the correlation between these two variables.  
+```{r}
+cor.test(swiss$Fertility, swiss$Infant.Mortality, "greater")
+```
+
+3. Draw a conclusion as to the linear association between fertility and infant mortality.  
+The Pearson correlation test returned a p-value of 0.001793, which is less than 0.05. So, there is enough statistical significance to reject the null hypothesis. The data appears to have a linear association between fertility and infant mortality. The correlation coefficient is 0.416556, which does not show a very strong linear association, but does show that the relationship is positive.
+
+4. Generate a linear regression model to estimate the relationship between fertility and infant mortality.
+```{r}
+scatter.smooth(x=swiss$Fertility, y=swiss$Infant.Mortality, main="Infant Mortality ~ Fertility")
+lr <- lm(Infant.Mortality ~ Fertility, data=swiss)
+lr
+summary(lr)
+plot(swiss$Fertility, swiss$Infant.Mortality, main="Infant Mortality ~ Fertility")
+abline(lr)
+```
+
+The linear regression model returned a p-value of 0.003585 which is less than 0.05. So, there is enough statistical significance to reject the null hypothesis. This means that there appears to be a linear model that describes the relationship in the data with the equation $y = 0.09713x + 13.12970$. It is important to note however that only 15.52 percent of the variation in the data is explained by this model.
+
+## Problem 2
+
+Lets consider the pressure dataset. This dataset contains data on the temperature and vapor pressure of mercury. We would like to know if there is a correlation between the temperature and pressure.
+```{r}
+pressure
+```
+
+1. Which correlation test can be performed and why?
+```{r}
+plot(pressure$temperature, pressure$pressure)
+```
+
+Notice that the graph of the data is not linear, so a Pearson correlation would not be appropriate in this case. The data however does appear to be monotonically increasing. So we can use a spearman correlation.
+
+2. Do the test and interpret the results.
+```{r}
+cor(pressure$temperature, pressure$pressure, method = "spearman")
+```
+
+The results of the test show a spearman correlation coefficient of 1. This means that there is a very strong, positive correlation in the data. (Almost too perfect)  
+
+3. **Bonus** Why does the results show what they do?
+
+While normally, this would not be accurate, because 1 is a perfect correlation and should raise serious concerns. If we look at the graph of data then it would appear as though the correlation is close to perfect. **This is one of the reasons mercury is used in thermometers.**

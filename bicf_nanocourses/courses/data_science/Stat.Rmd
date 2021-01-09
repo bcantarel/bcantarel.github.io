@@ -1,0 +1,196 @@
+---
+title: "StatCourse"
+output: html_document
+---
+# Statistical Testing in R
+
+## Statistical Distributions
+
+**Statistically Significant Difference**
+
+1. Formulate your hypothesis
+  - Null hypothesis (H0)
+    - The commonly accepted fact
+    - The null hypothesis is generally assumed to be true until evidence indicates otherwise
+    - e.g. coin is fair (P = 0.5)
+  - Alternative hypothesis (H1)
+    - The opposite of the null hypothesis
+    - e.g. coin is not fair (P ≠ 0.5)
+2. Set α (or confidence level)
+  - α = Type-I error = false positive = 0.05
+  - Confidence level = 1 – α = 0.95
+3. Calculate the test statistic
+  - Under the null hypothesis, we can calculate a test statistic
+  - e.g. Number of heads, N, follows a binomial distribution with parameter P = 0.5
+    - N ~ Binomial(6, 0.5)
+
+### Normal Distribution
+
+* dnorm(x)
+* pnorm(q)
+* qnorm(p)
+* rnorm(n, m=0,sd=1)
+
+**normal density function (by default m=0 sd=1)**
+
+```{r}
+x <- pretty(c(-3,3), 30)
+y <- dnorm(x)
+plot(x, y, type='l', xlab="Normal Deviate", ylab="Density", yaxs="i")
+```
+
+**Real Data vs Normally Distributed Data with the Same Mean and SD**
+
+```{r}
+#hw <- read_csv("~/Downloads/Stat/heightweight.csv")
+m <- select(filter(hw,sex=='m'),heightIn) #tibble structure
+hist(m$heightIn)
+x <- rnorm(length(m$heightIn), m=mean(m$heightIn), sd=sd(m$heightIn))
+hist(x)
+```
+
+
+**Transformations**
+
+- Z score
+- Log
+
+```{r}
+x <- matrix(1:10, ncol = 2)
+scale(x) #scale by column
+t(scale(t(x))) #scale by row
+```
+
+**Standardizartion of Gaussian RV**
+
+```{r}
+m.log <- log2(select(filter(hw,sex=='m'),heightIn)) #tibble structure
+hist(m.log$heightIn)
+m.scale <- scale(select(filter(hw,sex=='m'),heightIn)) #vector structure
+hist(m.scale)
+```
+
+**Confidence Intervals**
+
+4. Construct Acceptance / Rejection regions Or estimate p-value
+  - P-value is the probability of observing the same or more extreme events as the current observation under null hypothesis
+  - e.g. P-value = Prob(N >= 6) = 0.56 = 0.015625
+
+5. Draw a conclusion about null hypothesis
+  - Compare p-value with the threshold value
+	  - e.g. 0.015625 < 0.05
+  - Accept/reject the null hypothesis
+	  - e.g. reject the null hypothesis (P = 0.5)
+	  - At the α=0.05 level, the coin is not fair
+
+
+**Why do we need the null hypothesis**
+
+- Null hypothesis usually represents the common view of the problem
+- Null hypothesis helps to construct the test statistics
+- Rejecting null hypothesis requires support from the data
+
+**cumulative normal probability for q**
+```{r}
+pnorm(1.96)
+```
+
+**normal quantile: value at the p percentile of normal distribution **
+```{r}
+qnorm(.9)
+```
+
+#### Errors
+
+- Type I Error
+  - False Positive: The Null Hypothesis is True, but is rejected
+- Type II Error
+  - False Negative: The Null Hypothesis is False, but fails to be rejected
+- Power
+  - The null hypothesis is false and is rejected
+  
+#### Interpretation
+
+- NOT error rate
+- P-value is significant, any of these can happen
+  - Null hypothesis is true, but observe the current data
+  - Alternative hypothesis is true
+- Assuming the null hypothesis holds, the probability of observing the same or more extreme effect as the one is the data. 
+
+### One Sided vs Two-sided Test
+
+- One-sample test
+  - whether the mean of a population has a value specified in a null hypothesis
+  - e.g. whether the mean weight of a group of mice is equal to 45g
+-Two-sample test
+  - whether the means of two populations are equal
+  - e.g. whether the mean weight of two groups of mice are equal.
+- Two-sample paired test
+  - the difference between two responses measured on the same statistical unit has a mean value of zero
+  - e.g. for the same group of mice, whether the mean weight changed after a treatment.
+- Test of beta in regression
+  - whether the slope of a regression line differs significantly from 0
+
+- One Sided
+  - You have a hypothesis about the direction of an effect
+  - Missing an effect in the untested direction are negligible
+  - You have developed a new drug. It is cheaper than the existing drug and, you believe, no less effective.
+  - In testing this drug, you are only interested in testing if it less effective than the existing drug.
+  - whether the mean of a population has a value specified in a null hypothesis
+  - e.g. whether the mean weight of a group of mice is equal to 45g
+- Don't choose 1 sided because:
+  - Choosing a one-sided test for the sole purpose of attaining significance is not appropriate.
+  - Choosing a one-sided test after running a two-tailed test that failed to reject the null hypothesis is not appropriate, no matter how "close" to significant the two-tailed test was.
+
+```{r}
+m <- select(filter(hw,sex=='m'),heightIn) #tibble structure
+f <- select(filter(hw,sex=='f'),heightIn) #tibble structure
+t.test(m$heightIn, f$heightIn)
+t.test(log2(m$heightIn),log2(f$heightIn))
+```
+
+
+### Binomial Distribution
+
+binomial distribution where size is the sample size and prob is the probability of a heads (for a coin toss) 
+
+- dbinom(x, size, prob)
+- pbinom(q, size, prob)
+- qbinom(p, size, prob)
+- rbinom(n, size, prob)
+
+```{r}
+x <- seq(0,50,by=1)
+y <- dbinom(x,50,0.2)
+plot(x,y)
+```
+
+### Poisson Distribution
+
+poisson distribution with m=std=lamda
+
+- dpois(x, lamda)
+- ppois(q, lamda)
+- qpois(p, lamda)
+- rpois(n, lamda)
+
+```{r}
+x <- 0:20
+y <- dpois( x=0:20, lambda=6 )
+plot(x, y, xlim=c(-2,20))
+```
+
+### Uniform Distribution
+
+- dunif(x, min=0, max=1)
+- punif(q, min=0, max=1)
+- qunif(p, min=0, max=1)
+- runif(n, min=0, max=1)
+
+```{r}
+numcases <- 10000
+min <- 1
+max <- 6
+x <- as.integer(runif(numcases,min,max+1))
+hist(x,main=paste( numcases," roles of a single die"),breaks=seq(min-.5,max+.5,1))
+```

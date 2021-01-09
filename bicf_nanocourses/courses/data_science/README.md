@@ -8,7 +8,8 @@ If you already have R studio, please [update your R here](https://cran.r-project
 
 **Here are datasets that you will need for this course:**
 
-[Statistical Test Dataset](dig_csv.zip)
+[Statistical Test Dataset](dig_csv.zip)<br>
+[RNA-seq Dataset](countTable.txt)
 
 ***
 ## Contacts
@@ -39,16 +40,15 @@ If you already have R studio, please [update your R here](https://cran.r-project
 | [Data Importing and Cleaning with Tidyverse](DataClean.html)<br>[Workshop 2](DataCleaning.zip) | Brandi Cantarel |
 | [Data Manipulation and Data Joining with dplyr and tidyverse](r_dataManipulation_lecture_1_8_20.zip)<br>[Workshop]( r_dataManipulation_workshop_1_8_20.zip)<br>[Workshop Solutions](dataManipulation_workshop_answers.html)| Spencer Barnes |
 | 1/17/2020 | Room NB2.100A|
-| Introduction to Statistical Tests | Jeremey Mathews |
-| Correlations and Linear Regression|  Jeremey Mathews + Jeon Lee |
-| Plotting with GGPlot and plotly| Jeon Lee |
+| [Introduction to Statistical Tests](Nanocourse_StatisticalTests.html)<br>[Workshop](Nanocourse_StatisticalTests_Workshop_Blank.Rmd)<br>[Workshop Solutions](Nanocourse_StatisticalTests_Workshop.html) | Jeremy Mathews |
+| [Correlations and Linear Regression](Nanocourse_CorrelationLR.html)<br>[Workshop](Nanocourse_CorrelationLR_Workshop_Blank.Rmd)<br>[Workshop Solutions](Nanocourse_CorrelationLR_Workshop.html)|  Jeremy Mathews |
+| [Plotting with GGPlot and plotly](Plotting_with_GGplot_and_Plotly.nb.html) <br>[Data](Data_PlottingWithGGplot_Ploty.zip) <br>[Workshop](Workshop_Plotting_with_GGplot_and_Plotly.nb.html) | Jeon Lee |
 | 1/24/2020 | Room NB2.100A|
-| Programming basics | Venkat Malladi |
-| Loops and Looping functions with Apply | Chris Bennett |
-| Scripting and Markdown | Chris Bennett |
+| [Programming basics](programing_basics_cheatsheet.md) <br> [Psudeo Code](programing_basics_psudocode.md) | Venkat Malladi |
+| [Loops and Looping functions with Apply, Scripting and Markdown](ScriptingMarkdown_lecture.html)<br>[R code](ScriptingMarkdown_lecture.Rmd)<br>[Workshop](rscripting.Rmd) <br>[Data](Nanocourse_R_II_Jan2020.zip) | Chris Bennett |
 | 1/31/2020 | Room NG3.202 |
-| Bioconductor | Gervaise Henry |
-| Accessing Public Data Though Bioconductor | Gervaise Henry + Spencer Barnes |
+| R Package Repositories<br>[Presentation](PackageRepositories.pptx)<br>[Workshop](PackageRepositories.R)<br>[RNA-seq Dataset](countTable.txt)<br>[Workshop Answers](PackageRepositories_answers.R) | Gervaise Henry |
+| Accessing Public Data Though Bioconductor<br>[TCGAbiolinks Lecture](tcga_nanocourse_lecture.nb.html)<br>[TCGAbiolinks Workshop](tcga_workshop_questions.nb.html)<br>[Workshop Answers](tcga_workshop_answers.nb.html) | Spencer Barnes |
 | Student Projects | |
 
 ***

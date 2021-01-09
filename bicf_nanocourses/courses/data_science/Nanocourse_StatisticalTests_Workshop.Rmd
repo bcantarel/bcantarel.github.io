@@ -1,0 +1,108 @@
+---
+title: "Nanocourse_StatisticalTests_Workshop"
+author: "Jeremy Mathews"
+date: "January 17, 2020"
+output: html_document
+---
+
+This workshop is designed to compliment the Introduction to Statistical Tests Lecture from the BICF Data Science in R Nanocourse.
+
+```{r}
+library(tidyverse)
+```
+
+Try to answer the following questions to the best of your ability. If you need further assistance please raise your hand and an instructor or T.A. will come by and help you.
+
+## Problem 1
+Lets consider the beavers datasets. This dataset contains body temperatures recorded for 2 different beavers. The goal of this problem is to determine whether the body temperatures of beaver 1 and beaver 2 are the same or different.
+```{r}
+b1 <- beaver1$temp
+b2 <- beaver2$temp
+```
+
+1. Generate a hypothesis to be tested.
+H0: $\mu_{b1} = \mu_{b2}$
+H1: $\mu_{b1} \ne \mu_{b2}$
+
+
+2. Select an alpha value and state why.
+$\alpha$ = 0.05
+
+3. Calculate the test statistic. i.e. What is the average temperature of each beaver?
+```{r}
+hist(b1)
+hist(b2)
+mean(b1)
+mean(b2)
+```
+
+4. Estimate p-value and determine the confidence interval.
+```{r}
+t.test(b1, b2)
+t.test(b1, b2)$p.value
+t.test(b1, b2)$conf.int
+```
+
+5. Draw a conclusion from the result.  
+
+The t-test returned a p-value of 8.448103e-31. This value is much smaller than the set alpha value of 0.05. So, there is enough statistical significance to show that the mean body temperature of beaver 1 and beaver 2 are different.
+
+
+## Problem 2
+Now consider the mtcars dataset. It contains information collected on the motor trend car road tests for different vehicles. For this problem we are interested in determining whether the number of cylinders in a car has any effect on the mpg efficiency.
+```{r}
+car <- mtcars %>% select(mpg, cyl)
+car4 <- car[car$cyl==4,]
+car6 <- car[car$cyl==6,]
+car8 <- car[car$cyl==8,]
+```
+
+1. Generate a hypothesis to be tested.
+H0: $\mu_4 = \mu_6 = \mu_8$
+H1: the average mpg is not equal for each cylinder count.
+
+2. Select an alpha value and explain why.
+$\alpha$ = 0.05
+
+3. Calculate the test statistic. i.e. What is the average mpg for each cylinder count?
+```{r}
+mean(car4$mpg)
+mean(car6$mpg)
+mean(car8$mpg)
+```
+
+4. Estimate p-value using the correct test.
+```{r}
+levels(car$cyl) <- c(4,6,8)
+summary(aov(mpg ~ cyl, data = car))
+```
+
+5. Draw a conclusion from the results.  
+The anova test returned a p-value of 6.11e-10, which is less than $\alpha = 0.05$. So, there is enough statistical significance to reject the null hypothesis. The average mpg is not the same for all number of cylinders found in an engine.
+
+## Problem 3
+Below is a table of the number of males and females, with and without cardiovascular disease (CAD). We wish to discover if there is an association between gender and diagnosis of CAD.
+
+```{r}
+CAD <- matrix(c(493,43,290,174), ncol = 2)
+colnames(CAD) <- c('Female', 'Male')
+rownames(CAD) <- c('No', 'Yes')
+```
+
+1. Generate the hypothesis.  
+H0: There is no association between gender and CAD.  
+H1: There is an association between gender and CAD.
+
+2. Pick an alpha value and explain why.  
+$\alpha$ = 0.01
+
+2. Run the proper statistical test to answer the question.
+```{r}
+fisher.test(CAD)
+```
+
+3. Draw a conclusion from the results of the statistical test.  
+The Fisher's Exact test returned a p-value of 2.2e-16 which is less than the predetermined $\alpha$ value of 0.01. So, there is enough statistical significance to reject the null hypothesis. There appears to be an association between gender and CAD based on our observations in the data.
+
+4. **Bonus** What is the odds ratio, and what does it tell us about the data?  
+Odds ratio is a representation the strength of an association between two events. If the ratio is close to 1, then we know that there is less association between the two features. The further away from 1 the ratio gets, the greater the strength of association between the two different features.
